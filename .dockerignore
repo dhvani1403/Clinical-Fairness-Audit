@@ -1,0 +1,8 @@
+.venv
+data
+results
+figures
+notebooks
+.git
+__pycache__
+*.pyc

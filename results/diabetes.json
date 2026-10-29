@@ -1,0 +1,3211 @@
+{
+ "dataset": "diabetes",
+ "label": "patient readmitted within 30 days",
+ "notes": [
+  "First encounter per patient only; patients discharged to hospice or who died excluded.",
+  "A false negative is a high-risk patient the model misses, so FNR is the clinically relevant error; we audit both FPR and FNR."
+ ],
+ "metric": "fnr",
+ "positive_cost": 10.147044766608253,
+ "n_train": 48979,
+ "n_test": 20991,
+ "base_rate": 0.08970987566099757,
+ "models": {
+  "logistic": {
+   "metric": "fnr",
+   "metric_label": "false negative rate",
+   "n_rows": 20991,
+   "max_order": 3,
+   "min_size": 30,
+   "n_subgroups_checked": 96,
+   "overall": {
+    "fpr": 0.30673016537575887,
+    "fnr": 0.4747742963356346,
+    "positive_rate": 0.3263303320470678,
+    "error_rate": 0.321804582916488,
+    "accuracy": 0.678195417083512,
+    "balanced_accuracy": 0.6092477691443032
+   },
+   "overall_rate": 0.4747742963356346,
+   "single_attribute": [
+    {
+     "subgroup": "age_band=40-59",
+     "order": 1,
+     "size": 5753,
+     "share": 0.2740698394550045,
+     "base_size": 436,
+     "rate": 0.6032110091743119,
+     "gap": 0.1284367128386773,
+     "weighted_gap": 0.002667734114509233,
+     "std_err": 0.023429940834091684,
+     "z": 5.481734407617272,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=60-79",
+     "order": 1,
+     "size": 10052,
+     "share": 0.4788718974798723,
+     "base_size": 936,
+     "rate": 0.4465811965811966,
+     "gap": -0.02819309975443801,
+     "weighted_gap": 0.0012571455085586194,
+     "std_err": 0.016249471767920184,
+     "z": -1.7350163843539221,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=80+",
+     "order": 1,
+     "size": 3813,
+     "share": 0.18164927826211233,
+     "base_size": 414,
+     "rate": 0.3357487922705314,
+     "gap": -0.13902550406510322,
+     "weighted_gap": 0.0027419636359845997,
+     "std_err": 0.023209898186226544,
+     "z": -5.989923047038834,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.7628865979381443,
+     "gap": 0.28811230160250967,
+     "weighted_gap": 0.0013313750300339878,
+     "std_err": 0.04318393131668312,
+     "z": 6.671747865882792,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Asian",
+     "order": 1,
+     "size": 148,
+     "share": 0.007050640750797961,
+     "base_size": 10,
+     "rate": 0.6,
+     "gap": 0.12522570366436536,
+     "weighted_gap": 5.9656854682657024e-05,
+     "std_err": 0.15491933384829668,
+     "z": 0.8083284413486536,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Black",
+     "order": 1,
+     "size": 3884,
+     "share": 0.18503168024391406,
+     "base_size": 349,
+     "rate": 0.5157593123209169,
+     "gap": 0.04098501598528226,
+     "weighted_gap": 0.0006814239711716216,
+     "std_err": 0.026751088887415096,
+     "z": 1.532087765016677,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Hispanic",
+     "order": 1,
+     "size": 465,
+     "share": 0.022152351007574674,
+     "base_size": 38,
+     "rate": 0.5263157894736842,
+     "gap": 0.051541493138049566,
+     "weighted_gap": 9.330554710332445e-05,
+     "std_err": 0.08099829095409111,
+     "z": 0.6363281561985386,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Other",
+     "order": 1,
+     "size": 346,
+     "share": 0.016483254728216854,
+     "base_size": 24,
+     "rate": 0.7916666666666666,
+     "gap": 0.316892370331032,
+     "weighted_gap": 0.0003623179880875026,
+     "std_err": 0.08289816934939807,
+     "z": 3.822670305243996,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Unknown",
+     "order": 1,
+     "size": 564,
+     "share": 0.026868657996284122,
+     "base_size": 30,
+     "rate": 0.5666666666666667,
+     "gap": 0.09189237033103204,
+     "weighted_gap": 0.00013133109951555245,
+     "std_err": 0.09047201327032126,
+     "z": 1.0156994081304116,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White",
+     "order": 1,
+     "size": 15584,
+     "share": 0.7424134152732124,
+     "base_size": 1432,
+     "rate": 0.4553072625698324,
+     "gap": -0.019467033765802222,
+     "weighted_gap": 0.0013280354605606584,
+     "std_err": 0.01316002069555367,
+     "z": -1.4792555586466123,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female",
+     "order": 1,
+     "size": 11164,
+     "share": 0.5318469820399219,
+     "base_size": 995,
+     "rate": 0.45326633165829144,
+     "gap": -0.021507964677343172,
+     "weighted_gap": 0.0010195047808087493,
+     "std_err": 0.01578167515177995,
+     "z": -1.3628442146027429,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male",
+     "order": 1,
+     "size": 9827,
+     "share": 0.46815301796007813,
+     "base_size": 888,
+     "rate": 0.4988738738738739,
+     "gap": 0.02409957753823927,
+     "weighted_gap": 0.00101950478080875,
+     "std_err": 0.016778858823631747,
+     "z": 1.4363061154252545,
+     "reliable": true
+    }
+   ],
+   "top_weighted": [
+    {
+     "subgroup": "age_band=80+",
+     "order": 1,
+     "size": 3813,
+     "share": 0.18164927826211233,
+     "base_size": 414,
+     "rate": 0.3357487922705314,
+     "gap": -0.13902550406510322,
+     "weighted_gap": 0.0027419636359845997,
+     "std_err": 0.023209898186226544,
+     "z": -5.989923047038834,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=40-59",
+     "order": 1,
+     "size": 5753,
+     "share": 0.2740698394550045,
+     "base_size": 436,
+     "rate": 0.6032110091743119,
+     "gap": 0.1284367128386773,
+     "weighted_gap": 0.002667734114509233,
+     "std_err": 0.023429940834091684,
+     "z": 5.481734407617272,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=80+",
+     "order": 2,
+     "size": 3209,
+     "share": 0.15287504168453148,
+     "base_size": 350,
+     "rate": 0.32285714285714284,
+     "gap": -0.15191715347849177,
+     "weighted_gap": 0.0025330381457516135,
+     "std_err": 0.024992593655107694,
+     "z": -6.078486913959997,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=40-59",
+     "order": 2,
+     "size": 3818,
+     "share": 0.18188747558477442,
+     "base_size": 292,
+     "rate": 0.5993150684931506,
+     "gap": 0.12454077215751602,
+     "weighted_gap": 0.001732452263827101,
+     "std_err": 0.028677261598253418,
+     "z": 4.3428404672049,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=80+",
+     "order": 2,
+     "size": 2392,
+     "share": 0.11395359916154542,
+     "base_size": 249,
+     "rate": 0.3453815261044177,
+     "gap": -0.12939277023121692,
+     "weighted_gap": 0.0015348863697571822,
+     "std_err": 0.03013311348390238,
+     "z": -4.294039190485269,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=40-59",
+     "order": 2,
+     "size": 2984,
+     "share": 0.14215616216473728,
+     "base_size": 219,
+     "rate": 0.6210045662100456,
+     "gap": 0.146230269874411,
+     "weighted_gap": 0.0015256266543993147,
+     "std_err": 0.0327825194924891,
+     "z": 4.4606171867880455,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=60-79",
+     "order": 2,
+     "size": 5196,
+     "share": 0.24753465771044733,
+     "base_size": 474,
+     "rate": 0.4092827004219409,
+     "gap": -0.06549159591369369,
+     "weighted_gap": 0.0014788726817727032,
+     "std_err": 0.02258459818140067,
+     "z": -2.8998344530047326,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=White & age_band=80+",
+     "order": 3,
+     "size": 1248,
+     "share": 0.059454051736458485,
+     "base_size": 140,
+     "rate": 0.2642857142857143,
+     "gap": -0.21048858204992033,
+     "weighted_gap": 0.0014038588674664782,
+     "std_err": 0.0372672563586516,
+     "z": -5.6480836695952625,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.7628865979381443,
+     "gap": 0.28811230160250967,
+     "weighted_gap": 0.0013313750300339878,
+     "std_err": 0.04318393131668312,
+     "z": 6.671747865882792,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White",
+     "order": 1,
+     "size": 15584,
+     "share": 0.7424134152732124,
+     "base_size": 1432,
+     "rate": 0.4553072625698324,
+     "gap": -0.019467033765802222,
+     "weighted_gap": 0.0013280354605606584,
+     "std_err": 0.01316002069555367,
+     "z": -1.4792555586466123,
+     "reliable": true
+    }
+   ],
+   "top_raw_gap": [
+    {
+     "subgroup": "race=Black & age_band=<40",
+     "order": 2,
+     "size": 432,
+     "share": 0.02058024867800486,
+     "base_size": 33,
+     "rate": 0.8181818181818182,
+     "gap": 0.3434075218461836,
+     "weighted_gap": 0.0005398717650861826,
+     "std_err": 0.06714081326145421,
+     "z": 5.114735809185307,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=<40",
+     "order": 2,
+     "size": 807,
+     "share": 0.038445047877661856,
+     "base_size": 55,
+     "rate": 0.8,
+     "gap": 0.32522570366436543,
+     "weighted_gap": 0.000852146810611219,
+     "std_err": 0.05393598899705936,
+     "z": 6.029845928700723,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.7628865979381443,
+     "gap": 0.28811230160250967,
+     "weighted_gap": 0.0013313750300339878,
+     "std_err": 0.04318393131668312,
+     "z": 6.671747865882792,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=White & age_band=<40",
+     "order": 3,
+     "size": 456,
+     "share": 0.021723595826782908,
+     "base_size": 33,
+     "rate": 0.7575757575757576,
+     "gap": 0.28280146124012295,
+     "weighted_gap": 0.0004445928360213452,
+     "std_err": 0.07460090362383802,
+     "z": 3.7908583878031794,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=<40",
+     "order": 2,
+     "size": 805,
+     "share": 0.03834976894859702,
+     "base_size": 60,
+     "rate": 0.7333333333333333,
+     "gap": 0.25855903699769867,
+     "weighted_gap": 0.0007390568443552914,
+     "std_err": 0.057089922571845024,
+     "z": 4.528978589387893,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=<40",
+     "order": 2,
+     "size": 566,
+     "share": 0.026963936925348958,
+     "base_size": 42,
+     "rate": 0.7142857142857143,
+     "gap": 0.23951141795007969,
+     "weighted_gap": 0.0004792282194227692,
+     "std_err": 0.06970714806775237,
+     "z": 3.435966390667494,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=Black & age_band=40-59",
+     "order": 3,
+     "size": 653,
+     "share": 0.03110857033966938,
+     "base_size": 52,
+     "rate": 0.6923076923076923,
+     "gap": 0.21753339597205767,
+     "weighted_gap": 0.000538885074105426,
+     "std_err": 0.06400386879521874,
+     "z": 3.3987538576466174,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=White & age_band=80+",
+     "order": 3,
+     "size": 1248,
+     "share": 0.059454051736458485,
+     "base_size": 140,
+     "rate": 0.2642857142857143,
+     "gap": -0.21048858204992033,
+     "weighted_gap": 0.0014038588674664782,
+     "std_err": 0.0372672563586516,
+     "z": -5.6480836695952625,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=Black & age_band=80+",
+     "order": 3,
+     "size": 299,
+     "share": 0.014244199895193177,
+     "base_size": 32,
+     "rate": 0.28125,
+     "gap": -0.19352429633563462,
+     "weighted_gap": 0.00029502060324616776,
+     "std_err": 0.07948042948974923,
+     "z": -2.434867269565949,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=80+",
+     "order": 2,
+     "size": 1421,
+     "share": 0.06769567910056691,
+     "base_size": 165,
+     "rate": 0.3212121212121212,
+     "gap": -0.1535621751235134,
+     "weighted_gap": 0.001207077266227417,
+     "std_err": 0.03635139065311447,
+     "z": -4.224382406408892,
+     "reliable": true
+    }
+   ],
+   "worst_single": {
+    "subgroup": "age_band=<40",
+    "order": 1,
+    "size": 1373,
+    "share": 0.06540898480301081,
+    "base_size": 97,
+    "rate": 0.7628865979381443,
+    "gap": 0.28811230160250967,
+    "weighted_gap": 0.0013313750300339878,
+    "std_err": 0.04318393131668312,
+    "z": 6.671747865882792,
+    "reliable": true
+   },
+   "worst_intersection": {
+    "subgroup": "race=Black & age_band=<40",
+    "order": 2,
+    "size": 432,
+    "share": 0.02058024867800486,
+    "base_size": 33,
+    "rate": 0.8181818181818182,
+    "gap": 0.3434075218461836,
+    "weighted_gap": 0.0005398717650861826,
+    "std_err": 0.06714081326145421,
+    "z": 5.114735809185307,
+    "reliable": true
+   },
+   "gerrymandering_ratio": 1.1919224550153407,
+   "max_weighted_gap": 0.0027419636359845997,
+   "max_weighted_gap_single": 0.0027419636359845997,
+   "rich": {
+    "weighted_gap": 0.004838428972404607,
+    "group_share": 0.49926158829974754,
+    "group_rate": 0.5964071856287425,
+    "overall_rate": 0.4747742963356346
+   },
+   "train_max_weighted_gap": 0.0033691531366359046,
+   "train_rich": {
+    "weighted_gap": 0.00583841013932355,
+    "group_share": 0.4328181465526042,
+    "group_rate": 0.34968496849684966,
+    "overall_rate": 0.47837960855712336
+   }
+  },
+  "boosting": {
+   "metric": "fnr",
+   "metric_label": "false negative rate",
+   "n_rows": 20991,
+   "max_order": 3,
+   "min_size": 30,
+   "n_subgroups_checked": 96,
+   "overall": {
+    "fpr": 0.3285011513502198,
+    "fnr": 0.4599044078597982,
+    "positive_rate": 0.34748225429946167,
+    "error_rate": 0.34028869515506643,
+    "accuracy": 0.6597113048449336,
+    "balanced_accuracy": 0.6057972203949911
+   },
+   "overall_rate": 0.4599044078597982,
+   "single_attribute": [
+    {
+     "subgroup": "age_band=40-59",
+     "order": 1,
+     "size": 5753,
+     "share": 0.2740698394550045,
+     "base_size": 436,
+     "rate": 0.6100917431192661,
+     "gap": 0.15018733525946787,
+     "weighted_gap": 0.003119512084851984,
+     "std_err": 0.023357994137567673,
+     "z": 6.429804476143569,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=60-79",
+     "order": 1,
+     "size": 10052,
+     "share": 0.4788718974798723,
+     "base_size": 936,
+     "rate": 0.4326923076923077,
+     "gap": -0.027212100167490483,
+     "weighted_gap": 0.0012134022084117524,
+     "std_err": 0.016194255951043873,
+     "z": -1.6803550746483296,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=80+",
+     "order": 1,
+     "size": 3813,
+     "share": 0.18164927826211233,
+     "base_size": 414,
+     "rate": 0.30193236714975846,
+     "gap": -0.15797204071003973,
+     "weighted_gap": 0.0031156412202351697,
+     "std_err": 0.02256334148093474,
+     "z": -7.001269773961483,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.7216494845360825,
+     "gap": 0.26174507667628427,
+     "weighted_gap": 0.0012095313437949396,
+     "std_err": 0.04550648600025757,
+     "z": 5.751819129141344,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Asian",
+     "order": 1,
+     "size": 148,
+     "share": 0.007050640750797961,
+     "base_size": 10,
+     "rate": 0.7,
+     "gap": 0.24009559214020176,
+     "weighted_gap": 0.00011438025446153198,
+     "std_err": 0.14491376746189438,
+     "z": 1.6568169908586208,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Black",
+     "order": 1,
+     "size": 3884,
+     "share": 0.18503168024391406,
+     "base_size": 349,
+     "rate": 0.5128939828080229,
+     "gap": 0.052989574948224705,
+     "weighted_gap": 0.000881013846740528,
+     "std_err": 0.026755485483531138,
+     "z": 1.9805125562323096,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Hispanic",
+     "order": 1,
+     "size": 465,
+     "share": 0.022152351007574674,
+     "base_size": 38,
+     "rate": 0.42105263157894735,
+     "gap": -0.03885177628085085,
+     "weighted_gap": 7.033335708981622e-05,
+     "std_err": 0.08009325371080865,
+     "z": -0.48508175758637917,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Other",
+     "order": 1,
+     "size": 346,
+     "share": 0.016483254728216854,
+     "base_size": 24,
+     "rate": 0.75,
+     "gap": 0.2900955921402018,
+     "weighted_gap": 0.00033167996814657916,
+     "std_err": 0.08838834764831845,
+     "z": 3.2820569663146175,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Unknown",
+     "order": 1,
+     "size": 564,
+     "share": 0.026868657996284122,
+     "base_size": 30,
+     "rate": 0.4666666666666667,
+     "gap": 0.006762258806868482,
+     "weighted_gap": 9.664511657665403e-06,
+     "std_err": 0.09108400680852977,
+     "z": 0.0742419997078479,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White",
+     "order": 1,
+     "size": 15584,
+     "share": 0.7424134152732124,
+     "base_size": 1432,
+     "rate": 0.441340782122905,
+     "gap": -0.018563625736893186,
+     "weighted_gap": 0.00126640522391649,
+     "std_err": 0.01312166680628543,
+     "z": -1.4147307663688728,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female",
+     "order": 1,
+     "size": 11164,
+     "share": 0.5318469820399219,
+     "base_size": 995,
+     "rate": 0.42613065326633165,
+     "gap": -0.03377375459346654,
+     "weighted_gap": 0.0016009187661616508,
+     "std_err": 0.01567712283921127,
+     "z": -2.154333734567186,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male",
+     "order": 1,
+     "size": 9827,
+     "share": 0.46815301796007813,
+     "base_size": 888,
+     "rate": 0.49774774774774777,
+     "gap": 0.03784333988794958,
+     "weighted_gap": 0.0016009187661616515,
+     "std_err": 0.016778731152827533,
+     "z": 2.2554351424584484,
+     "reliable": true
+    }
+   ],
+   "top_weighted": [
+    {
+     "subgroup": "age_band=40-59",
+     "order": 1,
+     "size": 5753,
+     "share": 0.2740698394550045,
+     "base_size": 436,
+     "rate": 0.6100917431192661,
+     "gap": 0.15018733525946787,
+     "weighted_gap": 0.003119512084851984,
+     "std_err": 0.023357994137567673,
+     "z": 6.429804476143569,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=80+",
+     "order": 1,
+     "size": 3813,
+     "share": 0.18164927826211233,
+     "base_size": 414,
+     "rate": 0.30193236714975846,
+     "gap": -0.15797204071003973,
+     "weighted_gap": 0.0031156412202351697,
+     "std_err": 0.02256334148093474,
+     "z": -7.001269773961483,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=80+",
+     "order": 2,
+     "size": 3209,
+     "share": 0.15287504168453148,
+     "base_size": 350,
+     "rate": 0.3028571428571429,
+     "gap": -0.1570472650026553,
+     "weighted_gap": 0.0026185766638525732,
+     "std_err": 0.024560984966146792,
+     "z": -6.3941761789732245,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=40-59",
+     "order": 2,
+     "size": 2984,
+     "share": 0.14215616216473728,
+     "base_size": 219,
+     "rate": 0.6484018264840182,
+     "gap": 0.18849741862422004,
+     "weighted_gap": 0.0019666016234912197,
+     "std_err": 0.03226438286024614,
+     "z": 5.8422756586016416,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=40-59",
+     "order": 2,
+     "size": 3818,
+     "share": 0.18188747558477442,
+     "base_size": 292,
+     "rate": 0.589041095890411,
+     "gap": 0.1291366880306128,
+     "weighted_gap": 0.00179638477942637,
+     "std_err": 0.028792579145408965,
+     "z": 4.485068439976969,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=80+",
+     "order": 2,
+     "size": 2392,
+     "share": 0.11395359916154542,
+     "base_size": 249,
+     "rate": 0.3092369477911647,
+     "gap": -0.15066746006863352,
+     "weighted_gap": 0.0017872515629121883,
+     "std_err": 0.029289406086218446,
+     "z": -5.144094066814388,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=60-79",
+     "order": 2,
+     "size": 5196,
+     "share": 0.24753465771044733,
+     "base_size": 474,
+     "rate": 0.38396624472573837,
+     "gap": -0.07593816313405982,
+     "weighted_gap": 0.0017147677254796987,
+     "std_err": 0.02233878803137876,
+     "z": -3.399385992981862,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male",
+     "order": 1,
+     "size": 9827,
+     "share": 0.46815301796007813,
+     "base_size": 888,
+     "rate": 0.49774774774774777,
+     "gap": 0.03784333988794958,
+     "weighted_gap": 0.0016009187661616515,
+     "std_err": 0.016778731152827533,
+     "z": 2.2554351424584484,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female",
+     "order": 1,
+     "size": 11164,
+     "share": 0.5318469820399219,
+     "base_size": 995,
+     "rate": 0.42613065326633165,
+     "gap": -0.03377375459346654,
+     "weighted_gap": 0.0016009187661616508,
+     "std_err": 0.01567712283921127,
+     "z": -2.154333734567186,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=White",
+     "order": 2,
+     "size": 8041,
+     "share": 0.3830689343051784,
+     "base_size": 735,
+     "rate": 0.41904761904761906,
+     "gap": -0.040856788812179134,
+     "weighted_gap": 0.0014306007230218505,
+     "std_err": 0.01819945099037912,
+     "z": -2.244946225783266,
+     "reliable": true
+    }
+   ],
+   "top_raw_gap": [
+    {
+     "subgroup": "sex=Female & race=White & age_band=<40",
+     "order": 3,
+     "size": 456,
+     "share": 0.021723595826782908,
+     "base_size": 33,
+     "rate": 0.7878787878787878,
+     "gap": 0.32797438001898965,
+     "weighted_gap": 0.0005156092868670696,
+     "std_err": 0.07116472642790657,
+     "z": 4.608664945143071,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Black & age_band=<40",
+     "order": 2,
+     "size": 432,
+     "share": 0.02058024867800486,
+     "base_size": 33,
+     "rate": 0.7575757575757576,
+     "gap": 0.2976713497159594,
+     "weighted_gap": 0.000467969822334651,
+     "std_err": 0.07460090362383802,
+     "z": 3.990184237136255,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=Black & age_band=40-59",
+     "order": 3,
+     "size": 653,
+     "share": 0.03110857033966938,
+     "base_size": 52,
+     "rate": 0.75,
+     "gap": 0.2900955921402018,
+     "weighted_gap": 0.0007186399309842548,
+     "std_err": 0.06004805767690768,
+     "z": 4.8310570460260225,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=<40",
+     "order": 2,
+     "size": 807,
+     "share": 0.038445047877661856,
+     "base_size": 55,
+     "rate": 0.7454545454545455,
+     "gap": 0.2855501375947473,
+     "weighted_gap": 0.0007481900608694727,
+     "std_err": 0.058737020402298626,
+     "z": 4.8615019222795395,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=<40",
+     "order": 2,
+     "size": 805,
+     "share": 0.03834976894859702,
+     "base_size": 60,
+     "rate": 0.7333333333333333,
+     "gap": 0.2734289254735351,
+     "weighted_gap": 0.0007815604558340292,
+     "std_err": 0.057089922571845024,
+     "z": 4.789442920148253,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.7216494845360825,
+     "gap": 0.26174507667628427,
+     "weighted_gap": 0.0012095313437949396,
+     "std_err": 0.04550648600025757,
+     "z": 5.751819129141344,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=<40",
+     "order": 2,
+     "size": 566,
+     "share": 0.026963936925348958,
+     "base_size": 42,
+     "rate": 0.6904761904761905,
+     "gap": 0.23057178261639227,
+     "weighted_gap": 0.00046134128292546695,
+     "std_err": 0.07133402662018651,
+     "z": 3.2322832950964213,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=Black & age_band=80+",
+     "order": 3,
+     "size": 299,
+     "share": 0.014244199895193177,
+     "base_size": 32,
+     "rate": 0.25,
+     "gap": -0.2099044078597982,
+     "weighted_gap": 0.0003199914749899263,
+     "std_err": 0.07654655446197431,
+     "z": -2.7421797014269464,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=40-59",
+     "order": 2,
+     "size": 2984,
+     "share": 0.14215616216473728,
+     "base_size": 219,
+     "rate": 0.6484018264840182,
+     "gap": 0.18849741862422004,
+     "weighted_gap": 0.0019666016234912197,
+     "std_err": 0.03226438286024614,
+     "z": 5.8422756586016416,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=White & age_band=80+",
+     "order": 3,
+     "size": 1248,
+     "share": 0.059454051736458485,
+     "base_size": 140,
+     "rate": 0.2714285714285714,
+     "gap": -0.18847583643122678,
+     "weighted_gap": 0.0012570443094836715,
+     "std_err": 0.037583725775243305,
+     "z": -5.014825766831699,
+     "reliable": true
+    }
+   ],
+   "worst_single": {
+    "subgroup": "age_band=<40",
+    "order": 1,
+    "size": 1373,
+    "share": 0.06540898480301081,
+    "base_size": 97,
+    "rate": 0.7216494845360825,
+    "gap": 0.26174507667628427,
+    "weighted_gap": 0.0012095313437949396,
+    "std_err": 0.04550648600025757,
+    "z": 5.751819129141344,
+    "reliable": true
+   },
+   "worst_intersection": {
+    "subgroup": "sex=Female & race=White & age_band=<40",
+    "order": 3,
+    "size": 456,
+    "share": 0.021723595826782908,
+    "base_size": 33,
+    "rate": 0.7878787878787878,
+    "gap": 0.32797438001898965,
+    "weighted_gap": 0.0005156092868670696,
+    "std_err": 0.07116472642790657,
+    "z": 4.608664945143071,
+    "reliable": true
+   },
+   "gerrymandering_ratio": 1.2530297959514827,
+   "max_weighted_gap": 0.003119512084851984,
+   "max_weighted_gap_single": 0.003119512084851984,
+   "rich": {
+    "weighted_gap": 0.005420273053826043,
+    "group_share": 0.5172693058930018,
+    "group_rate": 0.35435992578849723,
+    "overall_rate": 0.4599044078597982
+   },
+   "train_max_weighted_gap": 0.003687548256099614,
+   "train_rich": {
+    "weighted_gap": 0.005571261751213769,
+    "group_share": 0.49119010188039774,
+    "group_rate": 0.5745140388768899,
+    "overall_rate": 0.42717341829767863
+   }
+  },
+  "marginal_fair": {
+   "metric": "fnr",
+   "metric_label": "false negative rate",
+   "n_rows": 20991,
+   "max_order": 3,
+   "min_size": 30,
+   "n_subgroups_checked": 96,
+   "overall": {
+    "fpr": 0.31122880468913544,
+    "fnr": 0.4807541157727031,
+    "positive_rate": 0.32988900004763944,
+    "error_rate": 0.3264360916583298,
+    "accuracy": 0.6735639083416702,
+    "balanced_accuracy": 0.6040085397690808
+   },
+   "overall_rate": 0.4807541157727031,
+   "single_attribute": [
+    {
+     "subgroup": "age_band=40-59",
+     "order": 1,
+     "size": 5753,
+     "share": 0.2740698394550045,
+     "base_size": 436,
+     "rate": 0.47963302752293596,
+     "gap": -0.0011210882497671437,
+     "weighted_gap": 2.3285907145847014e-05,
+     "std_err": 0.023925782916073213,
+     "z": -0.046856909706975675,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=60-79",
+     "order": 1,
+     "size": 10052,
+     "share": 0.4788718974798723,
+     "base_size": 936,
+     "rate": 0.4747008547008548,
+     "gap": -0.0060532610718482815,
+     "weighted_gap": 0.0002699181727049684,
+     "std_err": 0.016322077271616255,
+     "z": -0.3708633999898269,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=80+",
+     "order": 1,
+     "size": 3813,
+     "share": 0.18164927826211233,
+     "base_size": 414,
+     "rate": 0.4696618357487923,
+     "gap": -0.011092280023910828,
+     "weighted_gap": 0.00021877013624406092,
+     "std_err": 0.024528382248414096,
+     "z": -0.4522222424443833,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.5915463917525775,
+     "gap": 0.1107922759798744,
+     "weighted_gap": 0.0005119742160948891,
+     "std_err": 0.04990911927880945,
+     "z": 2.2198804062430106,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Asian",
+     "order": 1,
+     "size": 148,
+     "share": 0.007050640750797961,
+     "base_size": 10,
+     "rate": 0.6,
+     "gap": 0.11924588422729687,
+     "weighted_gap": 5.68081007228321e-05,
+     "std_err": 0.15491933384829668,
+     "z": 0.7697288728601641,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Black",
+     "order": 1,
+     "size": 3884,
+     "share": 0.18503168024391406,
+     "base_size": 349,
+     "rate": 0.4871633237822349,
+     "gap": 0.006409208009531819,
+     "weighted_gap": 0.00010656060194019366,
+     "std_err": 0.02675556443979309,
+     "z": 0.23954673144549754,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Hispanic",
+     "order": 1,
+     "size": 465,
+     "share": 0.022152351007574674,
+     "base_size": 38,
+     "rate": 0.5294736842105262,
+     "gap": 0.0487195684378231,
+     "weighted_gap": 8.819701779987985e-05,
+     "std_err": 0.08096966650007341,
+     "z": 0.60170148332992,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Other",
+     "order": 1,
+     "size": 346,
+     "share": 0.016483254728216854,
+     "base_size": 24,
+     "rate": 0.7916666666666666,
+     "gap": 0.3109125508939635,
+     "weighted_gap": 0.00035548097858392286,
+     "std_err": 0.08289816934939807,
+     "z": 3.7505357878716663,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Unknown",
+     "order": 1,
+     "size": 564,
+     "share": 0.026868657996284122,
+     "base_size": 30,
+     "rate": 0.5666666666666667,
+     "gap": 0.08591255089396355,
+     "weighted_gap": 0.00012278483763607768,
+     "std_err": 0.09047201327032126,
+     "z": 0.949603615399444,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White",
+     "order": 1,
+     "size": 15584,
+     "share": 0.7424134152732124,
+     "base_size": 1432,
+     "rate": 0.4700558659217875,
+     "gap": -0.010698249850915609,
+     "weighted_gap": 0.0007298315366829189,
+     "std_err": 0.01318919453711724,
+     "z": -0.8111374671749989,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female",
+     "order": 1,
+     "size": 11164,
+     "share": 0.5318469820399219,
+     "base_size": 995,
+     "rate": 0.4778693467336684,
+     "gap": -0.002884769039034729,
+     "weighted_gap": 0.00013674170805771786,
+     "std_err": 0.015835531391724653,
+     "z": -0.18217064951431025,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male",
+     "order": 1,
+     "size": 9827,
+     "share": 0.46815301796007813,
+     "base_size": 888,
+     "rate": 0.48398648648648657,
+     "gap": 0.003232370713783461,
+     "weighted_gap": 0.0001367417080577254,
+     "std_err": 0.016770293857417518,
+     "z": 0.19274383271189852,
+     "reliable": true
+    }
+   ],
+   "top_weighted": [
+    {
+     "subgroup": "race=White",
+     "order": 1,
+     "size": 15584,
+     "share": 0.7424134152732124,
+     "base_size": 1432,
+     "rate": 0.4700558659217875,
+     "gap": -0.010698249850915609,
+     "weighted_gap": 0.0007298315366829189,
+     "std_err": 0.01318919453711724,
+     "z": -0.8111374671749989,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=White & age_band=80+",
+     "order": 3,
+     "size": 1248,
+     "share": 0.059454051736458485,
+     "base_size": 140,
+     "rate": 0.37485714285714283,
+     "gap": -0.10589697291556027,
+     "weighted_gap": 0.0007062825119421866,
+     "std_err": 0.040912735120543234,
+     "z": -2.5883620980985684,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=60-79",
+     "order": 2,
+     "size": 5196,
+     "share": 0.24753465771044733,
+     "base_size": 474,
+     "rate": 0.45021097046413483,
+     "gap": -0.030543145308568276,
+     "weighted_gap": 0.0006896980075394866,
+     "std_err": 0.0228516151151521,
+     "z": -1.336585845449331,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=White & age_band=60-79",
+     "order": 3,
+     "size": 3872,
+     "share": 0.18446000666952503,
+     "base_size": 353,
+     "rate": 0.4424362606232295,
+     "gap": -0.03831785514947361,
+     "weighted_gap": 0.0006443810617771514,
+     "std_err": 0.02643536218174025,
+     "z": -1.4494923461249563,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=80+",
+     "order": 2,
+     "size": 3209,
+     "share": 0.15287504168453148,
+     "base_size": 350,
+     "rate": 0.44542857142857145,
+     "gap": -0.035325544344131654,
+     "weighted_gap": 0.0005890115059047249,
+     "std_err": 0.026566464315732098,
+     "z": -1.3297043943936722,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.5915463917525775,
+     "gap": 0.1107922759798744,
+     "weighted_gap": 0.0005119742160948891,
+     "std_err": 0.04990911927880945,
+     "z": 2.2198804062430106,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=80+",
+     "order": 2,
+     "size": 1421,
+     "share": 0.06769567910056691,
+     "base_size": 165,
+     "rate": 0.41672727272727267,
+     "gap": -0.06402684304543044,
+     "weighted_gap": 0.0005032837455336107,
+     "std_err": 0.038381312758239916,
+     "z": -1.6681775177605096,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=60-79",
+     "order": 2,
+     "size": 4856,
+     "share": 0.231337239769425,
+     "base_size": 462,
+     "rate": 0.4998268398268398,
+     "gap": 0.01907272405413668,
+     "weighted_gap": 0.00041977983483450747,
+     "std_err": 0.023262103864959072,
+     "z": 0.8199053776415695,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=White",
+     "order": 2,
+     "size": 8041,
+     "share": 0.3830689343051784,
+     "base_size": 735,
+     "rate": 0.46884353741496604,
+     "gap": -0.011910578357737067,
+     "weighted_gap": 0.00041704897779699604,
+     "std_err": 0.018406937276941586,
+     "z": -0.6470700789890492,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=<40",
+     "order": 2,
+     "size": 807,
+     "share": 0.038445047877661856,
+     "base_size": 55,
+     "rate": 0.6334545454545455,
+     "gap": 0.1527004296818424,
+     "weighted_gap": 0.00040010116871522705,
+     "std_err": 0.06497410453369036,
+     "z": 2.3501736696142412,
+     "reliable": true
+    }
+   ],
+   "top_raw_gap": [
+    {
+     "subgroup": "race=Black & age_band=<40",
+     "order": 2,
+     "size": 432,
+     "share": 0.02058024867800486,
+     "base_size": 33,
+     "rate": 0.6442424242424242,
+     "gap": 0.16348830846972107,
+     "weighted_gap": 0.0002570203506026771,
+     "std_err": 0.08333832525327263,
+     "z": 1.9617421873173653,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=<40",
+     "order": 2,
+     "size": 807,
+     "share": 0.038445047877661856,
+     "base_size": 55,
+     "rate": 0.6334545454545455,
+     "gap": 0.1527004296818424,
+     "weighted_gap": 0.00040010116871522705,
+     "std_err": 0.06497410453369036,
+     "z": 2.3501736696142412,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=White & age_band=<40",
+     "order": 3,
+     "size": 456,
+     "share": 0.021723595826782908,
+     "base_size": 33,
+     "rate": 0.6333333333333334,
+     "gap": 0.1525792175606303,
+     "weighted_gap": 0.00023987014337100663,
+     "std_err": 0.08388704928078611,
+     "z": 1.818864996072496,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.5915463917525775,
+     "gap": 0.1107922759798744,
+     "weighted_gap": 0.0005119742160948891,
+     "std_err": 0.04990911927880945,
+     "z": 2.2198804062430106,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=White & age_band=80+",
+     "order": 3,
+     "size": 1248,
+     "share": 0.059454051736458485,
+     "base_size": 140,
+     "rate": 0.37485714285714283,
+     "gap": -0.10589697291556027,
+     "weighted_gap": 0.0007062825119421866,
+     "std_err": 0.040912735120543234,
+     "z": -2.5883620980985684,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=<40",
+     "order": 2,
+     "size": 805,
+     "share": 0.03834976894859702,
+     "base_size": 60,
+     "rate": 0.5846666666666669,
+     "gap": 0.10391255089396378,
+     "weighted_gap": 0.0002970202969671682,
+     "std_err": 0.06361754940731836,
+     "z": 1.6333944306570543,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Unknown",
+     "order": 1,
+     "size": 564,
+     "share": 0.026868657996284122,
+     "base_size": 30,
+     "rate": 0.5666666666666667,
+     "gap": 0.08591255089396355,
+     "weighted_gap": 0.00012278483763607768,
+     "std_err": 0.09047201327032126,
+     "z": 0.949603615399444,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=80+",
+     "order": 2,
+     "size": 1421,
+     "share": 0.06769567910056691,
+     "base_size": 165,
+     "rate": 0.41672727272727267,
+     "gap": -0.06402684304543044,
+     "weighted_gap": 0.0005032837455336107,
+     "std_err": 0.038381312758239916,
+     "z": -1.6681775177605096,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Black & age_band=80+",
+     "order": 2,
+     "size": 405,
+     "share": 0.019293983135629557,
+     "base_size": 46,
+     "rate": 0.5391304347826087,
+     "gap": 0.058376319009905586,
+     "weighted_gap": 0.0001279267626342555,
+     "std_err": 0.07349486954494704,
+     "z": 0.7942910759805425,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=<40",
+     "order": 2,
+     "size": 566,
+     "share": 0.026963936925348958,
+     "base_size": 42,
+     "rate": 0.5366666666666667,
+     "gap": 0.05591255089396363,
+     "weighted_gap": 0.00011187304737966141,
+     "std_err": 0.07694394303887975,
+     "z": 0.7266660465491226,
+     "reliable": true
+    }
+   ],
+   "worst_single": {
+    "subgroup": "age_band=<40",
+    "order": 1,
+    "size": 1373,
+    "share": 0.06540898480301081,
+    "base_size": 97,
+    "rate": 0.5915463917525775,
+    "gap": 0.1107922759798744,
+    "weighted_gap": 0.0005119742160948891,
+    "std_err": 0.04990911927880945,
+    "z": 2.2198804062430106,
+    "reliable": true
+   },
+   "worst_intersection": {
+    "subgroup": "race=Black & age_band=<40",
+    "order": 2,
+    "size": 432,
+    "share": 0.02058024867800486,
+    "base_size": 33,
+    "rate": 0.6442424242424242,
+    "gap": 0.16348830846972107,
+    "weighted_gap": 0.0002570203506026771,
+    "std_err": 0.08333832525327263,
+    "z": 1.9617421873173653,
+    "reliable": true
+   },
+   "gerrymandering_ratio": 1.475629117858532,
+   "max_weighted_gap": 0.0007298315366829189,
+   "max_weighted_gap_single": 0.0007298315366829189,
+   "rich": {
+    "weighted_gap": 0.0008560151452511595,
+    "group_share": 0.3147539421656901,
+    "group_rate": 0.5153757225433525,
+    "overall_rate": 0.4807541157727031
+   },
+   "train_max_weighted_gap": 0.0010942406154893674,
+   "train_rich": {
+    "weighted_gap": 0.0019055055995824365,
+    "group_share": 0.5100144960084935,
+    "group_rate": 0.5330093071354706,
+    "overall_rate": 0.48475193445607645
+   },
+   "history": [
+    {
+     "iteration": 1,
+     "train_error": 0.3239551644582372,
+     "worst_weighted_gap": 0.0033691531366358747,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 2,
+     "train_error": 0.32388370526143856,
+     "worst_weighted_gap": 0.0025332073847372308,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 3,
+     "train_error": 0.32479906354424004,
+     "worst_weighted_gap": 0.002077853838498464,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 4,
+     "train_error": 0.32592539659854225,
+     "worst_weighted_gap": 0.0017134652926366098,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 5,
+     "train_error": 0.3270748688213316,
+     "worst_weighted_gap": 0.0014198936363380452,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 6,
+     "train_error": 0.3280113245812831,
+     "worst_weighted_gap": 0.0011935538287491223,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 7,
+     "train_error": 0.3287939729271729,
+     "worst_weighted_gap": 0.0010114656242431435,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 8,
+     "train_error": 0.3294549704975602,
+     "worst_weighted_gap": 0.0008824048007049452,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 9,
+     "train_error": 0.32966509456433707,
+     "worst_weighted_gap": 0.0008254352698674884,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 10,
+     "train_error": 0.32957798240062064,
+     "worst_weighted_gap": 0.0008164469955787061,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 11,
+     "train_error": 0.32936935866762934,
+     "worst_weighted_gap": 0.0008448033315833819,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 12,
+     "train_error": 0.3290798097143674,
+     "worst_weighted_gap": 0.0008822764399330237,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 13,
+     "train_error": 0.3287782676091951,
+     "worst_weighted_gap": 0.0009309211067699288,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 14,
+     "train_error": 0.32848334417374214,
+     "worst_weighted_gap": 0.0009793948471749218,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 15,
+     "train_error": 0.3281964379291805,
+     "worst_weighted_gap": 0.0010294956744533906,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 16,
+     "train_error": 0.32797091610690293,
+     "worst_weighted_gap": 0.001065749286827572,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 17,
+     "train_error": 0.3277815342229503,
+     "worst_weighted_gap": 0.0010955951649991925,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 18,
+     "train_error": 0.3276574314161852,
+     "worst_weighted_gap": 0.001113604363898474,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 19,
+     "train_error": 0.32757003269929863,
+     "worst_weighted_gap": 0.0011233562501051918,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 20,
+     "train_error": 0.32750362400212335,
+     "worst_weighted_gap": 0.0011302301880132077,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 21,
+     "train_error": 0.3274659013240855,
+     "worst_weighted_gap": 0.0011334292117108132,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 22,
+     "train_error": 0.3274529529353025,
+     "worst_weighted_gap": 0.001138547691465987,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 23,
+     "train_error": 0.3274508951041129,
+     "worst_weighted_gap": 0.0011391660674702746,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 24,
+     "train_error": 0.3274830369478076,
+     "worst_weighted_gap": 0.0011368812895016685,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 25,
+     "train_error": 0.327520774209355,
+     "worst_weighted_gap": 0.0011315125876311533,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 26,
+     "train_error": 0.3275642465295174,
+     "worst_weighted_gap": 0.0011210600015353859,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 27,
+     "train_error": 0.327614329043513,
+     "worst_weighted_gap": 0.0011070683116944805,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 28,
+     "train_error": 0.32766812598985573,
+     "worst_weighted_gap": 0.0010908443570715105,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 29,
+     "train_error": 0.3277358135893567,
+     "worst_weighted_gap": 0.0010715151068974437,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 30,
+     "train_error": 0.32781123883024693,
+     "worst_weighted_gap": 0.001053621459069929,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 31,
+     "train_error": 0.3278949701287385,
+     "worst_weighted_gap": 0.001034390043894666,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 32,
+     "train_error": 0.3279785724494171,
+     "worst_weighted_gap": 0.0010151713673690259,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 33,
+     "train_error": 0.32806267621188295,
+     "worst_weighted_gap": 0.000996582965778542,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 34,
+     "train_error": 0.32813162423751835,
+     "worst_weighted_gap": 0.0009845724245302245,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 35,
+     "train_error": 0.3281709653991652,
+     "worst_weighted_gap": 0.0009760389141191168,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 36,
+     "train_error": 0.32818997257327975,
+     "worst_weighted_gap": 0.0009699258731811342,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 37,
+     "train_error": 0.3281908462700231,
+     "worst_weighted_gap": 0.0009676173746489563,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 38,
+     "train_error": 0.328175555366908,
+     "worst_weighted_gap": 0.0009686238966688393,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 39,
+     "train_error": 0.32815738403847594,
+     "worst_weighted_gap": 0.0009710780869679772,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 40,
+     "train_error": 0.3281288919741113,
+     "worst_weighted_gap": 0.0009752307805869293,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 41,
+     "train_error": 0.32808734853513627,
+     "worst_weighted_gap": 0.0009813481198027807,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 42,
+     "train_error": 0.32804243606832467,
+     "worst_weighted_gap": 0.000987660274136263,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 43,
+     "train_error": 0.32799249037437495,
+     "worst_weighted_gap": 0.0009955401588871966,
+     "worst_group": "age_band=40-59",
+     "violated": false
+    },
+    {
+     "iteration": 44,
+     "train_error": 0.3279359985448309,
+     "worst_weighted_gap": 0.0010044539293338423,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 45,
+     "train_error": 0.327889730519429,
+     "worst_weighted_gap": 0.001011966123387496,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 46,
+     "train_error": 0.3278485810689053,
+     "worst_weighted_gap": 0.0010180118829167311,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 47,
+     "train_error": 0.3278117890733024,
+     "worst_weighted_gap": 0.0010230253918979914,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 48,
+     "train_error": 0.32778163430585894,
+     "worst_weighted_gap": 0.001026921411756688,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 49,
+     "train_error": 0.32775562704716016,
+     "worst_weighted_gap": 0.0010300617562442385,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 50,
+     "train_error": 0.3277351517997509,
+     "worst_weighted_gap": 0.0010324917658829826,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    }
+   ]
+  },
+  "subgroup_fair": {
+   "metric": "fnr",
+   "metric_label": "false negative rate",
+   "n_rows": 20991,
+   "max_order": 3,
+   "min_size": 30,
+   "n_subgroups_checked": 96,
+   "overall": {
+    "fpr": 0.31178773288674905,
+    "fnr": 0.47996813595326604,
+    "positive_rate": 0.33046829593635363,
+    "error_rate": 0.326874374732028,
+    "accuracy": 0.673125625267972,
+    "balanced_accuracy": 0.6041220655799925
+   },
+   "overall_rate": 0.47996813595326604,
+   "single_attribute": [
+    {
+     "subgroup": "age_band=40-59",
+     "order": 1,
+     "size": 5753,
+     "share": 0.2740698394550045,
+     "base_size": 436,
+     "rate": 0.4763302752293583,
+     "gap": -0.00363786072390776,
+     "weighted_gap": 7.556130130169042e-05,
+     "std_err": 0.02391881069124622,
+     "z": -0.1520920404808898,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=60-79",
+     "order": 1,
+     "size": 10052,
+     "share": 0.4788718974798723,
+     "base_size": 936,
+     "rate": 0.4745512820512824,
+     "gap": -0.005416853901983654,
+     "weighted_gap": 0.00024154043410302988,
+     "std_err": 0.01632182884851513,
+     "z": -0.3318778766925037,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=80+",
+     "order": 1,
+     "size": 3813,
+     "share": 0.18164927826211233,
+     "base_size": 414,
+     "rate": 0.46917874396135284,
+     "gap": -0.0107893919919132,
+     "weighted_gap": 0.00021279635484979586,
+     "std_err": 0.024526927437160364,
+     "z": -0.43989986187859637,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.5946391752577321,
+     "gap": 0.1146710393044661,
+     "weighted_gap": 0.0005298980902545478,
+     "std_err": 0.04984961161752316,
+     "z": 2.300339673341745,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Asian",
+     "order": 1,
+     "size": 148,
+     "share": 0.007050640750797961,
+     "base_size": 10,
+     "rate": 0.6,
+     "gap": 0.12003186404673394,
+     "weighted_gap": 5.7182537300144795e-05,
+     "std_err": 0.15491933384829668,
+     "z": 0.7748023507787223,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Black",
+     "order": 1,
+     "size": 3884,
+     "share": 0.18503168024391406,
+     "base_size": 349,
+     "rate": 0.4616045845272207,
+     "gap": -0.018363551426045344,
+     "weighted_gap": 0.0003053155851407663,
+     "std_err": 0.026685357159600687,
+     "z": -0.6881508580235968,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Hispanic",
+     "order": 1,
+     "size": 465,
+     "share": 0.022152351007574674,
+     "base_size": 38,
+     "rate": 0.5278947368421053,
+     "gap": 0.047926600888839266,
+     "weighted_gap": 8.676150892172322e-05,
+     "std_err": 0.08098438505378508,
+     "z": 0.5918005163218716,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Other",
+     "order": 1,
+     "size": 346,
+     "share": 0.016483254728216854,
+     "base_size": 24,
+     "rate": 0.7808333333333334,
+     "gap": 0.30086519738006734,
+     "weighted_gap": 0.00034399336559104454,
+     "std_err": 0.08444244560865329,
+     "z": 3.562961674208498,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Unknown",
+     "order": 1,
+     "size": 564,
+     "share": 0.026868657996284122,
+     "base_size": 30,
+     "rate": 0.5146666666666666,
+     "gap": 0.034698530713400566,
+     "weighted_gap": 4.9590582697442575e-05,
+     "std_err": 0.09124781072969895,
+     "z": 0.3802669941987664,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White",
+     "order": 1,
+     "size": 15584,
+     "share": 0.7424134152732124,
+     "base_size": 1432,
+     "rate": 0.4765642458100559,
+     "gap": -0.003403890143210131,
+     "weighted_gap": 0.00023221240936958256,
+     "std_err": 0.013198388609574637,
+     "z": -0.2579019487834154,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female",
+     "order": 1,
+     "size": 11164,
+     "share": 0.5318469820399219,
+     "base_size": 995,
+     "rate": 0.47521608040200997,
+     "gap": -0.004752055551256074,
+     "weighted_gap": 0.00022525345498069618,
+     "std_err": 0.015831580846201346,
+     "z": -0.30016304735583554,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male",
+     "order": 1,
+     "size": 9827,
+     "share": 0.46815301796007813,
+     "base_size": 888,
+     "rate": 0.48529279279279275,
+     "gap": 0.005324656839526709,
+     "weighted_gap": 0.00022525345498069257,
+     "std_err": 0.016771641191649856,
+     "z": 0.31747977306941855,
+     "reliable": true
+    }
+   ],
+   "top_weighted": [
+    {
+     "subgroup": "sex=Female & age_band=60-79",
+     "order": 2,
+     "size": 5196,
+     "share": 0.24753465771044733,
+     "base_size": 474,
+     "rate": 0.4452320675105484,
+     "gap": -0.03473606844271765,
+     "weighted_gap": 0.0007843788500713719,
+     "std_err": 0.022827572045841453,
+     "z": -1.521671615928405,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=White & age_band=80+",
+     "order": 3,
+     "size": 1248,
+     "share": 0.059454051736458485,
+     "base_size": 140,
+     "rate": 0.37914285714285706,
+     "gap": -0.10082527881040898,
+     "weighted_gap": 0.0006724567211403581,
+     "std_err": 0.04100466445770078,
+     "z": -2.4588734024251657,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=White & age_band=60-79",
+     "order": 3,
+     "size": 3872,
+     "share": 0.18446000666952503,
+     "base_size": 353,
+     "rate": 0.4464589235127478,
+     "gap": -0.03350921244051824,
+     "weighted_gap": 0.0005635154109619808,
+     "std_err": 0.02645929864496658,
+     "z": -1.2664437138016427,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=60-79",
+     "order": 2,
+     "size": 4856,
+     "share": 0.231337239769425,
+     "base_size": 462,
+     "rate": 0.5046320346320347,
+     "gap": 0.024663898678768614,
+     "weighted_gap": 0.0005428384159683246,
+     "std_err": 0.023261107026954036,
+     "z": 1.060306315180489,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=80+",
+     "order": 2,
+     "size": 3209,
+     "share": 0.15287504168453148,
+     "base_size": 350,
+     "rate": 0.4481714285714286,
+     "gap": -0.03179670738183743,
+     "weighted_gap": 0.0005301723397476586,
+     "std_err": 0.026582152937835855,
+     "z": -1.1961674984037658,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.5946391752577321,
+     "gap": 0.1146710393044661,
+     "weighted_gap": 0.0005298980902545478,
+     "std_err": 0.04984961161752316,
+     "z": 2.300339673341745,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=White & age_band=60-79",
+     "order": 3,
+     "size": 3880,
+     "share": 0.18484112238578437,
+     "base_size": 377,
+     "rate": 0.5079575596816976,
+     "gap": 0.027989423728431606,
+     "weighted_gap": 0.0005026922369405324,
+     "std_err": 0.02574804863682958,
+     "z": 1.0870502896439305,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Black & age_band=60-79",
+     "order": 2,
+     "size": 1597,
+     "share": 0.0760802248582726,
+     "base_size": 150,
+     "rate": 0.41213333333333324,
+     "gap": -0.0678348026199328,
+     "weighted_gap": 0.0004847420510213863,
+     "std_err": 0.040189505171449,
+     "z": -1.6878735463536703,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=80+",
+     "order": 2,
+     "size": 1421,
+     "share": 0.06769567910056691,
+     "base_size": 165,
+     "rate": 0.41915151515151494,
+     "gap": -0.0608166208017511,
+     "weighted_gap": 0.0004780497561949851,
+     "std_err": 0.03841271273922328,
+     "z": -1.5832420171578028,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=<40",
+     "order": 2,
+     "size": 807,
+     "share": 0.038445047877661856,
+     "base_size": 55,
+     "rate": 0.6381818181818181,
+     "gap": 0.15821368222855203,
+     "weighted_gap": 0.00041454683066887533,
+     "std_err": 0.06479418957170423,
+     "z": 2.441788118261214,
+     "reliable": true
+    }
+   ],
+   "top_raw_gap": [
+    {
+     "subgroup": "sex=Female & race=White & age_band=<40",
+     "order": 3,
+     "size": 456,
+     "share": 0.021723595826782908,
+     "base_size": 33,
+     "rate": 0.6436363636363637,
+     "gap": 0.16366822768309763,
+     "weighted_gap": 0.00025730320201716077,
+     "std_err": 0.08337003949921504,
+     "z": 1.9631540139145387,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=<40",
+     "order": 2,
+     "size": 807,
+     "share": 0.038445047877661856,
+     "base_size": 55,
+     "rate": 0.6381818181818181,
+     "gap": 0.15821368222855203,
+     "weighted_gap": 0.00041454683066887533,
+     "std_err": 0.06479418957170423,
+     "z": 2.441788118261214,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Black & age_band=<40",
+     "order": 2,
+     "size": 432,
+     "share": 0.02058024867800486,
+     "base_size": 33,
+     "rate": 0.6254545454545455,
+     "gap": 0.14548640950127945,
+     "weighted_gap": 0.00022871952329770956,
+     "std_err": 0.08425451287702787,
+     "z": 1.726749161954345,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=<40",
+     "order": 2,
+     "size": 805,
+     "share": 0.03834976894859702,
+     "base_size": 60,
+     "rate": 0.6,
+     "gap": 0.12003186404673394,
+     "weighted_gap": 0.0003430952238008688,
+     "std_err": 0.06324555320336758,
+     "z": 1.897870410916774,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.5946391752577321,
+     "gap": 0.1146710393044661,
+     "weighted_gap": 0.0005298980902545478,
+     "std_err": 0.04984961161752316,
+     "z": 2.300339673341745,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=White & age_band=80+",
+     "order": 3,
+     "size": 1248,
+     "share": 0.059454051736458485,
+     "base_size": 140,
+     "rate": 0.37914285714285706,
+     "gap": -0.10082527881040898,
+     "weighted_gap": 0.0006724567211403581,
+     "std_err": 0.04100466445770078,
+     "z": -2.4588734024251657,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=Black & age_band=60-79",
+     "order": 3,
+     "size": 961,
+     "share": 0.04578152541565433,
+     "base_size": 94,
+     "rate": 0.40680851063829787,
+     "gap": -0.07315962531496817,
+     "weighted_gap": 0.00032761682528736165,
+     "std_err": 0.050667391241493706,
+     "z": -1.4439193240929011,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Black & age_band=60-79",
+     "order": 2,
+     "size": 1597,
+     "share": 0.0760802248582726,
+     "base_size": 150,
+     "rate": 0.41213333333333324,
+     "gap": -0.0678348026199328,
+     "weighted_gap": 0.0004847420510213863,
+     "std_err": 0.040189505171449,
+     "z": -1.6878735463536703,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=80+",
+     "order": 2,
+     "size": 1421,
+     "share": 0.06769567910056691,
+     "base_size": 165,
+     "rate": 0.41915151515151494,
+     "gap": -0.0608166208017511,
+     "weighted_gap": 0.0004780497561949851,
+     "std_err": 0.03841271273922328,
+     "z": -1.5832420171578028,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=Black & age_band=60-79",
+     "order": 3,
+     "size": 636,
+     "share": 0.030298699442618263,
+     "base_size": 56,
+     "rate": 0.4210714285714286,
+     "gap": -0.05889670738183744,
+     "weighted_gap": 0.00015712522573402393,
+     "std_err": 0.06597757744278475,
+     "z": -0.8926776287430713,
+     "reliable": true
+    }
+   ],
+   "worst_single": {
+    "subgroup": "age_band=<40",
+    "order": 1,
+    "size": 1373,
+    "share": 0.06540898480301081,
+    "base_size": 97,
+    "rate": 0.5946391752577321,
+    "gap": 0.1146710393044661,
+    "weighted_gap": 0.0005298980902545478,
+    "std_err": 0.04984961161752316,
+    "z": 2.300339673341745,
+    "reliable": true
+   },
+   "worst_intersection": {
+    "subgroup": "sex=Female & race=White & age_band=<40",
+    "order": 3,
+    "size": 456,
+    "share": 0.021723595826782908,
+    "base_size": 33,
+    "rate": 0.6436363636363637,
+    "gap": 0.16366822768309763,
+    "weighted_gap": 0.00025730320201716077,
+    "std_err": 0.08337003949921504,
+    "z": 1.9631540139145387,
+    "reliable": true
+   },
+   "gerrymandering_ratio": 1.4272847675910376,
+   "max_weighted_gap": 0.0007843788500713719,
+   "max_weighted_gap_single": 0.0005298980902545478,
+   "rich": {
+    "weighted_gap": 0.0011281257959149128,
+    "group_share": 0.3905006907722357,
+    "group_rate": 0.516796267496112,
+    "overall_rate": 0.47996813595326604
+   },
+   "train_max_weighted_gap": 0.0010225487197782152,
+   "train_rich": {
+    "weighted_gap": 0.0016988578135578598,
+    "group_share": 0.5320035117090998,
+    "group_rate": 0.45297256670424646,
+    "overall_rate": 0.48424214838416024
+   },
+   "history": [
+    {
+     "iteration": 1,
+     "train_error": 0.3239551644582372,
+     "worst_weighted_gap": 0.0033691531366358747,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 2,
+     "train_error": 0.32388370526143856,
+     "worst_weighted_gap": 0.0025332073847372308,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 3,
+     "train_error": 0.32479906354424004,
+     "worst_weighted_gap": 0.002077853838498464,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 4,
+     "train_error": 0.32592539659854225,
+     "worst_weighted_gap": 0.0017134652926366098,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 5,
+     "train_error": 0.3270748688213316,
+     "worst_weighted_gap": 0.0014198936363380452,
+     "worst_group": "age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 6,
+     "train_error": 0.3280113245812831,
+     "worst_weighted_gap": 0.0012080216172333357,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 7,
+     "train_error": 0.3287152219755988,
+     "worst_weighted_gap": 0.0010683964062244246,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 8,
+     "train_error": 0.32928397884807775,
+     "worst_weighted_gap": 0.0009590419897288478,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 9,
+     "train_error": 0.3294541197928364,
+     "worst_weighted_gap": 0.0009090353692816346,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 10,
+     "train_error": 0.3293819800322587,
+     "worst_weighted_gap": 0.0009009471821513785,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 11,
+     "train_error": 0.32915590911875037,
+     "worst_weighted_gap": 0.0009239893082757304,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 12,
+     "train_error": 0.3289011617223708,
+     "worst_weighted_gap": 0.000956663346525279,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 13,
+     "train_error": 0.32863377868380017,
+     "worst_weighted_gap": 0.0009975800664169564,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 14,
+     "train_error": 0.3283856346597521,
+     "worst_weighted_gap": 0.0010391397752071978,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 15,
+     "train_error": 0.3281624097402288,
+     "worst_weighted_gap": 0.0010742598576945215,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 16,
+     "train_error": 0.32800919781947363,
+     "worst_weighted_gap": 0.0011017129548697821,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 17,
+     "train_error": 0.32789803072865564,
+     "worst_weighted_gap": 0.0011191531419657683,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 18,
+     "train_error": 0.3278162296312932,
+     "worst_weighted_gap": 0.0011300278310315455,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 19,
+     "train_error": 0.3277677543866813,
+     "worst_weighted_gap": 0.001134384944045402,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 20,
+     "train_error": 0.3277200432838563,
+     "worst_weighted_gap": 0.0011344434415860537,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 21,
+     "train_error": 0.32769048737116685,
+     "worst_weighted_gap": 0.0011319487343567668,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 22,
+     "train_error": 0.32769517177120433,
+     "worst_weighted_gap": 0.0011310378206841837,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 23,
+     "train_error": 0.32771010113473653,
+     "worst_weighted_gap": 0.0011278691073982878,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 24,
+     "train_error": 0.3277459047074596,
+     "worst_weighted_gap": 0.0011207976654178243,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 25,
+     "train_error": 0.32779517752506176,
+     "worst_weighted_gap": 0.0011102752804902287,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 26,
+     "train_error": 0.3278508685826108,
+     "worst_weighted_gap": 0.0010988983109748143,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 27,
+     "train_error": 0.3279145332882648,
+     "worst_weighted_gap": 0.0010882599629425,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 28,
+     "train_error": 0.3279780255678089,
+     "worst_weighted_gap": 0.0010757215165462554,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 29,
+     "train_error": 0.32804629147889564,
+     "worst_weighted_gap": 0.0010627917817395177,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 30,
+     "train_error": 0.3281134091481383,
+     "worst_weighted_gap": 0.0010492159160269557,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 31,
+     "train_error": 0.3281827827462593,
+     "worst_weighted_gap": 0.0010358573025096793,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 32,
+     "train_error": 0.32825101063721185,
+     "worst_weighted_gap": 0.0010228333728583908,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 33,
+     "train_error": 0.32831572219881494,
+     "worst_weighted_gap": 0.0010094950069224548,
+     "worst_group": "age_band=40-59",
+     "violated": true
+    },
+    {
+     "iteration": 34,
+     "train_error": 0.32837962968523127,
+     "worst_weighted_gap": 0.0009966248757812693,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 35,
+     "train_error": 0.3284264684864942,
+     "worst_weighted_gap": 0.000987620889146139,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 36,
+     "train_error": 0.3284536910376556,
+     "worst_weighted_gap": 0.000983445895804794,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 37,
+     "train_error": 0.3284689577386447,
+     "worst_weighted_gap": 0.0009812533480749836,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 38,
+     "train_error": 0.3284608548669086,
+     "worst_weighted_gap": 0.0009816652777307595,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 39,
+     "train_error": 0.3284411267832734,
+     "worst_weighted_gap": 0.000984385192644274,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 40,
+     "train_error": 0.3284106453786317,
+     "worst_weighted_gap": 0.0009879899574806823,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 41,
+     "train_error": 0.3283771691103056,
+     "worst_weighted_gap": 0.00099337008852669,
+     "worst_group": "race=White & age_band=80+",
+     "violated": false
+    },
+    {
+     "iteration": 42,
+     "train_error": 0.32834285636506993,
+     "worst_weighted_gap": 0.001000349210776542,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 43,
+     "train_error": 0.3283101395614732,
+     "worst_weighted_gap": 0.0010059668950712123,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 44,
+     "train_error": 0.3282821580306216,
+     "worst_weighted_gap": 0.0010108652093213663,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 45,
+     "train_error": 0.3282604109244098,
+     "worst_weighted_gap": 0.001014721730362337,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 46,
+     "train_error": 0.3282373901148407,
+     "worst_weighted_gap": 0.0010176406644733975,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 47,
+     "train_error": 0.32821969293831094,
+     "worst_weighted_gap": 0.001020000986210118,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 48,
+     "train_error": 0.3282057106106699,
+     "worst_weighted_gap": 0.001021412256484061,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 49,
+     "train_error": 0.32819563236389104,
+     "worst_weighted_gap": 0.0010220856319492213,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    },
+    {
+     "iteration": 50,
+     "train_error": 0.32819371567406436,
+     "worst_weighted_gap": 0.0010225487197782338,
+     "worst_group": "race=White & age_band=80+",
+     "violated": true
+    }
+   ]
+  },
+  "subgroup_fair_boosting": {
+   "metric": "fnr",
+   "metric_label": "false negative rate",
+   "n_rows": 20991,
+   "max_order": 3,
+   "min_size": 30,
+   "n_subgroups_checked": 96,
+   "overall": {
+    "fpr": 0.321448607912916,
+    "fnr": 0.4671481678173128,
+    "positive_rate": 0.34041255776285073,
+    "error_rate": 0.3345186032108999,
+    "accuracy": 0.6654813967891001,
+    "balanced_accuracy": 0.6057016121348856
+   },
+   "overall_rate": 0.4671481678173128,
+   "single_attribute": [
+    {
+     "subgroup": "age_band=40-59",
+     "order": 1,
+     "size": 5753,
+     "share": 0.2740698394550045,
+     "base_size": 436,
+     "rate": 0.4644036697247707,
+     "gap": -0.0027444980925420692,
+     "weighted_gap": 5.700543891898158e-05,
+     "std_err": 0.023884897020236162,
+     "z": -0.11490516748792468,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=60-79",
+     "order": 1,
+     "size": 10052,
+     "share": 0.4788718974798723,
+     "base_size": 936,
+     "rate": 0.4525213675213674,
+     "gap": -0.014626800295945375,
+     "weighted_gap": 0.000652216906150487,
+     "std_err": 0.01626916291067425,
+     "z": -0.8990505766187075,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=80+",
+     "order": 1,
+     "size": 3813,
+     "share": 0.18164927826211233,
+     "base_size": 414,
+     "rate": 0.44637681159420256,
+     "gap": -0.020771356223110216,
+     "weighted_gap": 0.0004096680232655723,
+     "std_err": 0.024431930168361277,
+     "z": -0.8501725438790173,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.7092783505154638,
+     "gap": 0.24213018269815106,
+     "weighted_gap": 0.001118890368335032,
+     "std_err": 0.0461063955585034,
+     "z": 5.2515530603756995,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Asian",
+     "order": 1,
+     "size": 148,
+     "share": 0.007050640750797961,
+     "base_size": 10,
+     "rate": 0.7,
+     "gap": 0.23285183218268718,
+     "weighted_gap": 0.00011092936600575826,
+     "std_err": 0.14491376746189438,
+     "z": 1.6068302981903804,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Black",
+     "order": 1,
+     "size": 3884,
+     "share": 0.18503168024391406,
+     "base_size": 349,
+     "rate": 0.4482521489971347,
+     "gap": -0.01889601882017805,
+     "weighted_gap": 0.00031416848021733793,
+     "std_err": 0.026620658970087068,
+     "z": -0.7098253593726214,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Hispanic",
+     "order": 1,
+     "size": 465,
+     "share": 0.022152351007574674,
+     "base_size": 38,
+     "rate": 0.44315789473684203,
+     "gap": -0.023990273080470748,
+     "weighted_gap": 4.342958301452472e-05,
+     "std_err": 0.08058486456251736,
+     "z": -0.29770197183689756,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Other",
+     "order": 1,
+     "size": 346,
+     "share": 0.016483254728216854,
+     "base_size": 24,
+     "rate": 0.6316666666666665,
+     "gap": 0.1645184988493537,
+     "weighted_gap": 0.0001881017565806531,
+     "std_err": 0.09845978216360073,
+     "z": 1.6709208088231382,
+     "reliable": false
+    },
+    {
+     "subgroup": "race=Unknown",
+     "order": 1,
+     "size": 564,
+     "share": 0.026868657996284122,
+     "base_size": 30,
+     "rate": 0.47866666666666663,
+     "gap": 0.011518498849353853,
+     "weighted_gap": 1.646205352201494e-05,
+     "std_err": 0.09120396352660867,
+     "z": 0.12629384079337014,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White",
+     "order": 1,
+     "size": 15584,
+     "share": 0.7424134152732124,
+     "base_size": 1432,
+     "rate": 0.46776536312849154,
+     "gap": 0.0006171953111787642,
+     "weighted_gap": 4.21048871234334e-05,
+     "std_err": 0.013185423648020066,
+     "z": 0.046808910176461625,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female",
+     "order": 1,
+     "size": 11164,
+     "share": 0.5318469820399219,
+     "base_size": 995,
+     "rate": 0.44767839195979925,
+     "gap": -0.019469775857513527,
+     "weighted_gap": 0.000922892047936066,
+     "std_err": 0.015764040541786966,
+     "z": -1.23507522109598,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male",
+     "order": 1,
+     "size": 9827,
+     "share": 0.46815301796007813,
+     "base_size": 888,
+     "rate": 0.4889639639639644,
+     "gap": 0.021815796146651634,
+     "weighted_gap": 0.0009228920479360989,
+     "std_err": 0.016774813740343317,
+     "z": 1.3005089942778194,
+     "reliable": true
+    }
+   ],
+   "top_weighted": [
+    {
+     "subgroup": "sex=Female & age_band=60-79",
+     "order": 2,
+     "size": 5196,
+     "share": 0.24753465771044733,
+     "base_size": 474,
+     "rate": 0.409029535864979,
+     "gap": -0.0581186319523338,
+     "weighted_gap": 0.0013123829996382365,
+     "std_err": 0.022582449715149486,
+     "z": -2.5736194560568326,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.7092783505154638,
+     "gap": 0.24213018269815106,
+     "weighted_gap": 0.001118890368335032,
+     "std_err": 0.0461063955585034,
+     "z": 5.2515530603756995,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=White & age_band=60-79",
+     "order": 3,
+     "size": 3872,
+     "share": 0.18446000666952503,
+     "base_size": 353,
+     "rate": 0.41099150141643065,
+     "gap": -0.05615666640088213,
+     "weighted_gap": 0.0009443715515940826,
+     "std_err": 0.026187247246639987,
+     "z": -2.144428006196315,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male",
+     "order": 1,
+     "size": 9827,
+     "share": 0.46815301796007813,
+     "base_size": 888,
+     "rate": 0.4889639639639644,
+     "gap": 0.021815796146651634,
+     "weighted_gap": 0.0009228920479360989,
+     "std_err": 0.016774813740343317,
+     "z": 1.3005089942778194,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female",
+     "order": 1,
+     "size": 11164,
+     "share": 0.5318469820399219,
+     "base_size": 995,
+     "rate": 0.44767839195979925,
+     "gap": -0.019469775857513527,
+     "weighted_gap": 0.000922892047936066,
+     "std_err": 0.015764040541786966,
+     "z": -1.23507522109598,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=<40",
+     "order": 2,
+     "size": 805,
+     "share": 0.03834976894859702,
+     "base_size": 60,
+     "rate": 0.7206666666666666,
+     "gap": 0.2535184988493538,
+     "weighted_gap": 0.0007246491320547486,
+     "std_err": 0.05792325701912578,
+     "z": 4.376799784681377,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=<40",
+     "order": 2,
+     "size": 807,
+     "share": 0.038445047877661856,
+     "base_size": 55,
+     "rate": 0.7410909090909089,
+     "gap": 0.27394274127359614,
+     "weighted_gap": 0.0007177767028749363,
+     "std_err": 0.05906470620563967,
+     "z": 4.638010732159357,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=60-79",
+     "order": 2,
+     "size": 4856,
+     "share": 0.231337239769425,
+     "base_size": 462,
+     "rate": 0.4971428571428572,
+     "gap": 0.029994689325544444,
+     "weighted_gap": 0.0006601660934877582,
+     "std_err": 0.023261725467387768,
+     "z": 1.2894438706877565,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=60-79",
+     "order": 1,
+     "size": 10052,
+     "share": 0.4788718974798723,
+     "base_size": 936,
+     "rate": 0.4525213675213674,
+     "gap": -0.014626800295945375,
+     "weighted_gap": 0.000652216906150487,
+     "std_err": 0.01626916291067425,
+     "z": -0.8990505766187075,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & race=White",
+     "order": 2,
+     "size": 7543,
+     "share": 0.3593444809680339,
+     "base_size": 697,
+     "rate": 0.48263988522238216,
+     "gap": 0.015491717405069383,
+     "weighted_gap": 0.0005143979339399438,
+     "std_err": 0.018927431696076042,
+     "z": 0.8184796360026523,
+     "reliable": true
+    }
+   ],
+   "top_raw_gap": [
+    {
+     "subgroup": "sex=Female & race=White & age_band=<40",
+     "order": 3,
+     "size": 456,
+     "share": 0.021723595826782908,
+     "base_size": 33,
+     "rate": 0.7915151515151514,
+     "gap": 0.3243669836978386,
+     "weighted_gap": 0.0005099380907069064,
+     "std_err": 0.07071473131792706,
+     "z": 4.5869789455822705,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=<40",
+     "order": 2,
+     "size": 807,
+     "share": 0.038445047877661856,
+     "base_size": 55,
+     "rate": 0.7410909090909089,
+     "gap": 0.27394274127359614,
+     "weighted_gap": 0.0007177767028749363,
+     "std_err": 0.05906470620563967,
+     "z": 4.638010732159357,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Black & age_band=<40",
+     "order": 2,
+     "size": 432,
+     "share": 0.02058024867800486,
+     "base_size": 33,
+     "rate": 0.7406060606060606,
+     "gap": 0.2734578927887478,
+     "weighted_gap": 0.00042990379029244334,
+     "std_err": 0.07629860072580717,
+     "z": 3.5840485957464443,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=White & age_band=<40",
+     "order": 2,
+     "size": 805,
+     "share": 0.03834976894859702,
+     "base_size": 60,
+     "rate": 0.7206666666666666,
+     "gap": 0.2535184988493538,
+     "weighted_gap": 0.0007246491320547486,
+     "std_err": 0.05792325701912578,
+     "z": 4.376799784681377,
+     "reliable": true
+    },
+    {
+     "subgroup": "age_band=<40",
+     "order": 1,
+     "size": 1373,
+     "share": 0.06540898480301081,
+     "base_size": 97,
+     "rate": 0.7092783505154638,
+     "gap": 0.24213018269815106,
+     "weighted_gap": 0.001118890368335032,
+     "std_err": 0.0461063955585034,
+     "z": 5.2515530603756995,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Male & age_band=<40",
+     "order": 2,
+     "size": 566,
+     "share": 0.026963936925348958,
+     "base_size": 42,
+     "rate": 0.6676190476190476,
+     "gap": 0.20047087980173478,
+     "weighted_gap": 0.0004011136654600954,
+     "std_err": 0.0726871729817454,
+     "z": 2.757995277269634,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=Black & age_band=80+",
+     "order": 3,
+     "size": 299,
+     "share": 0.014244199895193177,
+     "base_size": 32,
+     "rate": 0.36625,
+     "gap": -0.10089816781731276,
+     "weighted_gap": 0.0001538155099878047,
+     "std_err": 0.0851672871287738,
+     "z": -1.1847056683249015,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & race=Black & age_band=60-79",
+     "order": 3,
+     "size": 961,
+     "share": 0.04578152541565433,
+     "base_size": 94,
+     "rate": 0.3787234042553191,
+     "gap": -0.08842476356199369,
+     "weighted_gap": 0.00039597578842491576,
+     "std_err": 0.05003105283855061,
+     "z": -1.7673976169827759,
+     "reliable": true
+    },
+    {
+     "subgroup": "race=Black & age_band=80+",
+     "order": 2,
+     "size": 405,
+     "share": 0.019293983135629557,
+     "base_size": 46,
+     "rate": 0.4034782608695652,
+     "gap": -0.0636699069477476,
+     "weighted_gap": 0.00013952721259570243,
+     "std_err": 0.07233430148415611,
+     "z": -0.8802173469760217,
+     "reliable": true
+    },
+    {
+     "subgroup": "sex=Female & age_band=60-79",
+     "order": 2,
+     "size": 5196,
+     "share": 0.24753465771044733,
+     "base_size": 474,
+     "rate": 0.409029535864979,
+     "gap": -0.0581186319523338,
+     "weighted_gap": 0.0013123829996382365,
+     "std_err": 0.022582449715149486,
+     "z": -2.5736194560568326,
+     "reliable": true
+    }
+   ],
+   "worst_single": {
+    "subgroup": "age_band=<40",
+    "order": 1,
+    "size": 1373,
+    "share": 0.06540898480301081,
+    "base_size": 97,
+    "rate": 0.7092783505154638,
+    "gap": 0.24213018269815106,
+    "weighted_gap": 0.001118890368335032,
+    "std_err": 0.0461063955585034,
+    "z": 5.2515530603756995,
+    "reliable": true
+   },
+   "worst_intersection": {
+    "subgroup": "sex=Female & race=White & age_band=<40",
+    "order": 3,
+    "size": 456,
+    "share": 0.021723595826782908,
+    "base_size": 33,
+    "rate": 0.7915151515151514,
+    "gap": 0.3243669836978386,
+    "weighted_gap": 0.0005099380907069064,
+    "std_err": 0.07071473131792706,
+    "z": 4.5869789455822705,
+    "reliable": true
+   },
+   "gerrymandering_ratio": 1.3396387847367512,
+   "max_weighted_gap": 0.0013123829996382365,
+   "max_weighted_gap_single": 0.001118890368335032,
+   "rich": {
+    "weighted_gap": 0.0019542158687081658,
+    "group_share": 0.48049163927397454,
+    "group_rate": 0.42550253807106597,
+    "overall_rate": 0.4671481678173128
+   },
+   "train_max_weighted_gap": 0.0010086994172481421,
+   "train_rich": {
+    "weighted_gap": 0.0030379543728544537,
+    "group_share": 0.550542069050001,
+    "group_rate": 0.5099858290033065,
+    "overall_rate": 0.4396995903504779
+   }
+  }
+ },
+ "tradeoff": {
+  "marginal_fair": [
+   {
+    "gamma": 0.02,
+    "accuracy": 0.678195417083512,
+    "balanced_accuracy": 0.6092477691443032,
+    "max_weighted_gap": 0.0027419636359845997,
+    "worst_intersection_gap": 0.3434075218461836,
+    "worst_single_gap": 0.28811230160250967
+   },
+   {
+    "gamma": 0.01,
+    "accuracy": 0.678195417083512,
+    "balanced_accuracy": 0.6092477691443032,
+    "max_weighted_gap": 0.0027419636359845997,
+    "worst_intersection_gap": 0.3434075218461836,
+    "worst_single_gap": 0.28811230160250967
+   },
+   {
+    "gamma": 0.005,
+    "accuracy": 0.678195417083512,
+    "balanced_accuracy": 0.6092477691443032,
+    "max_weighted_gap": 0.0027419636359845997,
+    "worst_intersection_gap": 0.3434075218461836,
+    "worst_single_gap": 0.28811230160250967
+   },
+   {
+    "gamma": 0.0025,
+    "accuracy": 0.6777094945452813,
+    "balanced_accuracy": 0.6074584931936764,
+    "max_weighted_gap": 0.001877621830846607,
+    "worst_intersection_gap": 0.29396932683178034,
+    "worst_single_gap": 0.21628110440128978
+   },
+   {
+    "gamma": 0.001,
+    "accuracy": 0.6735639083416702,
+    "balanced_accuracy": 0.6040085397690808,
+    "max_weighted_gap": 0.0007298315366829189,
+    "worst_intersection_gap": 0.16348830846972107,
+    "worst_single_gap": 0.1107922759798744
+   }
+  ],
+  "subgroup_fair": [
+   {
+    "gamma": 0.02,
+    "accuracy": 0.678195417083512,
+    "balanced_accuracy": 0.6092477691443032,
+    "max_weighted_gap": 0.0027419636359845997,
+    "worst_intersection_gap": 0.3434075218461836,
+    "worst_single_gap": 0.28811230160250967
+   },
+   {
+    "gamma": 0.01,
+    "accuracy": 0.678195417083512,
+    "balanced_accuracy": 0.6092477691443032,
+    "max_weighted_gap": 0.0027419636359845997,
+    "worst_intersection_gap": 0.3434075218461836,
+    "worst_single_gap": 0.28811230160250967
+   },
+   {
+    "gamma": 0.005,
+    "accuracy": 0.678195417083512,
+    "balanced_accuracy": 0.6092477691443032,
+    "max_weighted_gap": 0.0027419636359845997,
+    "worst_intersection_gap": 0.3434075218461836,
+    "worst_single_gap": 0.28811230160250967
+   },
+   {
+    "gamma": 0.0025,
+    "accuracy": 0.6777094945452813,
+    "balanced_accuracy": 0.6074584931936764,
+    "max_weighted_gap": 0.001877621830846607,
+    "worst_intersection_gap": 0.29396932683178034,
+    "worst_single_gap": 0.21628110440128978
+   },
+   {
+    "gamma": 0.001,
+    "accuracy": 0.673125625267972,
+    "balanced_accuracy": 0.6041220655799925,
+    "max_weighted_gap": 0.0007843788500713719,
+    "worst_intersection_gap": 0.16366822768309763,
+    "worst_single_gap": 0.1146710393044661
+   }
+  ]
+ },
+ "headline_gamma": 0.001
+}

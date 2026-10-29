@@ -1,0 +1,14 @@
+[project]
+name = "subgroup-audit"
+version = "1.0.0"
+description = "Replication of Kearns et al. (2018) fairness gerrymandering and a subgroup fairness audit tool"
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::RuntimeWarning:sklearn.*"]
