@@ -1,14 +1,17 @@
-# Hidden Unfairness
+# Hidden Unfairness in Clinical Risk Models
 
-**Replicating fairness gerrymandering in social and clinical data, and a tool to audit for it.**
+**Replicating fairness gerrymandering (Kearns et al., 2018) and auditing which patients clinical risk scores miss.**
 
-A model can look fair when you check one attribute at a time (equal error rates across sexes, and separately across races) and still treat a specific intersection, such as older White men or young Black patients, very differently. Kearns, Neel, Roth and Wu (2018) called this *fairness gerrymandering*. This repository:
+A risk model can look fair when you check one attribute at a time (equal miss rates across sexes, and separately across races) and still under-serve a specific combination of them, such as young Hispanic women or older White men. Kearns, Neel, Roth and Wu (2018) called this *fairness gerrymandering*. Clinical prediction is where it matters most: care-management programmes, readmission prevention and triage all enrol patients by risk score, and a hidden subgroup that the score under-rates simply never gets the care.
 
-1. **replicates** their finding on the dataset they used (Communities and Crime) and tests whether it holds on two more (UCI Adult, and a hospital readmission dataset);
-2. **fixes** it with their fictitious-play algorithm and maps what that costs in accuracy;
-3. **packages** the audit as a small product (FastAPI + Streamlit + Docker): upload predictions and get a report of the worst subgroups, with a plain-English summary whose numbers are checked against the computed results.
+This repository:
 
-> Status: research code written in about a day. Every number below comes from `results/*.json`, which `scripts/run_experiments.py` writes, and is measured on held-out test data unless marked *train*.
+1. **replicates** the paper's finding on its own dataset (Communities and Crime) as a check that the method and code are right;
+2. **applies** it to two public clinical datasets: 30-day hospital readmission (Diabetes 130-US) and high healthcare utilisation (MEPS, the setting of Obermeyer et al., 2019). It audits risk scores the way they are actually used: flag the top 20%, then ask who is missed, whether scores are calibrated for every subgroup, and whether patients with the same score are equally sick;
+3. **fixes** subgroup unfairness with the paper's fictitious-play algorithm and measures what that costs;
+4. **packages** the audit as a tool (FastAPI + Streamlit + Docker). A clinical or quality team uploads de-identified predictions and gets a report on the worst subgroups, with a plain-English summary whose every number is checked against the computed results.
+
+> Status: research code. Every number below comes from `results/*.json`, which `scripts/run_experiments.py` writes, and is measured on held-out test patients unless marked *train*. Nothing here is a validated clinical tool.
 
 ---
 
@@ -16,153 +19,204 @@ A model can look fair when you check one attribute at a time (equal error rates 
 
 - [Key results](#key-results)
 - [1. Background](#1-background)
-- [2. Question](#2-question)
+- [2. Questions](#2-questions)
 - [3. Data](#3-data)
 - [4. Method](#4-method)
-- [5. Results](#5-results)
-- [6. Comparison with the paper and its reference code](#6-comparison-with-the-paper-and-its-reference-code)
+- [5. Clinical results](#5-clinical-results)
+- [6. Replicating the paper](#6-replicating-the-paper)
 - [7. The audit tool](#7-the-audit-tool)
 - [8. Limitations](#8-limitations)
 - [9. What I would do next](#9-what-i-would-do-next)
 - [10. Reproduce](#10-reproduce)
+- [Appendix: Adult income](#appendix-adult-income)
 
 ---
 
 ## Key results
 
-| | Communities & Crime (FPR) | Adult income (FPR) | Diabetes readmission (FNR) |
-|---|---|---|---|
-| Baseline logistic regression accuracy | 84.8% | 84.9% | 67.8% (balanced 60.9%) |
-| Worst single-attribute gap | +12.2 pp (low % White) | +7.2 pp (age 60+) | +28.8 pp (age < 40) |
-| Worst intersectional gap | +29.8 pp (low % White ∧ low % Asian ∧ high % 65+; 32 rows) | +16.2 pp (male ∧ White ∧ 60+; 404 rows) | +34.3 pp (Black ∧ age < 40; 33 rows) |
-| Intersection ÷ single | 2.5× | 2.2× | 1.2× |
-| Subgroup-fair model: accuracy, worst size-weighted gap | 80.1%, 0.0171 (was 0.0307) | 81.1%, 0.0056 (was 0.0148) | 60.4% balanced, 0.00078 (was 0.00274) |
+**Clinical risk scores, audited as used (top 20% of patients flagged).** Both models are race-blind: race is used only to audit.
 
-*pp = percentage points. "Gap" = the subgroup's error rate minus the overall rate. The size-weighted gap is the paper's measure of unfairness (defined in §4).*
+| | MEPS: high utilisation (7,674 test adults) | Diabetes: 30-day readmission (20,991 test patients) |
+|---|---|---|
+| Who is missed most (FNR vs. average) | adults 18–29: **+43.8 ± 5.5 pp**; Hispanic 18–29: +53.7 ± 4.6 pp | patients under 40: **+24.1 ± 6.3 pp**; Black patients under 40: +26.4 ± 9.8 pp |
+| Worst calibration gap, single attribute | Asian patients: risk over-stated by 3.8 ± 2.4 pp | none above 2.8 pp (race unknown, ± 1.8): well calibrated |
+| Worst calibration gap, intersection | White men 65+: risk **under-stated by 11.8 ± 5.1 pp** (3.1× the single-attribute gap) | Hispanic patients 80+: −10.4 ± 12.9 pp (36 patients; within noise) |
+| High-need patients (≥ 3 chronic conditions) flagged | White 70%, Black **61%**, Hispanic **56%** | (no need measure) |
 
-**In one paragraph:** checking one attribute at a time understates the worst disparity by roughly 2–3.5× on Communities and Adult, for both logistic regression and gradient boosting. On Adult the effect is statistically solid: White men aged 60+ have a false positive rate 16.2 ± 4.1 points above average, over twice the largest single-attribute gap. Subgroup-fair training reduces the paper's size-weighted unfairness by 45–70%, at a cost of 4–5 accuracy points on Communities and Adult and under 1 balanced-accuracy point on Diabetes. Three results are less tidy than the paper's framing suggests:
-- **Readmission data:** the problem is mostly a single attribute (age under 40), so intersections add little (1.2×).
-- **Small subgroups:** size-weighting lets some small groups get *worse* under the "fair" model.
-- **Reference code:** the authors' reference code appears to contain an indexing bug in its cost update ([§6](#6-comparison-with-the-paper-and-its-reference-code)).
+**In one paragraph:**
+- **Who gets missed.** At realistic programme capacity both clinical scores miss young patients far more than older ones, and that is visible from age alone.
+- **Hidden at intersections.** The disparities that single attributes *hide* show up in **calibration** and in **measured need**. On MEPS the worst intersectional calibration gap is 3.1× the worst single-attribute one, and judged against chronic illness rather than the utilisation proxy, the worst missed subgroup is 2.0× the worst single attribute.
+- **Race and need.** Among adults with three or more chronic conditions, the utilisation model flags 70% of White patients but 61% of Black and 56% of Hispanic patients, echoing the proxy-label bias Obermeyer et al. found.
+- **The fix.** Fair training (§5.4) removes about two-thirds of the measured FNR disparity for 0.5–2.6 points of balanced accuracy. Equalising single attributes is already enough on these clinical datasets, because the dominant disparity is age.
+- **The replication works.** On the paper's own dataset the gerrymandering effect is clear (2.5–3.5×). My implementation tracks the paper, and the authors' reference code appears to contain an indexing bug ([§6](#6-replicating-the-paper)).
 
 ---
 
 ## 1. Background
 
-> Kearns, M., Neel, S., Roth, A. & Wu, Z. S. (2018). *Preventing Fairness Gerrymandering: Auditing and Learning for Subgroup Fairness.* Proceedings of the 35th International Conference on Machine Learning (ICML), PMLR 80. [arXiv:1711.05144](https://arxiv.org/abs/1711.05144)
+> Kearns, M., Neel, S., Roth, A. & Wu, Z. S. (2018). *Preventing Fairness Gerrymandering: Auditing and Learning for Subgroup Fairness.* ICML, PMLR 80. [arXiv:1711.05144](https://arxiv.org/abs/1711.05144)
 
-Standard fairness checks pick a few groups (e.g. men and women, then each race) and require a statistic such as the false positive rate (FPR) to be roughly equal across them. The paper shows that this can be satisfied while a structured subgroup defined by several attributes at once is treated very differently. Their proposal:
+**Subgroup fairness.**
+- Standard checks require a statistic, such as the false negative rate (FNR), to be roughly equal across a few pre-chosen groups.
+- The paper shows this can hold while a group defined by *several* attributes is treated very differently.
+- It proposes requiring fairness for **every** group in a rich class (all conjunctions of attributes, or all linear threshold functions of them), with each group's disparity **weighted by its size**.
+- It gives an algorithm that trains a model meeting that requirement: a game between a Learner and an Auditor, solved by fictitious play.
+- The authors released a reference implementation, [GerryFair](https://github.com/algowatchpenn/GerryFair) (MIT).
 
-- Require fairness for **every** group in a rich class *G* (e.g. all conjunctions of attributes, or all linear threshold functions of them).
-- Score each group by **size-weighted disparity**, so tiny groups don't dominate.
-- **Audit:** finding the most-violated group is a learning problem (hard in the worst case, workable with heuristics in practice).
-- **Learn:** a two-player game between a Learner and an Auditor, solved by fictitious play, gives a classifier that is fair to all of *G*.
+**Why healthcare.**
+- **Proxy labels.** Obermeyer et al. (2019, *Science*) showed that a widely used care-management algorithm, trained to predict *cost*, assigned Black patients the same risk score as White patients who were less sick. Cost is a proxy for need, and less is spent on Black patients with the same illness.
+- **Capacity.** Clinical scores are used with a fixed capacity: a programme enrols the top few percent.
+- **Calibration.** Clinicians read a score as "this patient's risk", so calibration matters as much as error rates.
 
-The authors released a reference implementation, [GerryFair](https://github.com/algowatchpenn/GerryFair) (MIT licence).
+This project asks whether the subgroup lens of Kearns et al. finds problems that a standard clinical fairness check would miss.
 
-## 2. Question
+## 2. Questions
 
-1. Does a model that is fair by single attributes hide larger unfairness at intersections, on the paper's dataset and on two others?
-2. Does subgroup-fair training remove it, and how much accuracy does that cost?
-3. Do my results, and my implementation, agree with the paper and its reference code?
+1. **Replication:** on the paper's dataset, does a model that is fair by single attributes hide larger unfairness at intersections, and does fictitious play fix it?
+2. **Clinical audit:** when clinical risk scores are used as in practice (top 20% flagged), which patient subgroups are missed, mis-calibrated, or under-served relative to their actual illness? Do single-attribute checks find them?
+3. **Mitigation:** what does subgroup-fair training cost in accuracy on clinical data?
 
 ## 3. Data
 
-| Dataset | Rows | Outcome (1 =) | Protected attributes | Audited metric |
+| Dataset | Patients / rows | Outcome (1 =) | Protected attributes | Role |
 |---|---|---|---|---|
-| [Communities and Crime](https://archive.ics.uci.edu/dataset/183/communities+and+crime) (UCI), used in the paper | 1,994 communities | in the top 30% for violent crime per capita (583 positives, as in GerryFair) | 18 attributes from GerryFair's `communities_protected.csv` for the paper-setting experiment; 7 median-split demographic shares (race, foreign-born, age 65+, age 12–29) for the enumerated audit | false positive rate |
-| [Adult](https://archive.ics.uci.edu/dataset/2/adult) (UCI) | 45,222 people | income > $50K | sex, race (White / Black / Asian-PI / Other), age band (<30, 30–44, 45–59, 60+) | false positive rate |
-| [Diabetes 130-US hospitals](https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008) (UCI; Strack et al., 2014) | 69,970 patients (first encounter each) | readmitted within 30 days (9.0%) | sex, race (6 groups incl. unknown), age band (<40, 40–59, 60–79, 80+) | **false negative rate**: a missed high-risk patient is the costly error |
+| [MEPS 2015](https://meps.ahrq.gov/mepsweb/data_stats/download_data_files_detail.jsp?cboPufNumber=HC-181) (AHRQ, file HC-181) | 25,577 adults | 10+ visits/nights of care in the year (21%) | sex, race/ethnicity (White, Black, Hispanic, Asian, Other), age band | clinical, main |
+| [Diabetes 130-US hospitals](https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008) (UCI; Strack et al., 2014) | 69,970 patients | readmitted within 30 days (9.0%) | sex, race (6 groups incl. unknown), age band | clinical |
+| [Communities and Crime](https://archive.ics.uci.edu/dataset/183/communities+and+crime) (UCI) | 1,994 communities | top 30% for violent crime (as in GerryFair) | GerryFair's 18 protected attributes; 7 median-split demographic shares for the enumerated audit | replication anchor (the paper's dataset) |
+| [Adult](https://archive.ics.uci.edu/dataset/2/adult) (UCI) | 45,222 people | income > $50K | sex, race, age band | [appendix](#appendix-adult-income) |
 
-Why a clinical dataset: bias in clinical risk tools is a documented, high-stakes problem (Obermeyer et al., 2019, *Science*, found racial bias in a widely used care-management algorithm).
-
-Preprocessing notes:
-- **Communities & Crime:** missing police statistics are imputed with the median. Rows are *communities*, so "subgroups" are kinds of community, not people.
-- **Diabetes:** one encounter per patient, so the same person never appears in both train and test. Patients discharged to hospice or who died are excluded. Positives are weighted 10.2× (the class ratio) so the model actually flags patients.
-
-All experiments use one stratified 70/30 train/test split (seed 0).
+Clinical modelling choices:
+- **Race-blind models.** Race is never a model input, as for many deployed clinical scores; it is used only to audit.
+- **One encounter per patient (Diabetes).** Only each patient's first encounter is kept, so no patient is in both train and test. Patients discharged to hospice or who died are excluded.
+- **MEPS label and need measure.** The label follows AIF360's MEPS benchmark (office + outpatient + ER visits + inpatient nights + home health ≥ 10). Need is measured independently as the number of 13 diagnosed chronic conditions (hypertension, heart disease, diabetes, COPD, cancer, arthritis, asthma, …). Survey weights are not used, so rates describe the sample, not the US population.
+- **Positive weighting.** Positives are up-weighted by the class ratio for the 0/1 classifiers, so rare outcomes are actually flagged. Risk scores come from an unweighted logistic regression, so they are calibrated overall.
+- **Split.** One stratified 70/30 train/test split (seed 0).
 
 ## 4. Method
 
-**Metrics.** For a group *g* and a metric (FPR, FNR, …), the **gap** is `rate(g) − rate(all)`. The paper's **size-weighted disparity** is
+**Measures.** For a group *g*, the **gap** is `rate(g) − rate(all)`, reported with a 95% interval. The paper's **size-weighted disparity** is
 
 ```
-γ(g) = α(g) · |rate(g) − rate(all)|,   α(g) = share of all rows that are in g AND in the metric's base population
+γ(g) = α(g) · |rate(g) − rate(all)|,    α(g) = share of all patients that are in g AND in the metric's base population
 ```
 
-For FPR the base population is the true negatives; for FNR it is the true positives. I report both the raw gap (with a 95% binomial interval) and the weighted gap. A raw gap is called *reliable* if the group has ≥ 30 base-population rows in the test set.
+| Metric | Base population | Clinical meaning |
+|---|---|---|
+| False negative rate (FNR) | patients who had the outcome | **missed** patients |
+| False positive rate | patients who did not | false alarms |
+| Calibration gap | everyone | mean predicted risk − observed rate; < 0 = risk **under-stated** for that group |
 
-**Audit** ([`src/subgroup_audit/audit.py`](src/subgroup_audit/audit.py)):
-- *Single-attribute check*: every value of every protected attribute.
-- *Enumerated subgroup audit*: every conjunction of up to three attribute values (e.g. `sex=Male ∧ race=White ∧ age=60+`), checked exhaustively, which is tens to hundreds of groups.
-- *Linear-threshold audit*: the paper's richer class, {x : w·x′ > 0} over the protected attributes. Found as in GerryFair by regressing each base row's error residual on x′.
+A gap is *reliable* if the group has ≥ 30 patients in the base population.
 
-**Fix: fictitious play** ([`src/subgroup_audit/mitigation.py`](src/subgroup_audit/mitigation.py)). Each round:
-1. The *Learner* best-responds to the Auditor's average Lagrange multipliers by solving a cost-sensitive classification problem. I reduce this to weighted classification, so any scikit-learn model works; I used logistic regression and gradient boosting.
-2. The *Auditor* best-responds to the Learner's average classifier by returning the group with the largest weighted disparity. If that disparity exceeds γ, the group's multiplier grows (bounded by C = 10).
+**Three clinical audits of the same risk score** ([`experiments.py`](src/subgroup_audit/experiments.py)):
+1. **Capacity:** flag the top 20% of test patients by risk score (a typical care-management capacity), then compute FNR by subgroup.
+2. **Calibration:** calibration gap of the raw scores by subgroup.
+3. **Need (MEPS):**
+   - Audit the same flags against an *independent* label: ≥ 3 chronic conditions.
+   - Compare mean chronic conditions across races within each risk-score decile, the analysis behind Obermeyer et al.'s main figure.
 
-The output is the uniform mixture of the Learner's classifiers, a randomised classifier, so reported rates are expected rates.
+**Search** ([`audit.py`](src/subgroup_audit/audit.py)):
+- Every value of each protected attribute (the *single-attribute check*).
+- Every conjunction of up to three values (e.g. `sex=Female ∧ race=Hispanic ∧ age=18–29`).
+- The paper's linear-threshold class, used in the replication.
 
-**The gerrymandering experiment.** The same learner is run twice with different auditors:
-- **Fair on single attributes**: the auditor only sees order-1 groups. This is a model that passes the standard check.
-- **Fair on subgroups**: the auditor sees all conjunctions up to order 3 (or linear thresholds in the paper setting).
+**Fix: fictitious play** ([`mitigation.py`](src/subgroup_audit/mitigation.py)).
+- **Learner:** best-responds to the Auditor's average Lagrange multipliers by cost-sensitive classification, reduced here to weighted classification so logistic regression or gradient boosting can be used. False negatives cost `positive_cost` times more than false positives.
+- **Auditor:** returns the subgroup with the largest weighted disparity. If it exceeds γ, that subgroup's multiplier grows (bounded by C = 10).
+- **Output:** the uniform mixture of the Learner's models.
+- **Gerrymandering test:** the same learner with an auditor that sees only single attributes gives "fair on single attributes"; with conjunctions, "fair on subgroups".
+- **γ by dataset:** MEPS 0.002, Diabetes 0.001, Communities 0.005. FNR disparities are weighted by the share of positives, so they are smaller on rare outcomes.
 
-Then both are audited on intersections. Sweeping γ ∈ {0.02, 0.01, 0.005, 0.0025, 0.001} traces the trade-off. Headline models use γ = 0.005, or 0.001 for Diabetes: its FNR disparities are weighted by the share of positives (9%), so they are about 10× smaller.
+## 5. Clinical results
 
-## 5. Results
+### 5.1 Who a care-management programme misses
 
-### 5.1 Single attributes hide intersectional gaps
+Flagging the top 20% of patients by risk, then looking at FNR (share of patients who had the outcome but were not flagged):
 
-![Adult, worst gaps](figures/adult_worst_gaps.png)
-![Communities, worst gaps](figures/communities_worst_gaps.png)
+![MEPS capacity](figures/meps_capacity_missed.png)
 
-Across every model on Communities and Adult (both baselines, and both fair models), the worst intersection is 1.9–4.1× the worst single attribute. Gradient boosting shows *more* hidden unfairness than logistic regression: on Adult its worst intersection is Asian/Pacific Islander men aged 45–59, +21.8 ± 14.3 pp.
+**MEPS (overall FNR 43.9%):**
+- Age dominates. Adults 18–29 who become high users are missed 43.8 ± 5.5 pp more often than average, and 30–44 year-olds 29.8 ± 5.2 pp more, while patients 65+ are missed 19.5 pp *less*.
+- A plausible reason, not tested here: young patients who become high users have fewer recorded diagnoses for the score to draw on.
+- Race on its own shows small, non-significant gaps (Hispanic +7.3 ± 5.6, Black −4.3 ± 5.9).
+- Hispanic adults 18–29 are missed most of all (+53.7 ± 4.6 pp).
 
-**Adult, baseline logistic regression** ([full chart](figures/adult_baseline_gaps.png)):
-- Single-attribute FPR gaps are all within about 7 points.
-- But men × White × 60+ sit 16.2 ± 4.1 points above average (404 true negatives), and men × 60+ sit 14.7 ± 3.8 points above.
-- The single-attribute check flags "age 60+" (+7.2 pp) but misses that the effect is concentrated in older White men.
+![Diabetes capacity](figures/diabetes_capacity_missed.png)
 
-**A model that passes the single-attribute check** (fair on single attributes, γ = 0.005):
+**Diabetes readmission (overall FNR 64.5%):** readmission is hard to predict, and flagging the top 20% catches only about a third of readmissions. Patients under 40 are missed 24.1 ± 6.3 pp more often than average, those over 80 14.0 ± 4.8 pp *less*. Race on its own shows no significant gap (Black +3.7 ± 4.9 pp).
 
-![Adult gerrymandering](figures/adult_gerrymandering.png)
+**Single attributes vs. intersections here:** the worst intersection is only 1.2× (MEPS) and 1.1× (Diabetes) the worst single attribute. On missed patients, a standard by-age check would already find the main problem.
 
-Every single-attribute gap is now within ±5 pp, but intersections reach +9.5 pp, and several are significantly below average (e.g. young Black men, −7 pp). By the paper's own measure the largest size-weighted violation (0.0073) now sits at an intersection, above both γ and every single attribute (0.0065). This is fairness gerrymandering as the paper defines it.
+### 5.2 Calibration: where intersections hide the problem
 
-**Communities & Crime** ([chart](figures/communities_gerrymandering.png)):
-- Same direction: the model that is fair on single attributes still has communities with low % White ∧ low % Asian ∧ high % aged 65+ at +24.9 pp.
-- But the test set has only 599 communities, so that group has 32 true negatives and its 95% interval is ±17 pp. Treat C&C intersections as indicative, not conclusive.
+![MEPS calibration](figures/meps_calibration.png)
 
-**Diabetes readmission** ([chart](figures/diabetes_baseline_gaps.png)): the baseline misses readmissions of patients under 40 far more often than average: FNR +28.8 ± 8.5 pp (97 readmitted patients in the test set). The worst intersection, Black patients under 40, is +34.3 ± 13.2 pp, only 1.2× the single-attribute gap, and with 33 patients its interval overlaps it.
-  - **No meaningful gerrymandering here.** The single-attribute check already finds the real problem: the model leans on age, and younger patients' readmissions are under-predicted.
-  - **Single-attribute fairness is enough on this dataset.** With γ = 0.001, training for single attributes cuts the worst weighted gap from 0.00274 to 0.00073 and the under-40 gap to +11.1 pp, for 0.5 points of balanced accuracy. Subgroup-fair training performs the same (0.00078).
-  - **Why this matters:** it is a useful negative result. Gerrymandering is a risk to test for, not something guaranteed to appear.
+A calibration gap below zero means the model **under-states** that group's risk compared with everyone else.
 
-### 5.2 Fixing it, and what it costs
+- **Single attributes look acceptable.** On MEPS no single attribute is off by more than 3.8 pp: Asian +3.8 ± 2.4, Black +3.4 ± 1.7, White −3.2 ± 1.4, age 65+ −3.4 ± 2.4.
+- **Intersections are not.** For **White men aged 65+** (323 patients) the model under-states the chance of high utilisation by **11.8 ± 5.1 pp**, 3.1× the worst single-attribute gap. Women 45–64 of Asian ethnicity are over-stated by 8.0 ± 6.5 pp.
+- This is fairness gerrymandering in the quantity clinicians actually read off a risk score.
+- **Why it matters for the Obermeyer question.** The race-blind model *over*-predicts utilisation for Black patients overall (+3.4 pp). Given their recorded diagnoses, Black patients use less care than the model expects. That is the same mechanism behind proxy-label bias: lower utilisation at equal illness.
 
-![Adult trade-off](figures/adult_tradeoff.png)
-![Communities trade-off](figures/communities_tradeoff.png)
+![Diabetes calibration](figures/diabetes_calibration.png)
+
+**Diabetes:** single attributes are well calibrated (all within 2.8 pp). Intersections show larger deviations, the worst being Hispanic patients over 80 at −10.4 ± 12.9 pp, but with 36 patients most are within noise. The clearest is women of unknown race aged 80+, whose risk is over-stated by 7.7 ± 4.2 pp (67 patients). Here calibration largely holds at the subgroup level, a useful contrast with MEPS.
+
+### 5.3 Utilisation is a proxy for need
+
+The MEPS model predicts *utilisation*, but a care-management programme exists for patients with high *need*. Auditing the same top-20% flags against an independent need label (≥ 3 chronic conditions):
+
+| | White | Black | Hispanic |
+|---|---|---|---|
+| High-need patients in test set | 916 | 380 | 318 |
+| Share of them flagged | 70% | **61%** | **56%** |
+| Mean chronic conditions among flagged | 3.92 | 3.97 | 3.50 |
+
+- **Race gap.** Black high-need patients are 9 points less likely to be flagged than White high-need patients (≈ 3 standard errors), and Hispanic high-need patients 14 points less. Part of this may reflect age differences between the groups, which this table does not adjust for.
+- **Intersections.** Against need, the worst missed subgroup (White men 30–44, +55.1 ± 10.4 pp, 31 patients) is 2.0× the worst single attribute (age 30–44, +27.4 ± 8.0). Intersections matter more once the label reflects need rather than use.
+
+![Need by score](figures/meps_need_by_score.png)
+
+**Obermeyer-style check.**
+- In the middle risk deciles (5–7), Black patients carry 0.26–0.37 more chronic conditions than White patients with the same score, the direction Obermeyer et al. reported.
+- In the top two deciles, where the programme actually enrols, the curves meet (decile 10: 4.66 vs. 4.64).
+- This model sees diagnoses directly, unlike a model trained on past cost, so the proxy bias is weaker at the very top. It shows up instead as fewer Black and Hispanic patients reaching the top 20% at all (flagged: White 27%, Black 20%, Hispanic 12%).
+- Per-decile means for Black and Hispanic patients rest on about 150 and 220 patients on average, so treat single-decile differences as indicative.
+
+![MEPS need missed](figures/meps_need_missed.png)
+
+### 5.4 Fixing it, and what it costs
+
+| Model (0/1 classifier) | MEPS: balanced acc. / worst weighted FNR gap | Diabetes: balanced acc. / worst weighted FNR gap |
+|---|---|---|
+| Baseline logistic regression | 76.0% / 0.0158 | 60.9% / 0.0027 |
+| Fair on single attributes | 73.3% / 0.0052 | 60.2% / 0.0010 |
+| Fair on subgroups (logistic) | 73.4% / 0.0052 | 60.4% / 0.0009 |
+| Fair on subgroups (boosting) | 73.6% / 0.0044 | 60.6% / 0.0010 |
+
+![MEPS trade-off](figures/meps_tradeoff.png)
 ![Diabetes trade-off](figures/diabetes_tradeoff.png)
 
-| γ = 0.005 (Diabetes: 0.001) | Communities acc. / worst weighted gap | Adult acc. / worst weighted gap | Diabetes bal. acc. / worst weighted gap |
-|---|---|---|---|
-| Baseline logistic regression | 84.8% / 0.0307 | 84.9% / 0.0148 | 60.9% / 0.00274 |
-| Fair on single attributes | 81.3% / 0.0208 | 81.8% / 0.0073 | 60.4% / 0.00073 |
-| Fair on subgroups (logistic) | 80.1% / 0.0171 | 81.1% / 0.0056 | 60.4% / 0.00078 |
-| Fair on subgroups (boosting) | 80.7% / 0.0187 | 82.3% / 0.0061 | 60.6% / 0.00131 |
+- **Effect.** Fair training cuts the worst size-weighted FNR disparity by about two-thirds on both clinical datasets: on MEPS for 2.6 points of balanced accuracy (the 18–29 miss-rate gap falls from +46.7 to +20.4 pp), and on Diabetes for 0.5 points (the under-40 gap falls from +28.8 to +9.2 pp).
+- **Single-attribute fairness is enough here.** Training for single attributes and training for subgroups give the same result on both clinical datasets: the dominant disparity is age, a single attribute, so fixing it fixes most intersections too.
+- **The constraint is only approximately met.** On MEPS the trade-off flattens below γ = 0.0025: in-sample violations stay near 0.004 after 50 iterations, short of γ = 0.002.
 
-- **Accuracy cost.** Subgroup fairness costs about 4–5 accuracy points on Communities and Adult, and half a balanced-accuracy point on Diabetes, where the main disparity is easy to correct.
-- **Subgroup-fair is consistently better per unit of accuracy.** At about 80% accuracy on Adult, subgroup-fair training reaches a worst weighted gap of 0.0039 against 0.0066 for single-attribute-fair training.
-- **In-sample, the constraint is met.** On Adult the training-set worst weighted gap is 0.0046 ≤ γ.
-- **Out-of-sample, it holds only partly.** On test it is 0.0056, and on Communities 0.0171 vs. 0.0044 on train.
+## 6. Replicating the paper
 
-**What the weighted measure does not protect.** Because disparities are multiplied by group size, a small group can keep a large raw gap, or even get a larger one, while the weighted constraint is satisfied:
-- On Adult, Asian/Pacific Islander men aged 30–44 (67 test negatives) go from +15.3 pp under the baseline to +21.1 pp under the subgroup-fair model.
-- This is a property of the paper's definition, not a bug. It is the main reason the audit tool reports raw gaps with intervals next to weighted gaps.
+On **Communities & Crime**, the paper's dataset, the gerrymandering effect replicates clearly:
 
-## 6. Comparison with the paper and its reference code
+![Communities worst gaps](figures/communities_worst_gaps.png)
 
-**Paper setting.** Linear-threshold subgroups over the 18 protected attributes GerryFair uses for Communities & Crime, logistic-regression learner:
+| Model (test, FPR) | Accuracy | Worst single gap | Worst intersection | Ratio | Worst weighted gap |
+|---|---|---|---|---|---|
+| Logistic baseline | 84.8% | +12.2 pp (low % White) | +29.8 pp | 2.5× | 0.0307 |
+| Boosting baseline | 86.3% | +14.5 pp | +50.7 pp | 3.5× | 0.0366 |
+| Fair on single attributes | 81.3% | +8.3 pp | +24.9 pp | 3.0× | 0.0208 |
+| Fair on subgroups | 80.1% | +6.8 pp | +20.5 pp | 3.0× | 0.0171 |
+
+The worst intersection (low % White ∧ low % Asian ∧ high % aged 65+) has only 32 test negatives (95% interval ±17 pp), so treat it as indicative.
+
+**Paper setting.** Linear-threshold subgroups over the 18 protected attributes GerryFair uses for this dataset:
 
 ![Paper setting trade-off](figures/communities_paper_tradeoff.png)
 
@@ -175,15 +229,15 @@ Every single-attribute gap is now within ±5 pp, but intersections reach +9.5 pp
 | 0.001 | 19.8% | 0.0051 | 24.3% | 0.0147 |
 
 **Where my results agree with the paper:**
-1. Unconstrained models are far from subgroup-fair even when single-attribute checks look acceptable (§5.1).
-2. Fictitious play drives the auditor's in-sample violation down to about γ within 50 iterations, tracing a smooth error-vs-unfairness curve ([convergence](figures/communities_convergence.png)).
+1. Unconstrained models are far from subgroup-fair.
+2. Fictitious play drives the in-sample violation down to about γ ([convergence](figures/communities_convergence.png)).
 3. Lower γ costs accuracy.
 
-**Where they differ, or add something:**
-1. **Generalisation.** On 1,395 training communities the in-sample guarantee only partly carries over. Test unfairness falls from 0.030 to 0.015 while train unfairness falls to 0.002. The paper's guarantees are about the training distribution; the authors' follow-up empirical study (Kearns et al., FAT* 2019, arXiv:1808.08166) looks at generalisation in more depth.
-2. **Not universal.** Intersections add little on the readmission data (1.2×), where one attribute (age) carries most of the disparity.
-3. **Learner oracle.** GerryFair's learner solves cost-sensitive classification by regressing each cost with linear regression. I reduce it to *weighted* classification, which is equivalent in the limit and lets me plug in gradient boosting. Absolute error levels are therefore not directly comparable to the paper's figures.
-4. **I did not reproduce exact figures from the paper.** The comparison above is about shapes and directions. *(Before citing a numeric match, check against the experiment section of the paper.)*
+**Where they differ:**
+1. **Generalisation.** With 1,395 training communities the in-sample guarantee only partly carries over (test unfairness 0.030 → 0.015 vs. train 0.014 → 0.002). The authors' follow-up study (Kearns et al., FAT* 2019) examines this.
+2. **Not universal.** Gerrymandering in miss rates is weak on the clinical data (§5.1), where one attribute dominates. It is strong in calibration and against measured need (§5.2–5.3).
+3. **Learner oracle.** I use weighted classification instead of GerryFair's linear-regression cost oracle, so absolute error levels are not directly comparable to the paper's figures.
+4. **Shapes, not figures.** I compare shapes and directions, not exact numbers. *(Before citing a numeric match, check against the paper's experiment section.)*
 
 **Possible indexing bug in the reference implementation.** In GerryFair's `Auditor.update_costs` (`gerryfair/auditor.py`, master branch as downloaded on 29 Oct 2026):
 
@@ -196,29 +250,25 @@ for i in range(n):
         X_prime_0_index += 1     # ...so this increment never takes effect
 ```
 
-Because the index is reset inside the loop, every negative example receives the penalty of the *first* negative example, instead of its own group membership. The penalty therefore no longer targets the violating group.
-
-I could not run the original code in my environment. Instead `SubgroupFairClassifier(reference_index_bug=True)` reproduces this exact behaviour inside my implementation. On Communities & Crime (γ = 0.005):
-
-| | train error | train γ-unfairness | test error |
-|---|---|---|---|
-| correct per-row update | 17.0% | 0.0039 | 22.1% |
-| GerryFair's update (ported) | **67.9%** | 0.0019 | 68.0% |
-
-With the bug, the learner collapses to predicting "high crime" for nearly every community. That is trivially "fair" but useless. If confirmed by running GerryFair directly, this would affect any results produced with that version of the package. **Next step: confirm with the original code, then open an issue with the maintainers.**
+Every negative example receives the penalty of the *first* negative example, so the penalty no longer targets the violating group. I could not run the original package in my environment, so `SubgroupFairClassifier(reference_index_bug=True)` reproduces this behaviour in my code. On Communities & Crime (γ = 0.005), training error rises from 17.0% to **67.9%**: the learner collapses to flagging nearly every community, which is trivially "fair" but useless. **This needs confirming with the original code before reporting it to the maintainers.**
 
 ## 7. The audit tool
 
-Upload a CSV of true outcomes, model predictions and attributes. Pick the protected attributes and a metric. The tool searches all single attributes and their intersections and returns an interactive report and a PDF.
+For a clinical quality, equity or data-science team:
+1. Upload de-identified, patient-level predictions or risk scores.
+2. Set the programme capacity (flag the top X%).
+3. Choose what to compare: missed patients, false alarms or calibration.
+
+The tool searches single attributes and their intersections and returns an interactive report and a PDF.
 
 ![Screenshot](docs/screenshot_full.png)
 
 ```mermaid
 flowchart LR
-    U[User: CSV upload<br/>+ settings] --> S[Streamlit UI]
-    S -- "POST /audit (multipart)" --> A[FastAPI service]
-    A --> V[Validation<br/>tool.py]
-    V --> AU[Subgroup audit<br/>audit.py — same code<br/>as the replication]
+    U[Clinical team: CSV of<br/>outcomes + risk scores] --> S[Streamlit UI]
+    S -- "POST /audit" --> A[FastAPI service]
+    A --> V[Validation + capacity flagging<br/>tool.py]
+    V --> AU[Subgroup audit<br/>audit.py — same code<br/>as the research]
     AU --> F[facts: computed numbers only]
     F --> L[Claude: plain-English summary]
     L --> C{Every number<br/>in facts?}
@@ -230,86 +280,86 @@ flowchart LR
 ```
 
 **Keeping the AI summary trustworthy** ([`report.py`](src/subgroup_audit/report.py)):
-1. The LLM receives only a small dictionary of already-computed figures (`facts`), never the uploaded rows.
-2. The prompt requires numbers copied exactly. Every number in the reply is then extracted and matched against `facts`, and **one unmatched number rejects the whole summary**. The tool then falls back to a deterministic template and says so.
-3. The UI and PDF always show the computed figures and the table next to the text, along with a badge saying whether the text came from the LLM or the template.
+1. The LLM receives only a small dictionary of already-computed figures, never patient rows.
+2. Every number in its reply is extracted and matched against those figures. **One unmatched number rejects the summary**, and a deterministic template is shown instead, with a note saying so.
+3. The computed figures and tables are always displayed beside the text.
 
-The model is `claude-opus-5-5` (override with `AUDIT_LLM_MODEL`) with server-side refusal fallback enabled. Without an `ANTHROPIC_API_KEY`, the template is used. *The LLM path is covered by unit tests with a mocked model (accept, reject, failure). It has not yet been exercised against the live API in this repository.*
+The model is `claude-opus-5-5` (override with `AUDIT_LLM_MODEL`), with server-side refusal fallback. Without an `ANTHROPIC_API_KEY` the template is used. *The LLM path is covered by unit tests with a mocked model (accept, reject, failure). It has not yet been run against the live API in this repository.*
 
-**Validation against the replication.** `tests/test_validation.py` feeds the tool the replication's own test-set predictions (`examples/*.csv`) and asserts that it returns the same worst single attribute, worst intersection, top-10 weighted subgroups and maximum weighted gap as the replication pipeline. It passes for Adult and Diabetes.
+**Validation against the research code.** `tests/test_validation.py` feeds the tool the research pipeline's own test-set outputs (`examples/meps_*.csv`, `examples/diabetes_*.csv`). It checks that the tool finds the same worst single attribute, worst intersection, top-10 weighted subgroups and maximum weighted gap in three modes:
+- 0/1 predictions;
+- risk scores flagged at 20% capacity;
+- calibration.
 
 **API**
 
 ```bash
-curl -F file=@examples/adult_test_predictions.csv -F label_col=label -F pred_col=prediction \
-     -F protected_cols=sex,race,age_band -F metric=fpr localhost:8000/audit
+curl -F file=@examples/meps_test_predictions.csv -F label_col=label -F pred_col=risk_score \
+     -F protected_cols=sex,race,age_band -F metric=fnr -F flag_top_pct=20 localhost:8000/audit
 ```
 
 | Endpoint | Purpose |
 |---|---|
 | `GET /health` | liveness |
-| `POST /audit` | multipart CSV + `label_col`, `pred_col`, `protected_cols`, `metric` (`fpr`/`fnr`/`positive_rate`/`error_rate`), `max_order` (1–3), `min_size`, `use_llm` → JSON |
+| `POST /audit` | multipart CSV + `label_col`, `pred_col`, `protected_cols`, `metric` (`fnr`/`fpr`/`calibration`/`positive_rate`/`error_rate`), `flag_top_pct` (optional capacity), `max_order` (1–3), `min_size`, `use_llm` → JSON |
 | `POST /report/pdf` | `{"result": <audit JSON>}` → PDF |
 
-**Validation of inputs.**
-- Labels must be binary; predictions may be binary or probabilities.
+**Input rules.** Clear 422 errors are returned for problems:
+- Outcomes must be binary; predictions may be 0/1 or risk scores.
 - At most 5 protected attributes.
 - Numeric attributes with many values (e.g. raw age) are binned into quartiles.
 - Files are capped at 50 MB and 500,000 rows.
-- Clear 422 errors otherwise.
 
 **Run it**
 
 ```bash
-# Local
 pip install -r requirements.txt
 uvicorn app.api:app --port 8000 &
 API_URL=http://localhost:8000 streamlit run app/streamlit_app.py
-# UI only (runs the audit in-process; this is what a single free-tier container uses)
+# or, UI only (runs the audit in-process; used for a single free-tier container)
 streamlit run app/streamlit_app.py
-
-# Docker: API + UI as two services
-docker compose up --build        # UI on :8501, API on :8000
+# or, Docker: API + UI as two services (UI :8501, API :8000)
+docker compose up --build
 ```
 
-**Deploying a free demo.**
-- The `Dockerfile` runs the UI as a single container and honours `$PORT`, so it can be deployed as-is to Hugging Face Spaces (Docker SDK) or Render's free tier.
-- On Streamlit Community Cloud, point it at `app/streamlit_app.py`.
+**Deploying.**
+- The `Dockerfile` runs the UI in one container and honours `$PORT`, so it deploys as-is to Hugging Face Spaces (Docker SDK) or Render's free tier; on Streamlit Community Cloud, use `app/streamlit_app.py`.
 - Add `ANTHROPIC_API_KEY` as a secret to enable AI summaries.
+- Only upload de-identified data to any hosted demo.
 
 *(Live demo link: TODO after deployment.)*
 
 **Engineering.**
-- 25 unit, API and validation tests (`pytest`).
-- The metric tests include a hand-built "XOR" dataset where every single attribute has exactly the same FPR but every intersection is off by 15 points.
+- Unit, API and validation tests (`pytest`), including a hand-built dataset where every single attribute has exactly equal FPR but every intersection is off by 15 points.
 - GitHub Actions runs the tests, builds the Docker image and smoke-tests the API inside it.
 
 ## 8. Limitations
 
-- **One split, one seed.** No confidence intervals on the trade-off curves; Communities & Crime in particular would benefit from repeated splits.
-- **Small groups are noisy.** C&C intersections have 30–50 test negatives (intervals around ±15 pp). The audit reports intervals, but the "worst subgroup" list is still a multiple-comparisons search. Some extreme gaps will be noise.
-- **Communities are not people.** On C&C, "subgroups" are kinds of community defined by demographic shares. I binarised them at the median for the enumerated audit, which is a modelling choice.
-- **Size-weighting is a value judgement.** It deliberately tolerates large disparities in small groups (§5.2).
-- **The fair classifier is randomised.** Two people with identical features can receive different predictions. This is standard in this literature but may be unacceptable in some deployments.
-- **The reference-code finding uses a port,** not the original package (§6).
-- **Diabetes labels and attributes** come from hospital records. "Race" and readmission are recorded imperfectly, and FNR parity is one of several defensible clinical fairness criteria.
-- **The tool audits; it doesn't explain.** A gap is evidence to investigate, not proof of discrimination.
+- **Not clinically validated.** These are research models on public data. The audit shows where to look; it does not establish that any group is receiving worse care.
+- **Proxy labels.** Utilisation and readmission are proxies for need. My need measure (a count of 13 self-reported diagnosed conditions) is itself imperfect and depends on access to diagnosis. Under-diagnosed groups will look healthier than they are.
+- **Race and ethnicity** are recorded categories with "unknown" and "other" buckets, not biology. Results for small groups (Asian, Other) are noisy.
+- **MEPS survey weights are not used**, so rates describe the sample, not the US population.
+- **One split, one seed.** There are no intervals on trade-off curves, and the need-by-decile curves have no intervals either.
+- **Many comparisons.** Searching hundreds of subgroups and reporting the worst is a multiple-comparisons exercise, and some extreme small-group gaps will be noise.
+- **Size-weighting is a value judgement.** It deliberately tolerates large disparities in small groups. That is why the tool always shows raw gaps with intervals as well.
+- **Randomised predictions.** The fair classifier gives two identical patients possibly different predictions, which may be unacceptable clinically. The audit tool does not depend on it.
+- **Reference-code finding.** The GerryFair issue was studied through a port, not the original package.
 
 ## 9. What I would do next
 
-1. Run GerryFair directly to confirm the indexing issue, and report it to the maintainers.
-2. Repeat every experiment over 10 random splits and report intervals on the trade-off curves.
-3. Add the paper's richer auditor class to the tool, and a multiple-testing correction (e.g. Benjamini–Hochberg) on raw-gap flags.
-4. Compare with other intersectional methods (multicalibration; Hébert-Johnson et al., 2018).
-5. Test the LLM summary against the live API, with an evaluation of faithfulness and readability on many audits.
+1. Repeat the clinical audits with MEPS survey weights and over 10 random splits, with intervals on every curve.
+2. Use a need measure less dependent on access (e.g. physical-health scores, limitations, or lab values where available) and adjust the race–need comparison for age.
+3. Add subgroup **calibration** as a training constraint (multicalibration; Hébert-Johnson et al., 2018). It is the gap that intersections hide most here.
+4. Run GerryFair directly to confirm the indexing issue, and report it.
+5. Evaluate the LLM summaries with clinicians for faithfulness and usefulness.
 
 ## 10. Reproduce
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements-dev.txt
-bash scripts/download_data.sh          # ~25 MB from the UCI repository
-python scripts/run_experiments.py      # ~10 min on a laptop; writes results/ and figures/
+bash scripts/download_data.sh          # UCI datasets + MEPS 2015 (~40 MB)
+python scripts/run_experiments.py      # ~15 min on a laptop; writes results/ and figures/
 python scripts/make_examples.py        # example prediction files for the tool
 python scripts/build_notebook.py       # executes notebooks/replication.ipynb
 pytest -q
@@ -321,18 +371,28 @@ app/                  api.py (FastAPI) · streamlit_app.py
 scripts/              download_data.sh · run_experiments.py · make_examples.py · build_notebook.py
 notebooks/            replication.ipynb
 results/ figures/     generated outputs
-tests/                unit, API and replication-validation tests
+tests/                unit, API and validation tests
 ```
+
+## Appendix: Adult income
+
+Adult was the paper-adjacent check of whether the effect generalises beyond Communities & Crime. On the logistic baseline:
+- The worst single-attribute FPR gap is +7.2 pp (age 60+).
+- White men aged 60+ are at +16.2 ± 4.1 pp (404 test negatives), 2.2× the single-attribute gap.
+
+A model trained to be fair on single attributes still has its largest size-weighted violation (0.0073) at an intersection, above every single attribute (0.0065). Subgroup-fair training lowers it to 0.0056 at 81.1% accuracy (baseline 84.9%). See [figures/adult_gerrymandering.png](figures/adult_gerrymandering.png) and [figures/adult_tradeoff.png](figures/adult_tradeoff.png).
 
 ## References
 
 - Kearns, M., Neel, S., Roth, A., Wu, Z. S. (2018). Preventing Fairness Gerrymandering: Auditing and Learning for Subgroup Fairness. *ICML*. arXiv:1711.05144.
 - Kearns, M., Neel, S., Roth, A., Wu, Z. S. (2019). An Empirical Study of Rich Subgroup Fairness for Machine Learning. *FAT\**. arXiv:1808.08166.
-- GerryFair reference implementation: https://github.com/algowatchpenn/GerryFair (MIT).
 - Obermeyer, Z., Powers, B., Vogeli, C., Mullainathan, S. (2019). Dissecting racial bias in an algorithm used to manage the health of populations. *Science* 366(6464).
-- Strack, B. et al. (2014). Impact of HbA1c Measurement on Hospital Readmission Rates. *BioMed Research International*.
 - Hébert-Johnson, Ú., Kim, M., Reingold, O., Rothblum, G. (2018). Multicalibration. *ICML*.
+- Strack, B. et al. (2014). Impact of HbA1c Measurement on Hospital Readmission Rates. *BioMed Research International*.
+- Agency for Healthcare Research and Quality. Medical Expenditure Panel Survey, 2015 Full Year Consolidated Data File (HC-181).
+- Bellamy, R. et al. (2018). AI Fairness 360. arXiv:1810.01943 (source of the MEPS utilisation label).
+- GerryFair reference implementation: https://github.com/algowatchpenn/GerryFair (MIT).
 
 ## Licence
 
-MIT. Datasets are from the UCI Machine Learning Repository under their respective terms.
+MIT. Datasets are from the UCI Machine Learning Repository and AHRQ (MEPS public use files) under their respective terms.

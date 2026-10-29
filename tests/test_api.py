@@ -1,4 +1,6 @@
 import io
+
+import numpy as np
 import json
 
 import pytest
@@ -52,3 +54,25 @@ def test_continuous_protected_attribute_is_binned(xor_data):
     r = _post(df, protected_cols="sex,age")
     assert r.status_code == 200
     assert any("age=" in g["subgroup"] for g in r.json()["single_attribute"])
+
+
+def test_risk_scores_with_capacity(xor_data):
+    df = xor_data.assign(score=np.linspace(0, 1, len(xor_data)))
+    r = _post(df, pred_col="score", metric="fnr", flag_top_pct=20)
+    assert r.status_code == 200
+    body = r.json()
+    assert body["flag_top_pct"] == 20
+    # 20% flagged; half the rows are positives, so at least 60% of them are missed
+    assert body["overall"]["positive_rate"] == pytest.approx(0.2, abs=0.001)
+    assert body["overall_rate"] >= 0.6
+
+
+def test_calibration_on_scores_ignores_capacity(xor_data):
+    df = xor_data.assign(score=0.5)
+    r = _post(df, pred_col="score", metric="calibration", flag_top_pct=20)
+    assert r.status_code == 200 and r.json()["flag_top_pct"] is None
+
+
+def test_capacity_out_of_range(xor_data):
+    r = _post(xor_data.assign(score=0.5), pred_col="score", metric="fnr", flag_top_pct=150)
+    assert r.status_code == 422

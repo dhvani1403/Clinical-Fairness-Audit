@@ -111,3 +111,23 @@ def convergence(histories: dict[str, list[dict]], gamma: float, title: str):
     ax.set_title(title, loc="left")
     fig.tight_layout()
     return fig
+
+
+def need_by_score(nbs: dict, capacity: float, title: str):
+    """Mean number of chronic conditions by risk-score decile, one line per race."""
+    fig, ax = plt.subplots(figsize=(7, 4.2))
+    for (race, ys), color in zip(nbs["mean_conditions"].items(), (BLUE, ORANGE, AQUA)):
+        ax.plot(nbs["deciles"], ys, color=color, lw=2, marker="o", ms=6, label=race,
+                markeredgecolor=SURFACE, markeredgewidth=1.5)
+    cut = 10 * (1 - capacity) + 0.5
+    ax.axvspan(cut, 10.5, color=GRID, alpha=0.6, lw=0)
+    ax.annotate(f"top {int(100 * capacity)}% flagged\nfor care management", (cut + 0.1, 0.03),
+                xycoords=("data", "axes fraction"), va="bottom", fontsize=8.5, color=INK2)
+    ax.set_xlim(0.5, 10.5)
+    ax.set_xticks(nbs["deciles"])
+    ax.set_xlabel("risk-score decile (model trained to predict utilisation)")
+    ax.set_ylabel("mean number of chronic conditions")
+    ax.legend(fontsize=9, loc="upper left")
+    ax.set_title(title, loc="left")
+    fig.tight_layout()
+    return fig

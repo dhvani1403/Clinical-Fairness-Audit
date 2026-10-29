@@ -23,5 +23,5 @@ jobs:
         run: |
           docker run -d --name api -p 8000:8000 subgroup-audit uvicorn app.api:app --host 0.0.0.0 --port 8000
           for i in $(seq 1 30); do curl -sf localhost:8000/health && break; sleep 1; done
-          curl -sf -F file=@examples/adult_test_predictions.csv -F label_col=label -F pred_col=prediction \
+          curl -sf -F file=@examples/meps_test_predictions.csv -F label_col=label -F pred_col=risk_score -F metric=fnr -F flag_top_pct=20 \
             -F protected_cols=sex,race,age_band -F use_llm=false localhost:8000/audit | python -c "import json,sys; r=json.load(sys.stdin); print(r['worst_intersection'])"

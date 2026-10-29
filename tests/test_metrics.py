@@ -32,3 +32,11 @@ def test_rate_with_mask_and_empty_mask():
 def test_unknown_metric_rejected():
     with pytest.raises(ValueError):
         rate(np.array([0]), np.array([0]), "precision")
+
+
+def test_calibration_metric():
+    y = np.array([0, 1, 0, 1])
+    p = np.array([0.2, 0.6, 0.4, 0.8])
+    # mean predicted 0.5 minus observed 0.5
+    assert rate(y, p, "calibration") == pytest.approx(0.0)
+    assert rate(y, p, "calibration", mask=np.array([True, True, False, False])) == pytest.approx(-0.1)

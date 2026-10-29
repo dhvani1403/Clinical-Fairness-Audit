@@ -68,15 +68,41 @@ def prepare(df: pd.DataFrame, label_col: str, pred_col: str, protected_cols: lis
     return y, p, groups
 
 
+def flag_top(scores: np.ndarray, top_pct: float) -> np.ndarray:
+    """Flag the ``top_pct`` percent highest-risk rows, as a programme with fixed capacity would."""
+    return (scores >= np.quantile(scores, 1 - top_pct / 100)).astype(int)
+
+
 def run_audit(df: pd.DataFrame, label_col: str, pred_col: str, protected_cols: list[str],
-              metric: str = "fpr", max_order: int = 3, min_size: int = 30) -> dict:
+              metric: str = "fpr", max_order: int = 3, min_size: int = 30,
+              flag_top_pct: float | None = None) -> dict:
+    """Audit predictions or risk scores.
+
+    ``flag_top_pct``: treat ``pred_col`` as a risk score and flag the top X% of rows
+    (e.g. 20 for a care-management programme that can enrol one patient in five).
+    Calibration is always computed on the scores themselves.
+    """
     if metric not in METRICS:
         raise AuditInputError(f"metric must be one of {', '.join(METRICS)}")
     if not 1 <= max_order <= 3:
         raise AuditInputError("max_order must be 1, 2 or 3")
+    if flag_top_pct is not None and not 0 < flag_top_pct < 100:
+        raise AuditInputError("flag_top_pct must be between 0 and 100")
     y, p, groups = prepare(df, label_col, pred_col, protected_cols)
-    if metric in ("fpr", "fnr") and len(np.unique(y)) < 2:
-        raise AuditInputError("the label column has only one class, so FPR/FNR are undefined")
+    if metric in ("fpr", "fnr", "calibration") and len(np.unique(y)) < 2:
+        raise AuditInputError("the outcome column has only one class, so this metric is undefined")
+    warnings = []
+    is_score = not set(np.unique(p)) <= {0.0, 1.0}
+    if metric == "calibration" and not is_score:
+        warnings.append("Calibration needs risk scores; with 0/1 predictions it only compares flag "
+                        "rates with outcome rates.")
+    if flag_top_pct is not None and metric != "calibration":
+        p = flag_top(p, flag_top_pct)
+    elif is_score and metric != "calibration":
+        warnings.append("Predictions are probabilities, so rates are expected rates. Set a capacity "
+                        "(flag the top X%) to audit how the score is actually used.")
     result = audit(y, p, groups, metric, max_order=max_order, min_size=min_size)
     result["protected_attributes"] = protected_cols
+    result["flag_top_pct"] = flag_top_pct if metric != "calibration" else None
+    result["warnings"] = warnings
     return result

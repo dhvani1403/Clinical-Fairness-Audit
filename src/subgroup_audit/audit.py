@@ -71,7 +71,11 @@ def _score(y, p, metric, membership):
     gap = rate_g - overall
     alpha = base_size / n
     weighted = alpha * np.abs(gap)
-    se = np.sqrt(np.clip(rate_g * (1 - rate_g), 1e-12, None) / np.maximum(base_size, 1))
+    # Standard error of the group mean from the within-group variance; for 0/1 rows this
+    # is the usual binomial sqrt(r(1-r)/n), and it stays valid for risk scores.
+    with np.errstate(invalid="ignore", divide="ignore"):
+        var = (mb * err[:, None] ** 2).sum(axis=0) / base_size - rate_g ** 2
+    se = np.sqrt(np.clip(var, 1e-12, None) / np.maximum(base_size, 1))
     return overall, membership.sum(axis=0), base_size, rate_g, gap, weighted, se
 
 

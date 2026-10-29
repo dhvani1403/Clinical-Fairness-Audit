@@ -53,6 +53,7 @@ def facts_from_audit(result: dict) -> dict:
         "worst_single_attribute_group": grp(ws),
         "worst_intersectional_group": grp(wi),
         "intersection_vs_single_gap_ratio": round(ratio, 1) if ratio else None,
+        "flagged_top_pct": result.get("flag_top_pct"),
         "largest_size_weighted_gap_pct_points": round(100 * result["max_weighted_gap"], 2),
         "top_intersectional_groups": [grp(r) for r in result["top_raw_gap"] if r["order"] >= 2][:3],
     }
@@ -88,27 +89,31 @@ def verify_numbers(text: str, facts: dict) -> list[str]:
 
 def template_summary(facts: dict) -> str:
     ws, wi = facts["worst_single_attribute_group"], facts["worst_intersectional_group"]
-    parts = [f"Across {facts['rows']:,} rows the model's overall {facts['metric']} is "
-             f"{facts['overall_metric_pct']}% and its accuracy is {facts['overall_accuracy_pct']}%."]
+    flagged = (f" when the top {facts['flagged_top_pct']:g}% of patients by risk are flagged"
+               if facts.get("flagged_top_pct") else "")
+    parts = [f"Across {facts['rows']:,} patients the model's overall {facts['metric']} is "
+             f"{facts['overall_metric_pct']}%{flagged}, and its accuracy is {facts['overall_accuracy_pct']}%."]
     if ws:
         parts.append(f"Looking one attribute at a time, the largest difference is for {ws['subgroup']}: "
                      f"{ws['rate_pct']}%, a gap of {ws['gap_pct_points']} percentage points.")
     if wi:
         parts.append(f"Looking at combinations of attributes, {wi['subgroup']} has a {facts['metric']} of "
                      f"{wi['rate_pct']}%, a gap of {wi['gap_pct_points']} percentage points "
-                     f"(based on {wi['rows_in_metric_base']:,} rows).")
+                     f"(based on {wi['rows_in_metric_base']:,} patients).")
     if facts["intersection_vs_single_gap_ratio"] and facts["intersection_vs_single_gap_ratio"] > 1.5:
         parts.append(f"That is {facts['intersection_vs_single_gap_ratio']} times the largest single-attribute "
                      "gap, so checking attributes one at a time would understate the problem.")
-    parts.append(f"Only groups with at least {facts['min_rows_for_reliable_gap']} rows are reported; "
+    parts.append(f"Only groups with at least {facts['min_rows_for_reliable_gap']} patients are reported; "
                  "gaps in small groups are noisy, so check the confidence intervals before acting.")
     return " ".join(parts)
 
 
-SYSTEM_PROMPT = """You explain fairness audit results to non-technical readers (managers, clinicians, policy staff).
-You receive a JSON object of results that were already computed. Write 120-180 words of plain English:
-what the model's overall error looks like, which single-attribute group fares worst, which combination of
-attributes fares worst, and whether looking only at single attributes would hide the problem.
+SYSTEM_PROMPT = """You explain fairness audits of clinical risk models to non-technical readers (clinicians,
+care-management leads, hospital quality and equity staff). You receive a JSON object of results that were already
+computed. Write 120-180 words of plain English: what the model's overall error looks like (and, if
+"flagged_top_pct" is set, that patients are flagged by taking the highest-risk share), which single-attribute
+group fares worst, which combination of attributes fares worst, and whether looking only at single attributes
+would hide the problem. A false negative is a patient who had the outcome but was not flagged.
 
 Rules:
 - Use only numbers that appear in the JSON, copied exactly as written (same rounding). Do not compute,
@@ -159,12 +164,12 @@ def summarize(result: dict, use_llm: bool | None = None, model: str = DEFAULT_MO
     return out
 
 
-def pdf_report(result: dict, summary: dict, title: str = "Subgroup fairness audit") -> bytes:
+def pdf_report(result: dict, summary: dict, title: str = "Clinical fairness audit") -> bytes:
     buf = io.BytesIO()
     with PdfPages(buf) as pdf:
         fig = plt.figure(figsize=(8.27, 11.69))
         fig.text(0.07, 0.95, title, fontsize=18, fontweight="bold", color=plots.INK)
-        fig.text(0.07, 0.925, f"Metric: {result['metric_label']}  ·  {result['n_rows']:,} rows  ·  "
+        fig.text(0.07, 0.925, f"Metric: {result['metric_label']}  ·  {result['n_rows']:,} patients  ·  "
                  f"{result['n_subgroups_checked']} subgroups checked", fontsize=9.5, color=plots.INK2)
         src = "AI-written, every number verified against the audit" if summary["source"] == "llm" \
             else "template summary"

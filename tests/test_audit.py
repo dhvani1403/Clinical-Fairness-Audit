@@ -42,3 +42,16 @@ def test_enumeration_auditor_matches_table(xor_data):
     g, signed, desc = EnumerationAuditor(xor_data[["sex", "race"]], 2).best_group(y, p, "fpr")
     assert abs(signed) == pytest.approx(400 / 3200 * 0.15)
     assert "&" in desc
+
+
+def test_calibration_gap_finds_underestimated_group():
+    # same outcome rate in both groups, but the model under-predicts risk for group B
+    y = np.tile([0, 1], 500)
+    grp = pd.DataFrame({"g": ["A"] * 500 + ["B"] * 500})
+    p = np.r_[np.full(500, 0.5), np.full(500, 0.3)]
+    res = audit(y, p, grp, "calibration", max_order=1)
+    gaps = {r["subgroup"]: r["gap"] for r in res["single_attribute"]}
+    assert gaps["g=B"] == pytest.approx(-0.1) and gaps["g=A"] == pytest.approx(0.1)
+    # standard error now comes from the within-group variance (here 0.25 / 500)
+    se = {r["subgroup"]: r["std_err"] for r in res["single_attribute"]}
+    assert se["g=B"] == pytest.approx(np.sqrt(0.25 / 500))

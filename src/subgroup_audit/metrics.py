@@ -13,12 +13,16 @@ import numpy as np
 # fnr: among true positives, how often we predict 0.
 # positive_rate: among everyone, how often we predict 1 (statistical parity).
 # error_rate: among everyone, how often the prediction is wrong.
-METRICS = ("fpr", "fnr", "positive_rate", "error_rate")
+# calibration: among everyone, predicted risk minus observed outcome. Needs risk scores;
+#   a positive subgroup gap means the model over-states that group's risk relative to
+#   everyone else, a negative gap that it under-states it.
+METRICS = ("fpr", "fnr", "positive_rate", "error_rate", "calibration")
 METRIC_LABELS = {
     "fpr": "false positive rate",
     "fnr": "false negative rate",
     "positive_rate": "positive prediction rate",
     "error_rate": "error rate",
+    "calibration": "calibration gap (predicted minus observed risk)",
 }
 
 
@@ -47,6 +51,8 @@ def row_errors(y: np.ndarray, p: np.ndarray, metric: str) -> np.ndarray:
         return p
     if metric == "fnr":
         return 1.0 - p
+    if metric == "calibration":
+        return p - y
     return np.abs(y - p)  # error_rate
 
 

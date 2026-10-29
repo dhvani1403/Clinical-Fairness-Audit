@@ -32,6 +32,9 @@ class Dataset:
     X_prime: pd.DataFrame
     label_desc: str
     notes: list[str] = field(default_factory=list)
+    # Optional per-row measure of clinical need (e.g. number of chronic conditions),
+    # used for the Obermeyer-style check of whether risk scores track need equally.
+    need: np.ndarray | None = None
 
 
 # --------------------------------------------------------------------------- #
@@ -190,7 +193,9 @@ def load_diabetes(raw_dir: Path = RAW_DIR) -> Dataset:
     feats["age_decade"] = decade.astype(float)
     feats["primary_dx"] = _icd9_chapter(df["diag_1"])
     cats = df[_DIABETES_CATEGORICAL].astype(str).fillna("None")
-    X = pd.concat([feats, cats, groups[["sex", "race"]]], axis=1)
+    # Race-blind model (race is used to audit, not to predict), as is common for
+    # deployed clinical risk scores; sex and age stay in as standard clinical inputs.
+    X = pd.concat([feats, cats, groups[["sex"]]], axis=1)
     X = pd.get_dummies(X, dtype=float)
 
     X_prime = pd.get_dummies(groups[["sex", "race"]], dtype=float)
@@ -204,13 +209,74 @@ def load_diabetes(raw_dir: Path = RAW_DIR) -> Dataset:
         label_desc="patient readmitted within 30 days",
         notes=[
             "First encounter per patient only; patients discharged to hospice or who died excluded.",
+            "Race is not a model input; it is used only for the audit.",
             "A false negative is a high-risk patient the model misses, so FNR is the clinically "
             "relevant error; we audit both FPR and FNR.",
         ],
     )
 
 
-LOADERS = {"communities": load_communities, "adult": load_adult, "diabetes": load_diabetes}
+# --------------------------------------------------------------------------- #
+# MEPS 2015 (AHRQ Medical Expenditure Panel Survey, full-year file HC-181)
+# --------------------------------------------------------------------------- #
+
+MEPS_CONDITIONS = {
+    "HIBPDX": "high blood pressure", "CHDDX": "coronary heart disease", "ANGIDX": "angina",
+    "MIDX": "heart attack", "OHRTDX": "other heart disease", "STRKDX": "stroke",
+    "EMPHDX": "emphysema", "CHBRON31": "chronic bronchitis", "CHOLDX": "high cholesterol",
+    "CANCERDX": "cancer", "DIABDX": "diabetes", "ARTHDX": "arthritis", "ASTHDX": "asthma",
+}
+_MEPS_CATEGORICAL = ["REGION15", "MARRY15X", "POVCAT15", "INSCOV15", "RTHLTH31", "MNHLTH31",
+                     "ADSMOK42", "ACTLIM31", "WLKLIM31", *MEPS_CONDITIONS]
+_MEPS_NUMERIC = ["PCS42", "MCS42", "K6SUM42", "PHQ242"]
+_MEPS_VISITS = ["OBTOTV15", "OPTOTV15", "ERTOT15", "IPNGTD15", "HHTOTD15"]
+
+
+def load_meps(raw_dir: Path = RAW_DIR) -> Dataset:
+    cols = ["AGE15X", "SEX", "RACEV2X", "HISPANX", "PERWT15F",
+            *_MEPS_CATEGORICAL, *_MEPS_NUMERIC, *_MEPS_VISITS]
+    df = pd.read_sas(raw_dir / "meps" / "h181.ssp", format="xport")[cols]
+    df = df[(df["PERWT15F"] > 0) & (df["AGE15X"] >= 18)].reset_index(drop=True)
+
+    # High utilisation = 10+ visits/nights in the year (office, outpatient, ER,
+    # inpatient nights, home health): the label used in AIF360's MEPS benchmark. Like
+    # the cost label in Obermeyer et al. (2019), it is a *proxy* for health need.
+    visits = df[_MEPS_VISITS].clip(lower=0).sum(axis=1)
+    y = (visits >= 10).astype(int).to_numpy()
+
+    race = np.select(
+        [df["HISPANX"] == 1, df["RACEV2X"] == 1, df["RACEV2X"] == 2, df["RACEV2X"].isin([4, 5, 6, 10, 11])],
+        ["Hispanic", "White", "Black", "Asian"], default="Other")
+    age_band = pd.cut(df["AGE15X"], bins=[17, 29, 44, 64, 200], labels=["18-29", "30-44", "45-64", "65+"]).astype(str)
+    groups = pd.DataFrame({"sex": np.where(df["SEX"] == 1, "Male", "Female"), "race": race, "age_band": age_band})
+
+    # Negative MEPS codes (-1 inapplicable, -7/-8/-9 refused/unknown) become "missing".
+    cats = df[_MEPS_CATEGORICAL].astype(int).where(df[_MEPS_CATEGORICAL] >= 0, -1).astype(str)
+    nums = df[_MEPS_NUMERIC].where(df[_MEPS_NUMERIC] >= 0)
+    nums = pd.concat([nums.fillna(nums.median()), nums.isna().add_suffix("_missing").astype(float)], axis=1)
+    feats = pd.concat([df[["AGE15X"]].astype(float), nums, cats, groups[["sex"]]], axis=1)
+    X = pd.get_dummies(feats, dtype=float)
+
+    X_prime = pd.get_dummies(groups[["sex", "race"]], dtype=float)
+    X_prime["age"] = df["AGE15X"].astype(float)
+    need = (df[list(MEPS_CONDITIONS)] == 1).sum(axis=1).to_numpy()
+    return Dataset(
+        name="meps",
+        X=X,
+        y=y,
+        groups=groups,
+        X_prime=X_prime,
+        label_desc="10 or more healthcare visits in the year (high utilisation)",
+        notes=[
+            "Adults (18+) in the MEPS 2015 full-year consolidated file with a positive survey weight.",
+            "Race is not a model input; it is used only for the audit.",
+            "Survey weights are not used, so rates describe the sample, not the US population.",
+        ],
+        need=need,
+    )
+
+
+LOADERS = {"communities": load_communities, "adult": load_adult, "diabetes": load_diabetes, "meps": load_meps}
 
 
 def load(name: str, raw_dir: Path = RAW_DIR) -> Dataset:

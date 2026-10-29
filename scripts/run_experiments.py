@@ -16,7 +16,8 @@ sys.path.insert(0, str(ROOT / "src"))
 from subgroup_audit import data, plots  # noqa: E402
 from subgroup_audit.experiments import run  # noqa: E402
 
-PRETTY = {"communities": "Communities & Crime", "adult": "Adult income", "diabetes": "Diabetes readmission"}
+PRETTY = {"communities": "Communities & Crime", "adult": "Adult income", "diabetes": "Diabetes readmission",
+          "meps": "MEPS utilisation"}
 
 
 def make_figures(res: dict, fig_dir: Path) -> None:
@@ -48,6 +49,23 @@ def make_figures(res: dict, fig_dir: Path) -> None:
                          ylabel="test balanced accuracy" if acc_key == "balanced_accuracy" else "test accuracy")
     fig.savefig(fig_dir / f"{ds}_tradeoff.png", dpi=150)
 
+    if "clinical" in res:
+        c = res["clinical"]
+        pct = int(100 * c["capacity"])
+        fig = plots.gap_panels(c["capacity_fnr"], f"{PRETTY[ds]}: who is missed when the top {pct}% by risk are "
+                                                  f"flagged (FNR, baseline model)")
+        fig.savefig(fig_dir / f"{ds}_capacity_missed.png", dpi=150)
+        fig = plots.gap_panels(c["calibration"], f"{PRETTY[ds]}: calibration by subgroup "
+                                                 "(mean predicted − observed risk)")
+        fig.savefig(fig_dir / f"{ds}_calibration.png", dpi=150)
+        if "need_by_score" in c:
+            fig = plots.need_by_score(c["need_by_score"], c["capacity"],
+                                      f"{PRETTY[ds]}: illness at the same risk score, by race")
+            fig.savefig(fig_dir / f"{ds}_need_by_score.png", dpi=150)
+            fig = plots.gap_panels(c["need_fnr"], f"{PRETTY[ds]}: high-need patients (≥{c['high_need_threshold']} "
+                                                  f"chronic conditions) missed by top-{pct}% flags")
+            fig.savefig(fig_dir / f"{ds}_need_missed.png", dpi=150)
+
     if "paper" in res:
         p = res["paper"]
         curves = [{"label": "train", "x": [s["train_unfairness"] for s in p["sweep"]],
@@ -69,7 +87,7 @@ def make_figures(res: dict, fig_dir: Path) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--datasets", nargs="+", default=["communities", "adult", "diabetes"])
+    ap.add_argument("--datasets", nargs="+", default=["communities", "adult", "diabetes", "meps"])
     ap.add_argument("--iters", type=int, default=50)
     ap.add_argument("--gbm-iters", type=int, default=25)
     ap.add_argument("--figures-only", action="store_true", help="redraw figures from results/*.json")

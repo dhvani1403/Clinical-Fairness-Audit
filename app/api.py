@@ -20,7 +20,7 @@ from subgroup_audit.tool import AuditInputError, run_audit  # noqa: E402
 
 MAX_BYTES = 50 * 1024 * 1024
 
-app = FastAPI(title="Subgroup Fairness Audit API", version="1.0.0")
+app = FastAPI(title="Clinical Subgroup Fairness Audit API", version="1.1.0")
 
 
 @app.get("/health")
@@ -30,7 +30,7 @@ def health():
 
 @app.post("/audit")
 async def audit_endpoint(
-    file: UploadFile = File(..., description="CSV with labels, predictions and protected attributes"),
+    file: UploadFile = File(..., description="CSV with outcomes, predictions or risk scores, and protected attributes"),
     label_col: str = Form(...),
     pred_col: str = Form(...),
     protected_cols: str = Form("", description="comma-separated column names"),
@@ -38,6 +38,7 @@ async def audit_endpoint(
     max_order: int = Form(3),
     min_size: int = Form(30),
     use_llm: bool = Form(True),
+    flag_top_pct: float | None = Form(None, description="treat predictions as risk scores; flag the top X%"),
 ):
     raw = await file.read()
     if len(raw) > MAX_BYTES:
@@ -48,7 +49,7 @@ async def audit_endpoint(
         raise HTTPException(422, f"could not read CSV: {exc}") from exc
     cols = [c.strip() for c in protected_cols.split(",") if c.strip()]
     try:
-        result = run_audit(df, label_col, pred_col, cols, metric, max_order, min_size)
+        result = run_audit(df, label_col, pred_col, cols, metric, max_order, min_size, flag_top_pct)
     except AuditInputError as exc:
         raise HTTPException(422, str(exc)) from exc
     # None = use the LLM only if an API key is configured.

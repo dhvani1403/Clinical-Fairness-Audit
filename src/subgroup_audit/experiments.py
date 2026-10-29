@@ -30,7 +30,13 @@ CONFIG = {
     # weight positives so the model actually flags patients (9% base rate). FNR disparities
     # are weighted by the share of positives (9%), so the headline gamma is scaled down.
     "diabetes": {"metric": "fnr", "positive_cost": None, "gamma": 0.001},
+    # Predicting high healthcare utilisation (the Obermeyer et al. setting): a false
+    # negative is a high-need patient the care-management programme never reaches.
+    "meps": {"metric": "fnr", "positive_cost": None, "gamma": 0.002},
 }
+CLINICAL = ("diabetes", "meps")
+CAPACITY = 0.20      # share of patients a care-management programme can enrol
+HIGH_NEED = 3        # chronic conditions that count as high need (MEPS)
 GAMMAS = [0.02, 0.01, 0.005, 0.0025, 0.001]
 
 
@@ -113,6 +119,11 @@ def run(ds: Dataset, max_order: int = 3, min_size: int = 30, iters: int = 50,
         out["tradeoff"][label] = pts
         log(f"[{ds.name}] trade-off sweep {label} done")
 
+    if ds.name in CLINICAL:
+        # Unweighted model for risk scores, so predicted probabilities are calibrated overall.
+        scorer = logistic().fit(Xtr, ytr)
+        out["clinical"] = clinical_analysis(scorer.predict_proba(Xte)[:, 1], yte, gte, ds, te, max_order, min_size)
+        log(f"[{ds.name}] clinical analyses done")
     if ds.name == "communities":
         out["paper"] = paper_replication(fair, lr_base, gammas, iters, Xtr, Xte, ytr, yte, Ptr, Pte, metric, log)
     return out
@@ -146,3 +157,42 @@ def paper_replication(fair, lr, gammas, iters, Xtr, Xte, ytr, yte, Ptr, Pte, met
         }
     log("[communities] paper-setting sweep and reference-bug comparison done")
     return res
+
+
+def clinical_analysis(scores, yte, gte, ds: Dataset, te, max_order, min_size) -> dict:
+    """How a risk score is actually used: enrol the top ``CAPACITY`` of patients.
+
+    * capacity: who is missed (FNR) when only the top 20% by risk are flagged;
+    * calibration: does a given score mean the same risk in every subgroup?
+    * need (if the dataset has a need measure): audit the same flags against an
+      independent measure of need instead of the proxy label, and compare need
+      across races at the same risk score, as in Obermeyer et al. (2019).
+    """
+    flags = (scores >= np.quantile(scores, 1 - CAPACITY)).astype(int)
+    out = {
+        "capacity": CAPACITY,
+        "capacity_fnr": A.audit(yte, flags, gte, "fnr", max_order, min_size),
+        "calibration": A.audit(yte, scores, gte, "calibration", max_order, min_size),
+    }
+    if ds.need is not None:
+        need = ds.need[te]
+        y_need = (need >= HIGH_NEED).astype(int)
+        out["high_need_threshold"] = HIGH_NEED
+        out["need_fnr"] = A.audit(y_need, flags, gte, "fnr", max_order, min_size)
+        pct = np.argsort(np.argsort(scores)) / (len(scores) - 1)  # risk-score percentile
+        decile = np.minimum((pct * 10).astype(int), 9)
+        race = gte["race"].to_numpy()
+        curves = {}
+        for r in ("White", "Black", "Hispanic"):
+            m = race == r
+            curves[r] = [float(need[m & (decile == d)].mean()) for d in range(10)]
+        top = flags == 1
+        out["need_by_score"] = {
+            "deciles": list(range(1, 11)),
+            "mean_conditions": curves,
+            "flagged_mean_conditions": {r: float(need[top & (race == r)].mean()) for r in curves},
+            "flagged_share": {r: float(top[race == r].mean()) for r in curves},
+            "high_need_share_flagged": {r: float(top[(race == r) & (y_need == 1)].mean()) for r in curves},
+            "high_need_count": {r: int(((race == r) & (y_need == 1)).sum()) for r in curves},
+        }
+    return out
