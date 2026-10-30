@@ -1,0 +1,2087 @@
+{
+ "summary": [
+  {
+   "kind": "unchanged",
+   "numbers_only_rejects": 0.0,
+   "binding_rejects": 0.0,
+   "n": 28
+  },
+  {
+   "kind": "changed_number",
+   "numbers_only_rejects": 0.9642857142857143,
+   "binding_rejects": 0.9761904761904762,
+   "n": 84
+  },
+  {
+   "kind": "rounded",
+   "numbers_only_rejects": 0.9166666666666666,
+   "binding_rejects": 0.9523809523809523,
+   "n": 84
+  },
+  {
+   "kind": "invented_statistic",
+   "numbers_only_rejects": 1.0,
+   "binding_rejects": 1.0,
+   "n": 28
+  },
+  {
+   "kind": "wrong_group",
+   "numbers_only_rejects": 0.0,
+   "binding_rejects": 1.0,
+   "n": 69
+  }
+ ],
+ "rows": [
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top10/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fnr/top30/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/fpr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/calibration/topNone/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/positive_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/positive_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/positive_rate/top20/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "meps/error_rate/top20/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top10/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fnr/top30/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/fpr/top20/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/fpr/top20/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order2",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/calibration/topNone/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/positive_rate/top20/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order2",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/error_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order2",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order2",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order2",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "unchanged",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": false
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "changed_number",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 1,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "rounded",
+   "rep": 2,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "invented_statistic",
+   "rep": 0,
+   "numbers_only_rejects": true,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "wrong_group",
+   "rep": 0,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "wrong_group",
+   "rep": 1,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  },
+  {
+   "case": "diabetes/error_rate/top20/order3",
+   "kind": "wrong_group",
+   "rep": 2,
+   "numbers_only_rejects": false,
+   "binding_rejects": true
+  }
+ ]
+}

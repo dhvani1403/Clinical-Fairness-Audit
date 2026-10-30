@@ -21,6 +21,7 @@ Two auditors are provided:
 """
 from __future__ import annotations
 
+import math
 from itertools import combinations
 
 import numpy as np
@@ -101,8 +102,28 @@ def subgroup_table(y, p, groups: pd.DataFrame, metric: str = "fpr", max_order: i
     table["std_err"] = se
     table["z"] = gap / se
     table["reliable"] = base_size >= min_size
-    table = table[table["base_size"] > 0]
+    table = table[table["base_size"] > 0].copy()
+    # Two-sided p-values, and Benjamini-Hochberg q-values over the reliable groups: the
+    # audit tests hundreds of subgroups, so uncorrected p < 0.05 would flag many by chance.
+    table["p_value"] = [math.erfc(abs(z) / math.sqrt(2)) if np.isfinite(z) else 1.0 for z in table["z"]]
+    table["q_value"] = 1.0
+    rel = table.index[table["reliable"]]
+    table.loc[rel, "q_value"] = benjamini_hochberg(table.loc[rel, "p_value"].to_numpy())
+    table["significant"] = table["reliable"] & (table["q_value"] < 0.05)
     return table.sort_values("weighted_gap", ascending=False).reset_index(drop=True), overall
+
+
+def benjamini_hochberg(p: np.ndarray) -> np.ndarray:
+    """BH-adjusted q-values (false discovery rate)."""
+    p = np.asarray(p, dtype=float)
+    if len(p) == 0:
+        return p
+    order = np.argsort(p)
+    ranked = p[order] * len(p) / np.arange(1, len(p) + 1)
+    q = np.minimum.accumulate(ranked[::-1])[::-1]
+    out = np.empty_like(q)
+    out[order] = np.minimum(q, 1.0)
+    return out
 
 
 def audit(y, p, groups: pd.DataFrame, metric: str = "fpr", max_order: int = 3,
@@ -165,6 +186,9 @@ def _row(r: pd.Series) -> dict:
         "std_err": float(r["std_err"]),
         "z": float(r["z"]),
         "reliable": bool(r["reliable"]),
+        "p_value": float(r["p_value"]),
+        "q_value": float(r["q_value"]),
+        "significant": bool(r["significant"]),
     }
 
 

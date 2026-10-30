@@ -131,3 +131,32 @@ def need_by_score(nbs: dict, capacity: float, title: str):
     ax.set_title(title, loc="left")
     fig.tight_layout()
     return fig
+
+
+def detection_curves(rows: list[dict], deltas: list[float], sizes: list[int]):
+    """Eval 1: share of simulations where the planted subgroup is found, by bias size."""
+    designs = ["intersection-2", "intersection-3", "gerrymandered"]
+    titles = {"intersection-2": "Hispanic patients 65+ (~5%)",
+              "intersection-3": "Black women 18–39 (~2%)",
+              "gerrymandered": "Gerrymandered: every attribute fair alone"}
+    fig, axes = plt.subplots(1, 3, figsize=(12, 3.8), sharey=True)
+    for ax, d in zip(axes, designs):
+        for n, color in zip(sizes, (ORANGE, BLUE)):
+            pts = sorted((r for r in rows if r["design"] == d and r["n"] == n), key=lambda r: r["delta"])
+            xs = [100 * r["delta"] for r in pts]
+            ax.plot(xs, [100 * r["detected"] for r in pts], color=color, lw=2, marker="o", ms=6,
+                    markeredgecolor=SURFACE, markeredgewidth=1.5, label=f"{n:,} patients")
+            if d == "gerrymandered":
+                ax.plot(xs, [100 * r["single_attribute_flag"] for r in pts], color=color, lw=1.5, ls="--",
+                        label=f"single-attribute check, {n:,}")
+        ax.set_title(titles[d], loc="left", fontsize=10)
+        ax.set_xlabel("planted increase in miss rate (pp)")
+        ax.set_xticks([100 * x for x in deltas])
+        ax.set_ylim(-3, 103)
+    axes[0].set_ylabel("planted group flagged as significant (%)")
+    handles, labels = axes[2].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=9)
+    fig.suptitle("Eval 1 · Does the audit find a planted bias? (50 simulations per point, BH-corrected)",
+                 x=0.01, ha="left", fontsize=11, fontweight="bold", color=INK)
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
+    return fig

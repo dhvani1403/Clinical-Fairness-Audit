@@ -1,0 +1,760 @@
+{
+ "summary": {
+  "nvidia/nemotron-3-ultra-550b-a55b:free": {
+   "verified": 0.8888888888888888,
+   "complete": 1.0,
+   "names_worst_single": 1.0,
+   "names_worst_intersection": 1.0,
+   "small_group_caveat": 1.0,
+   "no_causal_or_legal_claims": 1.0,
+   "plain_text": 1.0,
+   "length_120_180": 0.6666666666666666,
+   "no_overclaim": 1.0,
+   "all_criteria": 0.5555555555555556,
+   "n": 9,
+   "median_seconds": 29.0
+  },
+  "_errors": 1
+ },
+ "rows": [
+  {
+   "case": "meps/fnr/top20",
+   "requested_model": "default",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "facts": {
+    "metric": "false negative rate",
+    "rows": 7674,
+    "subgroups_checked": 89,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 82.6,
+    "overall_metric_pct": 43.9,
+    "worst_single_attribute_group": {
+     "subgroup": "age_band=18-29",
+     "description": "patients aged 18\u201329",
+     "rate_pct": 87.7,
+     "gap_pct_points": 43.8,
+     "rows_in_metric_base": 138,
+     "share_of_data_pct": 22.1
+    },
+    "worst_intersectional_group": {
+     "subgroup": "race=Hispanic & age_band=18-29",
+     "description": "Hispanic patients aged 18\u201329",
+     "rate_pct": 97.6,
+     "gap_pct_points": 53.7,
+     "rows_in_metric_base": 42,
+     "share_of_data_pct": 8.2
+    },
+    "intersection_vs_single_gap_ratio": 1.2,
+    "flagged_top_pct": 20,
+    "largest_size_weighted_gap_pct_points": 1.64,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "race=Hispanic & age_band=18-29",
+      "description": "Hispanic patients aged 18\u201329",
+      "rate_pct": 97.6,
+      "gap_pct_points": 53.7,
+      "rows_in_metric_base": 42,
+      "share_of_data_pct": 8.2
+     },
+     {
+      "subgroup": "sex=Female & race=Hispanic & age_band=18-29",
+      "description": "Hispanic women aged 18\u201329",
+      "rate_pct": 96.8,
+      "gap_pct_points": 52.9,
+      "rows_in_metric_base": 31,
+      "share_of_data_pct": 4.2
+     },
+     {
+      "subgroup": "sex=Male & age_band=18-29",
+      "description": "men aged 18\u201329",
+      "rate_pct": 94.6,
+      "gap_pct_points": 50.7,
+      "rows_in_metric_base": 37,
+      "share_of_data_pct": 11.2
+     }
+    ]
+   },
+   "text": "The model flags the highest-risk 20 percent of patients. Overall, the false negative rate is 43.9 percent, meaning 43.9 percent of patients who had the outcome were not flagged, while overall accuracy is 82.6 percent. Among single attributes, patients aged 18\u201329 have the highest false negative rate at 87.7 percent, a gap of 43.8 percentage points above the overall rate, based on 138 patients in the metric base representing 22.1 percent of the data. The worst combination is Hispanic patients aged 18\u201329, with a false negative rate of 97.6 percent, a gap of 53.7 percentage points, based on 42 patients representing 8.2 percent of the data. Looking only at single attributes would hide the problem, because the intersectional gap is 1.2 times larger than the worst single-attribute gap. Other notable groups include Hispanic women aged 18\u201329 at 96.8 percent false negative rate with a 52.9 point gap based on 31 patients (4.2 percent of data), and men aged 18\u201329 at 94.6 percent with a 50.7 point gap based on 37 patients (11.2 percent of data). Small groups give noisy estimates, and the minimum for reliable gaps is 30 patients.",
+   "error": null,
+   "seconds": 29.0,
+   "grades": {
+    "verified": true,
+    "unverified_numbers": [],
+    "unbound_numbers": [],
+    "names_worst_single": true,
+    "names_worst_intersection": true,
+    "small_group_caveat": true,
+    "no_causal_or_legal_claims": true,
+    "plain_text": true,
+    "complete": true,
+    "length_120_180": false,
+    "words": 189,
+    "no_overclaim": true
+   }
+  },
+  {
+   "case": "meps/fnr/top10",
+   "requested_model": "default",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "facts": {
+    "metric": "false negative rate",
+    "rows": 7674,
+    "subgroups_checked": 89,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 82.7,
+    "overall_metric_pct": 67.0,
+    "worst_single_attribute_group": {
+     "subgroup": "age_band=18-29",
+     "description": "patients aged 18\u201329",
+     "rate_pct": 94.9,
+     "gap_pct_points": 28.0,
+     "rows_in_metric_base": 138,
+     "share_of_data_pct": 22.1
+    },
+    "worst_intersectional_group": {
+     "subgroup": "race=Hispanic & age_band=18-29",
+     "description": "Hispanic patients aged 18\u201329",
+     "rate_pct": 97.6,
+     "gap_pct_points": 30.6,
+     "rows_in_metric_base": 42,
+     "share_of_data_pct": 8.2
+    },
+    "intersection_vs_single_gap_ratio": 1.1,
+    "flagged_top_pct": 10,
+    "largest_size_weighted_gap_pct_points": 1.19,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "race=Hispanic & age_band=18-29",
+      "description": "Hispanic patients aged 18\u201329",
+      "rate_pct": 97.6,
+      "gap_pct_points": 30.6,
+      "rows_in_metric_base": 42,
+      "share_of_data_pct": 8.2
+     },
+     {
+      "subgroup": "sex=Male & age_band=18-29",
+      "description": "men aged 18\u201329",
+      "rate_pct": 97.3,
+      "gap_pct_points": 30.3,
+      "rows_in_metric_base": 37,
+      "share_of_data_pct": 11.2
+     },
+     {
+      "subgroup": "sex=Female & race=Hispanic & age_band=18-29",
+      "description": "Hispanic women aged 18\u201329",
+      "rate_pct": 96.8,
+      "gap_pct_points": 29.8,
+      "rows_in_metric_base": 31,
+      "share_of_data_pct": 4.2
+     }
+    ]
+   },
+   "text": "The model flags the highest-risk 10% of patients. Overall, its false negative rate \u2014 patients who experienced the outcome but were not flagged \u2014 is 67.0%, with overall accuracy of 82.7%. The single-attribute group with the highest false negative rate is patients aged 18\u201329, at 94.9%, a gap of 28.0 percentage points above the overall rate, based on 138 patients representing 22.1% of the data. The worst combination is Hispanic patients aged 18\u201329, with a false negative rate of 97.6%, a gap of 30.6 percentage points, based on 42 patients representing 8.2% of the data. The intersectional gap is 1.1 times the single-attribute gap, meaning looking only at single attributes would partially hide the problem. Other high-risk combinations include men aged 18\u201329 at 97.3% (37 patients, 11.2% share) and Hispanic women aged 18\u201329 at 96.8% (31 patients, 4.2% share). Small groups give noisy estimates.",
+   "error": null,
+   "seconds": 11.0,
+   "grades": {
+    "verified": true,
+    "unverified_numbers": [],
+    "unbound_numbers": [],
+    "names_worst_single": true,
+    "names_worst_intersection": true,
+    "small_group_caveat": true,
+    "no_causal_or_legal_claims": true,
+    "plain_text": true,
+    "complete": true,
+    "length_120_180": true,
+    "words": 144,
+    "no_overclaim": true
+   }
+  },
+  {
+   "case": "meps/calibration",
+   "requested_model": "default",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "facts": {
+    "metric": "calibration gap (predicted minus observed risk)",
+    "rows": 7674,
+    "subgroups_checked": 89,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 75.6,
+    "overall_metric_pct": 0.7,
+    "worst_single_attribute_group": {
+     "subgroup": "race=Asian",
+     "description": "Asian patients",
+     "rate_pct": 4.5,
+     "gap_pct_points": 3.8,
+     "rows_in_metric_base": 608,
+     "share_of_data_pct": 7.9
+    },
+    "worst_intersectional_group": {
+     "subgroup": "sex=Male & race=White & age_band=65+",
+     "description": "White men aged 65 and over",
+     "rate_pct": -11.1,
+     "gap_pct_points": -11.8,
+     "rows_in_metric_base": 323,
+     "share_of_data_pct": 4.2
+    },
+    "intersection_vs_single_gap_ratio": 3.1,
+    "flagged_top_pct": null,
+    "largest_size_weighted_gap_pct_points": 1.32,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "sex=Male & race=White & age_band=65+",
+      "description": "White men aged 65 and over",
+      "rate_pct": -11.1,
+      "gap_pct_points": -11.8,
+      "rows_in_metric_base": 323,
+      "share_of_data_pct": 4.2
+     },
+     {
+      "subgroup": "sex=Female & race=Asian & age_band=45-64",
+      "description": "Asian women aged 45\u201364",
+      "rate_pct": 8.7,
+      "gap_pct_points": 8.0,
+      "rows_in_metric_base": 98,
+      "share_of_data_pct": 1.3
+     },
+     {
+      "subgroup": "race=White & age_band=65+",
+      "description": "White patients aged 65 and over",
+      "rate_pct": -7.2,
+      "gap_pct_points": -7.9,
+      "rows_in_metric_base": 755,
+      "share_of_data_pct": 9.8
+     }
+    ]
+   },
+   "text": "The model correctly classifies 75.6 percent of patients overall, with a calibration gap of 0.7 percentage points between predicted and observed risk. Among single attributes, Asian patients show the largest gap at 3.8 percentage points across 608 patients representing 7.9 percent of the data. However, the worst disparity appears when attributes combine: White men aged 65 and over have a gap of -11.8 percentage points across 323 patients making up 4.2 percent of the data. This intersectional gap is 3.1 times larger than the worst single-attribute gap, meaning analysis limited to single attributes would hide the true extent of miscalibration for this group. Other notable combinations include Asian women aged 45\u201364 with an 8.0 percentage point gap across 98 patients, and White patients aged 65 and over with a -7.9 percentage point gap across 755 patients. Estimates for smaller groups such as the 98 Asian women aged 45\u201364 are noisier and should be interpreted with caution.",
+   "error": null,
+   "seconds": 23.9,
+   "grades": {
+    "verified": true,
+    "unverified_numbers": [],
+    "unbound_numbers": [],
+    "names_worst_single": true,
+    "names_worst_intersection": true,
+    "small_group_caveat": true,
+    "no_causal_or_legal_claims": true,
+    "plain_text": true,
+    "complete": true,
+    "length_120_180": true,
+    "words": 156,
+    "no_overclaim": true
+   }
+  },
+  {
+   "case": "meps/fpr/top20",
+   "requested_model": "default",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "facts": {
+    "metric": "false positive rate",
+    "rows": 7674,
+    "subgroups_checked": 89,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 82.6,
+    "overall_metric_pct": 10.2,
+    "worst_single_attribute_group": {
+     "subgroup": "age_band=65+",
+     "description": "patients aged 65 and over",
+     "rate_pct": 40.6,
+     "gap_pct_points": 30.4,
+     "rows_in_metric_base": 695,
+     "share_of_data_pct": 17.4
+    },
+    "worst_intersectional_group": {
+     "subgroup": "sex=Female & race=Black & age_band=65+",
+     "description": "Black women aged 65 and over",
+     "rate_pct": 51.9,
+     "gap_pct_points": 41.8,
+     "rows_in_metric_base": 77,
+     "share_of_data_pct": 1.8
+    },
+    "intersection_vs_single_gap_ratio": 1.4,
+    "flagged_top_pct": 20,
+    "largest_size_weighted_gap_pct_points": 2.75,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "sex=Female & race=Black & age_band=65+",
+      "description": "Black women aged 65 and over",
+      "rate_pct": 51.9,
+      "gap_pct_points": 41.8,
+      "rows_in_metric_base": 77,
+      "share_of_data_pct": 1.8
+     },
+     {
+      "subgroup": "sex=Female & age_band=65+",
+      "description": "women aged 65 and over",
+      "rate_pct": 48.3,
+      "gap_pct_points": 38.2,
+      "rows_in_metric_base": 393,
+      "share_of_data_pct": 10.3
+     },
+     {
+      "subgroup": "race=Black & age_band=65+",
+      "description": "Black patients aged 65 and over",
+      "rate_pct": 47.7,
+      "gap_pct_points": 37.5,
+      "rows_in_metric_base": 132,
+      "share_of_data_pct": 2.9
+     }
+    ]
+   },
+   "text": "The model flags the highest-risk 20 percent of patients. Its overall false positive rate is 10.2 percent with overall accuracy of 82.6 percent. Among single attributes, patients aged 65 and over have a false positive rate of 40.6 percent, a gap of 30.4 percentage points, based on 695 patients making up 17.4 percent of the data. The worst combination is Black women aged 65 and over, with a false positive rate of 51.9 percent, a gap of 41.8 percentage points, based on 77 patients representing 1.8 percent of the data. The intersectional gap is 1.4 times larger than the worst single-attribute gap, meaning looking only at single attributes would hide part of the problem. Small groups give noisy estimates, so the intersectional result should be interpreted with caution.",
+   "error": null,
+   "seconds": 17.8,
+   "grades": {
+    "verified": true,
+    "unverified_numbers": [],
+    "unbound_numbers": [],
+    "names_worst_single": true,
+    "names_worst_intersection": true,
+    "small_group_caveat": true,
+    "no_causal_or_legal_claims": true,
+    "plain_text": true,
+    "complete": true,
+    "length_120_180": true,
+    "words": 128,
+    "no_overclaim": true
+   }
+  },
+  {
+   "case": "diabetes/fnr/top20",
+   "requested_model": "default",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "facts": {
+    "metric": "false negative rate",
+    "rows": 20991,
+    "subgroups_checked": 96,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 77.4,
+    "overall_metric_pct": 64.5,
+    "worst_single_attribute_group": {
+     "subgroup": "age_band=<40",
+     "description": "patients under 40",
+     "rate_pct": 88.7,
+     "gap_pct_points": 24.1,
+     "rows_in_metric_base": 97,
+     "share_of_data_pct": 6.5
+    },
+    "worst_intersectional_group": {
+     "subgroup": "race=Black & age_band=<40",
+     "description": "Black patients under 40",
+     "rate_pct": 90.9,
+     "gap_pct_points": 26.4,
+     "rows_in_metric_base": 33,
+     "share_of_data_pct": 2.1
+    },
+    "intersection_vs_single_gap_ratio": 1.1,
+    "flagged_top_pct": 20,
+    "largest_size_weighted_gap_pct_points": 0.28,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "race=Black & age_band=<40",
+      "description": "Black patients under 40",
+      "rate_pct": 90.9,
+      "gap_pct_points": 26.4,
+      "rows_in_metric_base": 33,
+      "share_of_data_pct": 2.1
+     },
+     {
+      "subgroup": "sex=Male & age_band=<40",
+      "description": "men under 40",
+      "rate_pct": 90.5,
+      "gap_pct_points": 26.0,
+      "rows_in_metric_base": 42,
+      "share_of_data_pct": 2.7
+     },
+     {
+      "subgroup": "sex=Male & race=White & age_band=80+",
+      "description": "White men aged 80 and over",
+      "rate_pct": 40.7,
+      "gap_pct_points": -23.8,
+      "rows_in_metric_base": 140,
+      "share_of_data_pct": 5.9
+     }
+    ]
+   },
+   "text": "The model flags the highest-risk 20% of patients. Overall, 64.5% of patients who experienced the outcome were not flagged, while overall accuracy is 77.4%. The highest false negative rate among single-attribute groups is for patients under 40 at 88.7%, a gap of 24.1 percentage points above the overall rate, based on 97 patients representing 6.5% of the data. The worst combination is Black patients under 40 at 90.9%, a gap of 26.4 points, based on 33 patients representing 2.1% of the data. Looking only at single attributes would not hide the problem, as the intersectional gap is 1.1 times the single-attribute gap. Small groups give noisy estimates.",
+   "error": null,
+   "seconds": 14.2,
+   "grades": {
+    "verified": true,
+    "unverified_numbers": [],
+    "unbound_numbers": [],
+    "names_worst_single": true,
+    "names_worst_intersection": true,
+    "small_group_caveat": true,
+    "no_causal_or_legal_claims": true,
+    "plain_text": true,
+    "complete": true,
+    "length_120_180": false,
+    "words": 107,
+    "no_overclaim": true
+   }
+  },
+  {
+   "case": "diabetes/fnr/top10",
+   "requested_model": "default",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "facts": {
+    "metric": "false negative rate",
+    "rows": 20991,
+    "subgroups_checked": 96,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 84.7,
+    "overall_metric_pct": 79.4,
+    "worst_single_attribute_group": {
+     "subgroup": "age_band=<40",
+     "description": "patients under 40",
+     "rate_pct": 92.8,
+     "gap_pct_points": 13.4,
+     "rows_in_metric_base": 97,
+     "share_of_data_pct": 6.5
+    },
+    "worst_intersectional_group": {
+     "subgroup": "race=Black & age_band=<40",
+     "description": "Black patients under 40",
+     "rate_pct": 97.0,
+     "gap_pct_points": 17.6,
+     "rows_in_metric_base": 33,
+     "share_of_data_pct": 2.1
+    },
+    "intersection_vs_single_gap_ratio": 1.3,
+    "flagged_top_pct": 10,
+    "largest_size_weighted_gap_pct_points": 0.12,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "race=Black & age_band=<40",
+      "description": "Black patients under 40",
+      "rate_pct": 97.0,
+      "gap_pct_points": 17.6,
+      "rows_in_metric_base": 33,
+      "share_of_data_pct": 2.1
+     },
+     {
+      "subgroup": "sex=Male & age_band=<40",
+      "description": "men under 40",
+      "rate_pct": 95.2,
+      "gap_pct_points": 15.8,
+      "rows_in_metric_base": 42,
+      "share_of_data_pct": 2.7
+     },
+     {
+      "subgroup": "race=White & age_band=<40",
+      "description": "White patients under 40",
+      "rate_pct": 91.7,
+      "gap_pct_points": 12.3,
+      "rows_in_metric_base": 60,
+      "share_of_data_pct": 3.8
+     }
+    ]
+   },
+   "text": "The model flags the highest-risk 10 percent of patients. Overall, 79.4 percent of patients who experienced the outcome were not flagged, while the model's overall accuracy is 84.7 percent. The highest false negative rate for a single attribute group is among patients under 40, at 92.8 percent, a gap of 13.4 percentage points above the overall rate, based on 97 patients representing 6.5 percent of the data. The worst combination is Black patients under 40, with a false negative rate of 97.0 percent, a gap of 17.6 percentage points, based on 33 patients representing 2.1 percent of the data. Looking only at single attributes would hide part of the problem, because the intersectional gap is 1.3 times larger than the worst single-attribute gap. The Black patients under 40 group is small, so its estimate is noisy; the minimum for a reliable gap is 30 patients. Other notable intersectional groups include men under 40 at 95.2 percent (gap 15.8 points, 42 patients, 2.7 percent) and White patients under 40 at 91.7 percent (gap 12.3 points, 60 patients, 3.8 percent). The largest size-weighted gap across all intersections is 0.12 percentage points.",
+   "error": null,
+   "seconds": 31.5,
+   "grades": {
+    "verified": true,
+    "unverified_numbers": [],
+    "unbound_numbers": [],
+    "names_worst_single": true,
+    "names_worst_intersection": true,
+    "small_group_caveat": true,
+    "no_causal_or_legal_claims": true,
+    "plain_text": true,
+    "complete": true,
+    "length_120_180": false,
+    "words": 189,
+    "no_overclaim": true
+   }
+  },
+  {
+   "case": "diabetes/calibration",
+   "requested_model": "default",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "facts": {
+    "metric": "calibration gap (predicted minus observed risk)",
+    "rows": 20991,
+    "subgroups_checked": 104,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 84.2,
+    "overall_metric_pct": 0.0,
+    "worst_single_attribute_group": {
+     "subgroup": "race=Unknown",
+     "description": "patients of unknown race",
+     "rate_pct": 2.7,
+     "gap_pct_points": 2.8,
+     "rows_in_metric_base": 564,
+     "share_of_data_pct": 2.7
+    },
+    "worst_intersectional_group": {
+     "subgroup": "race=Hispanic & age_band=80+",
+     "description": "Hispanic patients aged 80 and over",
+     "rate_pct": -10.4,
+     "gap_pct_points": -10.4,
+     "rows_in_metric_base": 36,
+     "share_of_data_pct": 0.2
+    },
+    "intersection_vs_single_gap_ratio": 3.8,
+    "flagged_top_pct": null,
+    "largest_size_weighted_gap_pct_points": 0.12,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "race=Hispanic & age_band=80+",
+      "description": "Hispanic patients aged 80 and over",
+      "rate_pct": -10.4,
+      "gap_pct_points": -10.4,
+      "rows_in_metric_base": 36,
+      "share_of_data_pct": 0.2
+     },
+     {
+      "subgroup": "sex=Female & race=Unknown & age_band=80+",
+      "description": "women of unknown race aged 80 and over",
+      "rate_pct": 7.6,
+      "gap_pct_points": 7.7,
+      "rows_in_metric_base": 67,
+      "share_of_data_pct": 0.3
+     },
+     {
+      "subgroup": "sex=Male & race=Unknown & age_band=80+",
+      "description": "men of unknown race aged 80 and over",
+      "rate_pct": -6.2,
+      "gap_pct_points": -6.2,
+      "rows_in_metric_base": 36,
+      "share_of_data_pct": 0.2
+     }
+    ]
+   },
+   "text": "The model's overall calibration gap is 0.0 percentage points, with an overall accuracy of 84.2 percent across 20991 patients. Patients are not flagged by taking the highest-risk share. The worst single-attribute group is patients of unknown race, with a calibration gap of 2.8 percentage points and a rate of 2.7 percent, based on 564 patients making up 2.7 percent of the data. The worst combination of attributes is Hispanic patients aged 80 and over, with a calibration gap of -10.4 percentage points and a rate of -10.4 percent, based on 36 patients making up 0.2 percent of the data. Looking only at single attributes would hide the problem: the intersectional gap is 3.8 times larger than the worst single-attribute gap. Small groups give noisy estimates; the intersectional group has only 36 patients, just above the minimum of 30 for a reliable gap estimate.",
+   "error": null,
+   "seconds": 64.3,
+   "grades": {
+    "verified": false,
+    "unverified_numbers": [],
+    "unbound_numbers": [
+     "36"
+    ],
+    "names_worst_single": true,
+    "names_worst_intersection": true,
+    "small_group_caveat": true,
+    "no_causal_or_legal_claims": true,
+    "plain_text": true,
+    "complete": true,
+    "length_120_180": true,
+    "words": 143,
+    "no_overclaim": true
+   }
+  },
+  {
+   "case": "synthetic/gerrymandered",
+   "requested_model": "default",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "facts": {
+    "metric": "false negative rate",
+    "rows": 20000,
+    "subgroups_checked": 59,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 92.6,
+    "overall_metric_pct": 29.5,
+    "worst_single_attribute_group": {
+     "subgroup": "race=Black",
+     "description": "Black patients",
+     "rate_pct": 26.6,
+     "gap_pct_points": -2.9,
+     "rows_in_metric_base": 847,
+     "share_of_data_pct": 17.8
+    },
+    "worst_intersectional_group": {
+     "subgroup": "sex=Male & race=Black & age_band=18-39",
+     "description": "Black men aged 18\u201339",
+     "rate_pct": 10.8,
+     "gap_pct_points": -18.7,
+     "rows_in_metric_base": 93,
+     "share_of_data_pct": 2.3
+    },
+    "intersection_vs_single_gap_ratio": 6.4,
+    "flagged_top_pct": null,
+    "largest_size_weighted_gap_pct_points": 0.38,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "sex=Male & race=Black & age_band=18-39",
+      "description": "Black men aged 18\u201339",
+      "rate_pct": 10.8,
+      "gap_pct_points": -18.7,
+      "rows_in_metric_base": 93,
+      "share_of_data_pct": 2.3
+     },
+     {
+      "subgroup": "sex=Male & race=Black & age_band=65+",
+      "description": "Black men aged 65 and over",
+      "rate_pct": 11.3,
+      "gap_pct_points": -18.2,
+      "rows_in_metric_base": 142,
+      "share_of_data_pct": 2.9
+     },
+     {
+      "subgroup": "sex=Male & race=Black",
+      "description": "Black men",
+      "rate_pct": 12.0,
+      "gap_pct_points": -17.5,
+      "rows_in_metric_base": 433,
+      "share_of_data_pct": 9.0
+     }
+    ]
+   },
+   "text": "The model's overall false negative rate is 29.5 percent, meaning about three in ten patients who experienced the outcome were not flagged. Among single attributes, Black patients show a false negative rate of 26.6 percent, a gap of -2.9 percentage points from the overall rate, based on 847 patients representing 17.8 percent of the data. The largest disparity appears when attributes combine: Black men aged 18\u201339 have a false negative rate of 10.8 percent, a gap of -18.7 percentage points, though this group contains only 93 patients (2.3 percent of the data). The intersectional gap is 6.4 times larger than the worst single-attribute gap, so examining only single attributes would hide the true extent of the problem. Estimates for small groups such as Black men aged 18\u201339 can be noisy because they are based on fewer than one hundred patients.",
+   "error": null,
+   "seconds": 43.5,
+   "grades": {
+    "verified": true,
+    "unverified_numbers": [],
+    "unbound_numbers": [],
+    "names_worst_single": true,
+    "names_worst_intersection": true,
+    "small_group_caveat": true,
+    "no_causal_or_legal_claims": true,
+    "plain_text": true,
+    "complete": true,
+    "length_120_180": true,
+    "words": 140,
+    "no_overclaim": true
+   }
+  },
+  {
+   "case": "synthetic/intersection-3",
+   "requested_model": "default",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "facts": {
+    "metric": "false negative rate",
+    "rows": 20000,
+    "subgroups_checked": 59,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 92.5,
+    "overall_metric_pct": 30.0,
+    "worst_single_attribute_group": {
+     "subgroup": "race=Asian",
+     "description": "Asian patients",
+     "rate_pct": 32.5,
+     "gap_pct_points": 2.5,
+     "rows_in_metric_base": 326,
+     "share_of_data_pct": 6.8
+    },
+    "worst_intersectional_group": {
+     "subgroup": "sex=Female & race=Black & age_band=18-39",
+     "description": "Black women aged 18\u201339",
+     "rate_pct": 45.1,
+     "gap_pct_points": 15.1,
+     "rows_in_metric_base": 113,
+     "share_of_data_pct": 2.2
+    },
+    "intersection_vs_single_gap_ratio": 6.1,
+    "flagged_top_pct": null,
+    "largest_size_weighted_gap_pct_points": 0.13,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "sex=Female & race=Black & age_band=18-39",
+      "description": "Black women aged 18\u201339",
+      "rate_pct": 45.1,
+      "gap_pct_points": 15.1,
+      "rows_in_metric_base": 113,
+      "share_of_data_pct": 2.2
+     },
+     {
+      "subgroup": "sex=Male & race=Asian & age_band=40-64",
+      "description": "Asian men aged 40\u201364",
+      "rate_pct": 20.3,
+      "gap_pct_points": -9.7,
+      "rows_in_metric_base": 59,
+      "share_of_data_pct": 1.3
+     },
+     {
+      "subgroup": "sex=Female & race=Asian & age_band=40-64",
+      "description": "Asian women aged 40\u201364",
+      "rate_pct": 39.3,
+      "gap_pct_points": 9.3,
+      "rows_in_metric_base": 61,
+      "share_of_data_pct": 1.4
+     }
+    ]
+   },
+   "text": "The model's overall false negative rate is 30.0%, meaning 30.0% of patients who experienced the outcome were not flagged. Overall accuracy is 92.5%. Among single-attribute groups, Asian patients have the highest false negative rate at 32.5%, a gap of 2.5 percentage points above the overall rate, based on 326 patients representing 6.8% of the data. The worst disparity appears in the intersectional group of Black women aged 18\u201339, with a false negative rate of 45.1%, a gap of 15.1 percentage points, based on 113 patients making up 2.2% of the data. This intersectional gap is 6.1 times larger than the worst single-attribute gap, indicating that examining only single attributes would hide the problem. Other notable intersectional groups include Asian men aged 40\u201364 with a rate of 20.3% (gap -9.7 points, 59 patients, 1.3% share) and Asian women aged 40\u201364 with a rate of 39.3% (gap 9.3 points, 61 patients, 1.4% share). Small groups give noisy estimates, so these figures should be interpreted with caution.",
+   "error": null,
+   "seconds": 52.8,
+   "grades": {
+    "verified": true,
+    "unverified_numbers": [],
+    "unbound_numbers": [],
+    "names_worst_single": true,
+    "names_worst_intersection": true,
+    "small_group_caveat": true,
+    "no_causal_or_legal_claims": true,
+    "plain_text": true,
+    "complete": true,
+    "length_120_180": true,
+    "words": 164,
+    "no_overclaim": true
+   }
+  },
+  {
+   "case": "synthetic/null",
+   "requested_model": "default",
+   "model": null,
+   "facts": {
+    "metric": "false negative rate",
+    "rows": 20000,
+    "subgroups_checked": 59,
+    "min_rows_for_reliable_gap": 30,
+    "overall_accuracy_pct": 92.4,
+    "overall_metric_pct": 30.5,
+    "worst_single_attribute_group": {
+     "subgroup": "race=Asian",
+     "description": "Asian patients",
+     "rate_pct": 33.3,
+     "gap_pct_points": 2.8,
+     "rows_in_metric_base": 357,
+     "share_of_data_pct": 7.1
+    },
+    "worst_intersectional_group": {
+     "subgroup": "sex=Female & race=Black & age_band=18-39",
+     "description": "Black women aged 18\u201339",
+     "rate_pct": 43.4,
+     "gap_pct_points": 12.9,
+     "rows_in_metric_base": 106,
+     "share_of_data_pct": 2.3
+    },
+    "intersection_vs_single_gap_ratio": 4.6,
+    "flagged_top_pct": null,
+    "largest_size_weighted_gap_pct_points": 0.14,
+    "top_intersectional_groups": [
+     {
+      "subgroup": "sex=Female & race=Black & age_band=18-39",
+      "description": "Black women aged 18\u201339",
+      "rate_pct": 43.4,
+      "gap_pct_points": 12.9,
+      "rows_in_metric_base": 106,
+      "share_of_data_pct": 2.3
+     },
+     {
+      "subgroup": "sex=Male & race=Asian & age_band=18-39",
+      "description": "Asian men aged 18\u201339",
+      "rate_pct": 43.2,
+      "gap_pct_points": 12.7,
+      "rows_in_metric_base": 37,
+      "share_of_data_pct": 0.8
+     },
+     {
+      "subgroup": "race=Black & age_band=18-39",
+      "description": "Black patients aged 18\u201339",
+      "rate_pct": 39.0,
+      "gap_pct_points": 8.5,
+      "rows_in_metric_base": 210,
+      "share_of_data_pct": 4.5
+     }
+    ]
+   },
+   "text": null,
+   "error": "nvidia/nemotron-3-ultra-550b-a55b:free returned a truncated summary (finish_reason=length); OpenRouter error 429: Provider returned error; OpenRouter error 429: Provider returned error",
+   "seconds": null,
+   "grades": null
+  }
+ ]
+}

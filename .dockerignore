@@ -1,8 +1,14 @@
 .venv
+.env
 data
 results
 figures
 notebooks
+docs
+evals
 .git
+.playwright-mcp
+frontend/node_modules
+frontend/dist
 __pycache__
 *.pyc

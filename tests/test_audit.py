@@ -55,3 +55,17 @@ def test_calibration_gap_finds_underestimated_group():
     # standard error now comes from the within-group variance (here 0.25 / 500)
     se = {r["subgroup"]: r["std_err"] for r in res["single_attribute"]}
     assert se["g=B"] == pytest.approx(np.sqrt(0.25 / 500))
+
+
+def test_benjamini_hochberg_matches_hand_computation():
+    from subgroup_audit.audit import benjamini_hochberg
+    q = benjamini_hochberg(np.array([0.01, 0.04, 0.03, 0.20]))
+    # sorted p .01 .03 .04 .20 -> p*m/rank .04 .06 .0533 .20 -> running min from the top
+    assert q == pytest.approx([0.04, 0.16 / 3, 0.16 / 3, 0.20])
+
+
+def test_significance_flags_planted_gap_only(xor_data):
+    y, p = xor_data["label"].to_numpy(), xor_data["prediction"].to_numpy()
+    res = audit(y, p, xor_data[["sex", "race"]], "fpr", 2)
+    assert all(not r["significant"] for r in res["single_attribute"])
+    assert res["worst_intersection"]["significant"]

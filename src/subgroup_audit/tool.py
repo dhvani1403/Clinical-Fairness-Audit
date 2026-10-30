@@ -102,6 +102,12 @@ def run_audit(df: pd.DataFrame, label_col: str, pred_col: str, protected_cols: l
         warnings.append("Predictions are probabilities, so rates are expected rates. Set a capacity "
                         "(flag the top X%) to audit how the score is actually used.")
     result = audit(y, p, groups, metric, max_order=max_order, min_size=min_size)
+    from .report import describe
+
+    for key in ("single_attribute", "top_weighted", "top_raw_gap", "worst_single", "worst_intersection"):
+        rows = result[key] if isinstance(result[key], list) else [result[key]] if result[key] else []
+        for r in rows:
+            r["label"] = describe(r["subgroup"])
     result["protected_attributes"] = protected_cols
     result["flag_top_pct"] = flag_top_pct if metric != "calibration" else None
     result["warnings"] = warnings

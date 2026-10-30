@@ -9,7 +9,7 @@ This repository:
 1. **replicates** the paper's finding on its own dataset (Communities and Crime) as a check that the method and code are right;
 2. **applies** it to two public clinical datasets: 30-day hospital readmission (Diabetes 130-US) and high healthcare utilisation (MEPS, the setting of Obermeyer et al., 2019). It audits risk scores the way they are actually used: flag the top 20%, then ask who is missed, whether scores are calibrated for every subgroup, and whether patients with the same score are equally sick;
 3. **fixes** subgroup unfairness with the paper's fictitious-play algorithm and measures what that costs;
-4. **packages** the audit as a tool (FastAPI + Streamlit + Docker). A clinical or quality team uploads de-identified predictions and gets a report on the worst subgroups, with a plain-English summary whose every number is checked against the computed results.
+4. **packages** the audit as a tool (FastAPI + React + Docker). A clinical or quality team uploads de-identified predictions and gets a report on the worst subgroups, with a plain-English summary whose every number is checked against the computed results.
 
 > Status: research code. Every number below comes from `results/*.json`, which `scripts/run_experiments.py` writes, and is measured on held-out test patients unless marked *train*. Nothing here is a validated clinical tool.
 
@@ -25,9 +25,10 @@ This repository:
 - [5. Clinical results](#5-clinical-results)
 - [6. Replicating the paper](#6-replicating-the-paper)
 - [7. The audit tool](#7-the-audit-tool)
-- [8. Limitations](#8-limitations)
-- [9. What I would do next](#9-what-i-would-do-next)
-- [10. Reproduce](#10-reproduce)
+- [8. Evaluation](#8-evaluation)
+- [9. Limitations](#9-limitations)
+- [10. What I would do next](#10-what-i-would-do-next)
+- [11. Reproduce](#11-reproduce)
 - [Appendix: Adult income](#appendix-adult-income)
 
 ---
@@ -49,6 +50,10 @@ This repository:
 - **Race and need.** Among adults with three or more chronic conditions, the utilisation model flags 70% of White patients but 61% of Black and 56% of Hispanic patients, echoing the proxy-label bias Obermeyer et al. found.
 - **The fix.** Fair training (§5.4) removes about two-thirds of the measured FNR disparity for 0.5–2.6 points of balanced accuracy. Equalising single attributes is already enough on these clinical datasets, because the dominant disparity is age.
 - **The replication works.** On the paper's own dataset the gerrymandering effect is clear (2.5–3.5×). My implementation tracks the paper, and the authors' reference code appears to contain an indexing bug ([§6](#6-replicating-the-paper)).
+- **The tool is evaluated, not just tested** ([§8](#8-evaluation)).
+  - On simulated data with known planted bias, it finds gerrymandered unfairness 92–100% of the time, while one-attribute-at-a-time checks catch it 4% of the time.
+  - With its multiple-comparisons correction, it raises a false alarm on fair data 2–6% of the time, against 72–76% uncorrected.
+  - Its AI-summary checker catches 100% of numbers attached to the wrong group.
 
 ---
 
@@ -257,34 +262,47 @@ Every negative example receives the penalty of the *first* negative example, so 
 For a clinical quality, equity or data-science team:
 1. Upload de-identified, patient-level predictions or risk scores.
 2. Set the programme capacity (flag the top X%).
-3. Choose what to compare: missed patients, false alarms or calibration.
+3. Choose what to measure: missed patients, false alarms or calibration.
 
-The tool searches single attributes and their intersections and returns an interactive report and a PDF.
+The tool searches single attributes and every combination of up to three, and returns a report you can read on screen or download as a PDF.
 
-![Screenshot](docs/screenshot_full.png)
+![Desktop screenshot](docs/screenshot_full.png)
+
+<img src="docs/screenshot_mobile.png" alt="The same report on a phone" width="300">
+
+**Design.** The web app (React + TypeScript, in [`frontend/`](frontend/)) borrows the vocabulary of a lab report rather than a dashboard:
+- **Request and report.** A requisition on the left, the report on the right.
+- **Result rows.** Each group is a result row with its rate, its difference from the overall rate drawn on an ECG-paper strip with a 95% interval, and an **H** / **L** flag only when the difference survives correction for multiple comparisons.
+- **Typeface.** Atkinson Hyperlegible, designed by the Braille Institute for low-vision readers, self-hosted so no third-party requests are made.
+- **Responsive.** It works down to phone width, with visible keyboard focus and reduced motion respected.
 
 ```mermaid
 flowchart LR
-    U[Clinical team: CSV of<br/>outcomes + risk scores] --> S[Streamlit UI]
-    S -- "POST /audit" --> A[FastAPI service]
+    U[Clinical team: CSV of<br/>outcomes + risk scores] --> W[Web app<br/>React + TypeScript]
+    W -- "POST /api/audit" --> A[FastAPI]
     A --> V[Validation + capacity flagging<br/>tool.py]
-    V --> AU[Subgroup audit<br/>audit.py — same code<br/>as the research]
+    V --> AU[Subgroup audit + BH correction<br/>audit.py — same code as the research]
     AU --> F[facts: computed numbers only]
-    F --> L[Claude: plain-English summary]
-    L --> C{Every number<br/>in facts?}
+    F --> L[LLM: plain-English interpretation<br/>free OpenRouter model or Claude]
+    L --> C{Complete, every number in facts,<br/>each next to the right group?}
     C -- yes --> R[JSON result]
     C -- no --> T[Deterministic template] --> R
     F --> T
-    R --> S
-    S -- "/report/pdf" --> P[PDF report]
+    R --> W
+    W -- "POST /api/report/pdf" --> P[PDF report]
 ```
 
-**Keeping the AI summary trustworthy** ([`report.py`](src/subgroup_audit/report.py)):
-1. The LLM receives only a small dictionary of already-computed figures, never patient rows.
-2. Every number in its reply is extracted and matched against those figures. **One unmatched number rejects the summary**, and a deterministic template is shown instead, with a note saying so.
-3. The computed figures and tables are always displayed beside the text.
+**Keeping the AI interpretation trustworthy** ([`report.py`](src/subgroup_audit/report.py)):
+1. **Computed figures only.** The LLM receives a small dictionary of already-computed figures, never patient rows.
+2. **Every number is checked.** Each number in its reply is matched against those figures, and must appear in the same or previous sentence as the group it belongs to. "53.7 points for *Black* patients" is rejected when 53.7 is the Hispanic group's figure. Truncated replies are rejected too.
+3. **Any failure falls back.** One failure and a deterministic template is shown instead, with a note saying why.
+4. **Figures are visible in the text.** Checked figures are underlined; hovering shows which result each came from.
 
-The model is `claude-opus-5-5` (override with `AUDIT_LLM_MODEL`), with server-side refusal fallback. Without an `ANTHROPIC_API_KEY` the template is used. *The LLM path is covered by unit tests with a mocked model (accept, reject, failure). It has not yet been run against the live API in this repository.*
+**Which model.**
+- **Default:** with `OPENROUTER_API_KEY` set (e.g. in a git-ignored `.env`), the tool uses **free** OpenRouter models: NVIDIA Nemotron 3 Ultra, falling back to Gemma 4 when a free provider is rate-limited. Any model without the `:free` suffix is refused unless `ALLOW_PAID_MODELS=1`.
+- **Alternative:** with `ANTHROPIC_API_KEY`, it uses `claude-opus-5-5`.
+- **No key:** the template is used.
+- **Speed:** free models take 20–60 s, so the interpretation can be switched off for an instant report.
 
 **Validation against the research code.** `tests/test_validation.py` feeds the tool the research pipeline's own test-set outputs (`examples/meps_*.csv`, `examples/diabetes_*.csv`). It checks that the tool finds the same worst single attribute, worst intersection, top-10 weighted subgroups and maximum weighted gap in three modes:
 - 0/1 predictions;
@@ -295,65 +313,158 @@ The model is `claude-opus-5-5` (override with `AUDIT_LLM_MODEL`), with server-si
 
 ```bash
 curl -F file=@examples/meps_test_predictions.csv -F label_col=label -F pred_col=risk_score \
-     -F protected_cols=sex,race,age_band -F metric=fnr -F flag_top_pct=20 localhost:8000/audit
+     -F protected_cols=sex,race,age_band -F metric=fnr -F flag_top_pct=20 localhost:8000/api/audit
 ```
 
 | Endpoint | Purpose |
 |---|---|
-| `GET /health` | liveness |
-| `POST /audit` | multipart CSV + `label_col`, `pred_col`, `protected_cols`, `metric` (`fnr`/`fpr`/`calibration`/`positive_rate`/`error_rate`), `flag_top_pct` (optional capacity), `max_order` (1–3), `min_size`, `use_llm` → JSON |
-| `POST /report/pdf` | `{"result": <audit JSON>}` → PDF |
+| `GET /api/health` | liveness |
+| `GET /api/examples`, `GET /api/examples/{id}.csv` | the two built-in clinical examples |
+| `POST /api/audit` | multipart CSV + `label_col`, `pred_col`, `protected_cols`, `metric` (`fnr`/`fpr`/`calibration`/`positive_rate`/`error_rate`), `flag_top_pct` (optional capacity), `max_order` (1–3), `min_size`, `use_llm` → JSON |
+| `POST /api/report/pdf` | `{"result": <audit JSON>}` → PDF |
+| `GET /` | the web app (built files from `frontend/dist`) |
+
+Every subgroup in the JSON carries its gap, 95% interval, p-value, Benjamini–Hochberg q-value and a `significant` flag.
 
 **Input rules.** Clear 422 errors are returned for problems:
 - Outcomes must be binary; predictions may be 0/1 or risk scores.
 - At most 5 protected attributes.
 - Numeric attributes with many values (e.g. raw age) are binned into quartiles.
-- Files are capped at 50 MB and 500,000 rows.
+- Files are capped at 50 MB and 500,000 rows. Files are processed in memory and not stored.
 
 **Run it**
 
 ```bash
+# Development: API on :8000, web app with hot reload on :5173 (proxies /api to the API)
 pip install -r requirements.txt
 uvicorn app.api:app --port 8000 &
-API_URL=http://localhost:8000 streamlit run app/streamlit_app.py
-# or, UI only (runs the audit in-process; used for a single free-tier container)
-streamlit run app/streamlit_app.py
-# or, Docker: API + UI as two services (UI :8501, API :8000)
-docker compose up --build
+cd frontend && npm install && npm run dev
+
+# Production-style: build once, then FastAPI serves the app and the API together on :8000
+cd frontend && npm run build && cd .. && uvicorn app.api:app --port 8000
+
+# Docker (multi-stage: builds the web app, then one Python container serves everything)
+docker compose up --build        # http://localhost:8000
 ```
 
 **Deploying.**
-- The `Dockerfile` runs the UI in one container and honours `$PORT`, so it deploys as-is to Hugging Face Spaces (Docker SDK) or Render's free tier; on Streamlit Community Cloud, use `app/streamlit_app.py`.
-- Add `ANTHROPIC_API_KEY` as a secret to enable AI summaries.
+- The image honours `$PORT`, so it deploys as-is to Render's free tier or Hugging Face Spaces (Docker SDK).
+- Add `OPENROUTER_API_KEY` as a secret for AI interpretations.
 - Only upload de-identified data to any hosted demo.
 
 *(Live demo link: TODO after deployment.)*
 
 **Engineering.**
-- Unit, API and validation tests (`pytest`), including a hand-built dataset where every single attribute has exactly equal FPR but every intersection is off by 15 points.
-- GitHub Actions runs the tests, builds the Docker image and smoke-tests the API inside it.
+- Python tests (`pytest`): unit, API, validation and LLM-safety tests. They include a hand-built dataset where every single attribute has exactly equal FPR but every intersection is off by 15 points, a truncated-reply test, and a paid-model refusal test.
+- GitHub Actions runs the Python tests, type-checks and builds the web app, builds the Docker image, and smoke-tests the API and web app inside it.
 
-## 8. Limitations
+## 8. Evaluation
+
+Three evaluations, all re-runnable from [`evals/`](evals/). The first two need no API key.
+
+### 8.1 Does the audit find bias that is really there? ([`evals/audit_detection.py`](evals/audit_detection.py))
+
+The setup:
+- **Simulation.** Simulated patient populations (sex × race × age, realistic group sizes) with a miss-rate increase of known size planted in a known subgroup; 50 simulations per setting.
+- **Detected** means the planted group is reported as significant after Benjamini–Hochberg correction.
+
+![Eval 1](figures/eval_audit_detection.png)
+
+| Planted bias | 5,000 patients | 20,000 patients |
+|---|---|---|
+| None (false alarm: anything flagged, **with** correction) | 6% | 2% |
+| None (false alarm: anything with p < 0.05, **without** correction) | 72% | 76% |
+| +15 pp in Hispanic patients 65+ (~5% of patients) | 18% | 94% |
+| +20 pp in Black women 18–39 (~2% of patients) | 6% | 80% |
+| Gerrymandered ±15 pp, every single attribute exactly fair | 92% | 100% |
+| ↳ found by a one-attribute-at-a-time check | 4% | 4% |
+
+**What this shows:**
+1. **Correction matters.** Without it, three in four audits of a perfectly fair model would report something "significant", which is why the tool flags only BH-corrected differences.
+2. **Single-attribute checks are blind to gerrymandering.** The audit finds a gerrymandered bias almost every time; a single-attribute check is at chance level.
+3. **Small groups need data.** A 20-point bias in a group of 2% of patients is usually missed with 5,000 patients and usually found with 20,000. The audit's power, not just its correctness, depends on sample size, and the report says so.
+4. **Size-weighting hides small groups.** Under the paper's size-weighted ranking the planted group came top in at most 56% of runs, and under 10% for the 2% group.
+
+### 8.2 Does the summary checker catch an LLM's mistakes? ([`evals/verifier_robustness.py`](evals/verifier_robustness.py))
+
+Correct summaries of 28 real audits (MEPS and Diabetes, 7 settings, 2 search depths) with one injected error each:
+
+| Injected error | Numbers-only check (v1) | Numbers + group check (current) | Cases |
+|---|---|---|---|
+| None (should pass) | 0% rejected | 0% rejected | 28 |
+| A number changed (±0.1 to ±5) | 96% | 98% | 84 |
+| A number rounded (43.8 → 44) | 92% | 95% | 84 |
+| An invented statistic added | 100% | 100% | 28 |
+| Right number, **wrong group** | **0%** | **100%** | 69 |
+
+The first version of the checker could not catch a correct number attached to the wrong group, so I added the group check.
+
+**Remaining misses:** an altered number that happens to equal a *different* real figure, such as 30.2 rounded to 30 when the minimum group size is 30. Requiring each number to stay in its exact role would close that.
+
+### 8.3 How good are the free model's interpretations? ([`evals/llm_summaries.py`](evals/llm_summaries.py))
+
+The setup:
+- **Cases.** Ten audits: four MEPS settings, three Diabetes settings, and three synthetic cases with known answers (gerrymandered, small-group bias, no bias).
+- **Grading.** Each interpretation is graded by code, with no LLM judge:
+  - every number verified;
+  - complete;
+  - names the worst single group and the worst combination;
+  - mentions small-group noise;
+  - makes no causal or legal claims;
+  - is plain text of 120–180 words;
+  - doesn't overstate the intersectional effect when it is small.
+- **Cache.** Responses are cached, so re-running costs no requests.
+
+Free model: `nvidia/nemotron-3-ultra-550b-a55b:free` (run on 30 Oct 2026). "First version" used a 1,500-token limit. "Current" raises it to 4,000 and rejects truncated replies.
+
+| Criterion | First version | Current |
+|---|---|---|
+| Replies returned (of 10) | 9 (1 timeout) | 9 (1 truncated reply rejected) |
+| Every number verified and next to its group | 89% | 89% |
+| Complete (not cut off mid-sentence) | **78%** | **100%** |
+| Names the worst single group | 100% | 100% |
+| Names the worst combination | 100% | 100% |
+| Mentions small-group noise | 89% | 100% |
+| No causal or legal claims | 100% | 100% |
+| Plain text, no markdown | 89% | 100% |
+| 120–180 words | 78% | 67% |
+| No overstatement when the combination effect is small | 100% | 100% |
+| **All criteria** | 78% | 56% |
+| Shown to users as AI text (passed the checker) | 8 of 10, **one of them truncated** | 8 of 10, none truncated |
+| Median time per summary | 41 s | 29 s |
+
+**What the eval found:**
+- **It caught a real bug.** With the original token limit, 2 of 9 summaries were cut off mid-sentence.
+  - One had leaked the model's own working notes and was rejected by the checker.
+  - The other contained only correct numbers, so the checker passed it, and users would have seen a truncated interpretation. The fix (more room, and explicit rejection of truncated replies) took completeness to 100%. The eval is the reason this was found.
+- **"All criteria" fell from 78% to 56%,** almost entirely on the strict 120–180 word target (3 summaries at 107, 189 and 189 words). Length is a style criterion; no factual criterion got worse.
+- **One conservative rejection.** The Diabetes calibration summary ended "the intersectional group has only 36 patients" two sentences after naming the group, and 36 is also another group's size. The checker could not bind the number, so the app would show the template instead. That is safe but over-strict.
+- **What the checker cannot see.** That same summary says single attributes "would hide the problem" (3.8×), but the combination's interval is ±12.9 pp, so the difference is not statistically significant. The model was never given the significance flags. The next change is to pass each group's interval and BH flag to the model and grade whether its claims respect them.
+- **Small sample.** Ten cases is a small evaluation: one case moves a rate by 10–11 points. It is designed to catch failure *modes* (truncation, wrong-group numbers, missing caveats), not to estimate rates precisely.
+
+## 9. Limitations
 
 - **Not clinically validated.** These are research models on public data. The audit shows where to look; it does not establish that any group is receiving worse care.
 - **Proxy labels.** Utilisation and readmission are proxies for need. My need measure (a count of 13 self-reported diagnosed conditions) is itself imperfect and depends on access to diagnosis. Under-diagnosed groups will look healthier than they are.
 - **Race and ethnicity** are recorded categories with "unknown" and "other" buckets, not biology. Results for small groups (Asian, Other) are noisy.
 - **MEPS survey weights are not used**, so rates describe the sample, not the US population.
 - **One split, one seed.** There are no intervals on trade-off curves, and the need-by-decile curves have no intervals either.
-- **Many comparisons.** Searching hundreds of subgroups and reporting the worst is a multiple-comparisons exercise, and some extreme small-group gaps will be noise.
+- **Many comparisons.** Searching hundreds of subgroups is a multiple-comparisons exercise. The tool controls the false discovery rate (§8.1), but the "largest gap" lists still favour noisy small groups, so read the intervals.
+- **Evaluation scope.** The detection simulation assumes independent attributes and a simple outcome model. The LLM evaluation covers ten cases with code-based graders; the overstatement grader is a keyword heuristic. Free models change and are rate-limited, so results are tied to the date they were run.
 - **Size-weighting is a value judgement.** It deliberately tolerates large disparities in small groups. That is why the tool always shows raw gaps with intervals as well.
 - **Randomised predictions.** The fair classifier gives two identical patients possibly different predictions, which may be unacceptable clinically. The audit tool does not depend on it.
 - **Reference-code finding.** The GerryFair issue was studied through a port, not the original package.
 
-## 9. What I would do next
+## 10. What I would do next
 
 1. Repeat the clinical audits with MEPS survey weights and over 10 random splits, with intervals on every curve.
 2. Use a need measure less dependent on access (e.g. physical-health scores, limitations, or lab values where available) and adjust the race–need comparison for age.
-3. Add subgroup **calibration** as a training constraint (multicalibration; Hébert-Johnson et al., 2018). It is the gap that intersections hide most here.
-4. Run GerryFair directly to confirm the indexing issue, and report it.
-5. Evaluate the LLM summaries with clinicians for faithfulness and usefulness.
+3. Give the AI interpretation each group's interval and significance flag, and grade whether its claims respect them (§8.3).
+4. Add subgroup **calibration** as a training constraint (multicalibration; Hébert-Johnson et al., 2018). It is the gap that intersections hide most here.
+5. Run GerryFair directly to confirm the indexing issue, and report it.
+6. Evaluate the AI interpretations with clinicians for usefulness, beyond the automatic checks in §8.3, and tighten the checker so each number must keep its exact role.
 
-## 10. Reproduce
+## 11. Reproduce
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
@@ -362,12 +473,18 @@ bash scripts/download_data.sh          # UCI datasets + MEPS 2015 (~40 MB)
 python scripts/run_experiments.py      # ~15 min on a laptop; writes results/ and figures/
 python scripts/make_examples.py        # example prediction files for the tool
 python scripts/build_notebook.py       # executes notebooks/replication.ipynb
+python evals/audit_detection.py        # Eval 1 (~3 min, no API key)
+python evals/verifier_robustness.py    # Eval 2A (no API key)
+python evals/llm_summaries.py          # Eval 2B (needs OPENROUTER_API_KEY; free models)
 pytest -q
+cd frontend && npm install && npm run build
 ```
 
 ```
 src/subgroup_audit/   data.py · metrics.py · audit.py · mitigation.py · experiments.py · report.py · tool.py · plots.py
-app/                  api.py (FastAPI) · streamlit_app.py
+app/                  api.py (FastAPI; also serves the web app) · streamlit_app.py (earlier prototype)
+frontend/             React + TypeScript web app (Vite)
+evals/                audit detection, checker robustness, LLM interpretation evals
 scripts/              download_data.sh · run_experiments.py · make_examples.py · build_notebook.py
 notebooks/            replication.ipynb
 results/ figures/     generated outputs
