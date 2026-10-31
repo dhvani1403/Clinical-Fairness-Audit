@@ -352,8 +352,6 @@ docker compose up --build        # http://localhost:8000
 - Add `OPENROUTER_API_KEY` as a secret for AI interpretations.
 - Only upload de-identified data to any hosted demo.
 
-*(Live demo link: TODO after deployment.)*
-
 **Engineering.**
 - Python tests (`pytest`): unit, API, validation and LLM-safety tests. They include a hand-built dataset where every single attribute has exactly equal FPR but every intersection is off by 15 points, a truncated-reply test, and a paid-model refusal test.
 - GitHub Actions runs the Python tests, type-checks and builds the web app, builds the Docker image, and smoke-tests the API and web app inside it.
